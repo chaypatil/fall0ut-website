@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FALL0UT INDIA</title>
+    <meta
+      name="description"
+      content="FALL0UT is an India-facing hard techno, schranz, and rave culture platform."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="wall-texture" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <nav class="header-inner" aria-label="Primary navigation">
+        <a href="#events" class="nav-link">Events</a>
+        <a class="header-brand" href="#top" aria-label="FALL0UT India">
+          <span class="wordmark-crop compact">
+            <img src="./assets/fall0ut-wordmark-cropped.png" alt="" />
+          </span>
+          <span class="india-label">India</span>
+        </a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-lockup">
+          <h1 id="hero-title" class="sr-only">FALL0UT India</h1>
+          <span class="wordmark-crop hero-wordmark">
+            <img src="./assets/fall0ut-wordmark-cropped.png" alt="FALL0UT" />
+          </span>
+          <span class="india-label hero-india">India</span>
+        </div>
+      </section>
+
+      <section class="section events-section" id="events" aria-labelledby="events-title">
+        <div class="section-heading">
+          <p class="eyebrow">Upcoming collaboration / Delhi NCR</p>
+          <h2 id="events-title">Events</h2>
+        </div>
+        <div class="event-list" id="event-list"></div>
+        <p class="soon-line">More announcements soon.</p>
+      </section>
+
+      <section class="section moments-section" id="moments" aria-labelledby="moments-title">
+        <div class="section-heading section-heading--solo">
+          <h2 id="moments-title">fØ Moments</h2>
+        </div>
+        <div class="moments-track" id="moments-track" aria-label="fØ moments gallery"></div>
+      </section>
+
+      <section class="section join-section" id="join" aria-labelledby="join-title">
+        <div class="join-panel">
+          <h2 id="join-title">Join fØ Mob Now</h2>
+          <p>
+            Join India’s biggest rave family for early access, up to 15% off, and
+            giveaway passes on upcoming raves.
+          </p>
+          <a class="primary-button" id="join-link" href="TODO_JOIN_LINK">Join Now</a>
+        </div>
+      </section>
+
+      <section class="section contact-section" id="contact" aria-labelledby="contact-title">
+        <div class="section-heading">
+          <p class="eyebrow">Bookings / updates</p>
+          <h2 id="contact-title">Contact</h2>
+        </div>
+        <div class="contact-list">
+          <a class="contact-row" href="https://wa.me/919516894286" target="_blank" rel="noreferrer">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5.1 18.9 6 15.6a7.7 7.7 0 1 1 3 3l-3.9.3Z" />
+              <path d="M9.6 8.3c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .5.4l.7 1.6c.1.3.1.5-.1.7l-.4.5c-.2.2-.2.4 0 .7.5.9 1.3 1.7 2.3 2.2.3.2.5.2.7 0l.6-.7c.2-.2.4-.2.7-.1l1.6.8c.4.2.4.4.4.6 0 .6-.5 1.4-1.1 1.6-.7.3-2 .2-3.5-.6-2.6-1.3-4.3-3.7-4.4-5.5 0-.8.2-1.5.5-1.7Z" />
+            </svg>
+            <span>WhatsApp</span>
+          </a>
+          <a class="contact-row" href="https://www.instagram.com/fall0utindia" target="_blank" rel="noreferrer">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <rect x="4" y="4" width="16" height="16" rx="4.2" />
+              <circle cx="12" cy="12" r="3.5" />
+              <circle cx="17.1" cy="6.9" r=".8" />
+            </svg>
+            <span>Instagram</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const siteData = {
+        ticketUrl:
+          "https://www.skillboxes.com/events/glitchlabs-x-in-reality-presents-continuum",
+        joinUrl: "TODO_JOIN_LINK",
+        events: [
+          {
+            title: "CONTINUUM",
+            label: "Upcoming collaboration / Delhi NCR",
+            cta: "TICKETS",
+          },
+        ],
+        moments: [
+          // Replace src values with real portrait image paths in ./assets/moments/.
+          { label: "fØ moment 01", src: "" },
+          { label: "fØ moment 02", src: "" },
+          { label: "fØ moment 03", src: "" },
+          { label: "fØ moment 04", src: "" },
+        ],
+      };
+
+      const eventList = document.querySelector("#event-list");
+      const momentsTrack = document.querySelector("#moments-track");
+      const joinLink = document.querySelector("#join-link");
+      const root = document.documentElement;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      joinLink.href = siteData.joinUrl;
+
+      eventList.innerHTML = siteData.events
+        .map(
+          (event) => `
+            <article class="event-card">
+              <div class="event-visual">
+                <!-- TODO: add Continuum poster image here if replacing ./assets/continuum-poster.png -->
+                <img src="./assets/continuum-poster.png" alt="" />
+              </div>
+              <div>
+                <p>${event.label}</p>
+                <h3>${event.title}</h3>
+              </div>
+              <a class="ticket-link" href="${siteData.ticketUrl}" target="_blank" rel="noreferrer">${event.cta}</a>
+            </article>
+          `,
+        )
+        .join("");
+
+      momentsTrack.innerHTML = siteData.moments
+        .map(
+          (moment, index) => `
+            <article class="moment-card">
+              ${
+                moment.src
+                  ? `<img src="${moment.src}" alt="${moment.label}" />`
+                  : `<div class="moment-placeholder" role="img" aria-label="${moment.label}"></div>`
+              }
+            </article>
+          `,
+        )
+        .join("");
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
+      function updateScrollState() {
+        const scrollRange = Math.min(window.innerHeight * 0.5, 420);
+        const progress = clamp(window.scrollY / scrollRange, 0, 1);
+        const headerProgress = reduceMotion ? (window.scrollY > 80 ? 1 : 0) : progress;
+        const headerBrandOpacity = reduceMotion
+          ? headerProgress
+          : clamp((progress - 0.62) / 0.38, 0, 1);
+
+        root.style.setProperty("--morph", headerProgress.toFixed(3));
+        root.style.setProperty("--hero-opacity", reduceMotion ? (headerProgress ? "0" : "1") : clamp(1 - progress * 1.45, 0, 1).toFixed(3));
+        root.style.setProperty("--hero-scale", (1 - progress * 0.42).toFixed(3));
+        root.style.setProperty("--hero-y", `${Math.round(progress * -34)}vh`);
+        root.style.setProperty("--header-brand-opacity", headerBrandOpacity.toFixed(3));
+        root.style.setProperty("--header-brand-y", `${Math.round((1 - headerBrandOpacity) * 8)}px`);
+        root.style.setProperty("--header-brand-scale", (0.94 + headerBrandOpacity * 0.06).toFixed(3));
+        root.style.setProperty("--header-bg", (0.12 + progress * 0.78).toFixed(3));
+        root.style.setProperty("--header-border", (0.08 + progress * 0.2).toFixed(3));
+        root.style.setProperty("--header-shadow", (0.08 + progress * 0.26).toFixed(3));
+        document.body.classList.toggle("has-scrolled", window.scrollY > 8);
+      }
+
+      updateScrollState();
+      window.addEventListener("scroll", updateScrollState, { passive: true });
+      window.addEventListener("resize", updateScrollState);
+    </script>
+  </body>
+</html>
