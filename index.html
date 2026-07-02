@@ -21,14 +21,17 @@
 
     <header class="site-header">
       <nav class="header-inner" aria-label="Primary navigation">
-        <a href="#events" class="nav-link">Events</a>
+        <div class="nav-cluster">
+          <a href="#events" class="nav-link">Events</a>
+          <a href="#calendar" class="nav-link">Calendar</a>
+        </div>
         <a class="header-brand" href="#top" aria-label="FALL0UT India">
           <span class="wordmark-crop compact">
             <img src="./assets/fall0ut-wordmark-cropped.png" alt="" />
           </span>
           <span class="india-label">India</span>
         </a>
-        <a href="#contact" class="nav-link">Contact</a>
+        <a href="#contact" class="nav-link nav-link--right">Contact</a>
       </nav>
     </header>
 
@@ -45,116 +48,540 @@
 
       <section class="section events-section" id="events" aria-labelledby="events-title">
         <div class="section-heading">
-          <p class="eyebrow">Upcoming collaboration / Delhi NCR</p>
-          <h2 id="events-title">Events</h2>
+          <div>
+            <h2 id="events-title">Featured events</h2>
+            <p class="eyebrow">Upcoming / India</p>
+          </div>
+          <a class="section-action" href="#calendar">
+            <span>Calendar</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <rect x="4" y="5" width="16" height="15" rx="1.8" />
+              <path d="M8 3v4M16 3v4M4 10h16" />
+            </svg>
+          </a>
         </div>
-        <div class="event-list" id="event-list"></div>
-        <p class="soon-line">More announcements soon.</p>
+
+        <div class="featured-events" aria-label="Featured upcoming events">
+          <a
+            class="event-feature"
+            href="https://www.skillboxes.com/events/glitchlabs-x-in-reality-presents-continuum"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div class="event-art">
+              <img src="./assets/continuum-poster.png" alt="Continuum event poster" />
+              <span class="event-badge event-badge--left">01 / Featured</span>
+              <span class="event-badge event-badge--right">Tickets / Skillboxes</span>
+            </div>
+            <div class="event-copy">
+              <p class="event-date">10 Jul 2026</p>
+              <h3>Continuum</h3>
+              <p class="event-location">The Tivoli / Chattarpur / Delhi NCR</p>
+              <span class="event-cta">
+                <span>Open tickets</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M5 8.5V6.8c0-1 .8-1.8 1.8-1.8h10.4c1 0 1.8.8 1.8 1.8v1.7a2.5 2.5 0 0 0 0 5v1.7c0 1-.8 1.8-1.8 1.8H6.8c-1 0-1.8-.8-1.8-1.8v-1.7a2.5 2.5 0 0 0 0-5Z" />
+                  <path d="M9 8h6M9 12h6M9 16h4" />
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <a
+            class="event-feature"
+            href="https://sortmyscene.com/event/nexum-presents-aiden-44-front-row-more-jul-11-2026/tickets"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div class="event-art">
+              <img src="./assets/nexum-aiden-poster.jpeg" alt="Nexum presents Aiden event poster" />
+              <span class="event-badge event-badge--left">02 / Featured</span>
+              <span class="event-badge event-badge--right">Tickets / SortMyScene</span>
+            </div>
+            <div class="event-copy">
+              <p class="event-date">11 Jul 2026</p>
+              <h3>Aiden</h3>
+              <p class="event-location">AntiSocial / Mumbai / Nexum</p>
+              <span class="event-cta">
+                <span>Open tickets</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M7 4h10l1 4-1 4 1 4-1 4H7l-1-4 1-4-1-4 1-4Z" />
+                  <path d="M10 7v10M14 7v10" />
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <a
+            class="event-feature"
+            href="https://linktr.ee/Wingmen.ent"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div class="event-art">
+              <img src="./assets/riana-holley-poster.png" alt="Riana Holley event poster" />
+              <span class="event-badge event-badge--left">03 / Featured</span>
+              <span class="event-badge event-badge--right">Wingmen / Linktree</span>
+            </div>
+            <div class="event-copy">
+              <p class="event-date">12 Jul 2026</p>
+              <h3>Riana Holley</h3>
+              <p class="event-location">Opa Bar &amp; Cafe / Alongside Psyra</p>
+              <span class="event-cta">
+                <span>Open link</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <circle cx="7" cy="7" r="3" />
+                  <circle cx="17" cy="7" r="3" />
+                  <circle cx="7" cy="17" r="3" />
+                  <circle cx="17" cy="17" r="3" />
+                </svg>
+              </span>
+            </div>
+          </a>
+        </div>
+
+        <div class="stats-strip" aria-label="FALL0UT event stats">
+          <div class="stat-cell">
+            <span>Cities</span>
+            <strong>3</strong>
+          </div>
+          <div class="stat-cell">
+            <span>Past events</span>
+            <strong>25</strong>
+          </div>
+          <div class="stat-cell">
+            <span>Upcoming cities</span>
+            <strong>2</strong>
+          </div>
+          <div class="stat-cell">
+            <span>Upcoming events</span>
+            <strong>4</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section calendar-section" id="calendar" aria-labelledby="calendar-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="calendar-title">Calendar</h2>
+            <p class="eyebrow">Past / current / TBA</p>
+          </div>
+          <a class="section-action" href="#announcements">
+            <span>Updates</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M4 14v-4l10-4v12L4 14Z" />
+              <path d="M14 9.5h2.5a3.5 3.5 0 0 1 0 7H14M7 15l1.3 4h3.2" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="calendar-shell">
+          <div class="calendar-rail" aria-label="Scrollable event calendar by month">
+            <section class="month-card" aria-labelledby="jan-title">
+              <header>
+                <span>2026</span>
+                <h3 id="jan-title">January</h3>
+              </header>
+              <article class="calendar-event is-past">
+                <time datetime="2026-01-24">24 Jan</time>
+                <strong>CLTX Mumbai</strong>
+                <span>Nesco Social / Mumbai</span>
+              </article>
+            </section>
+
+            <section class="month-card" aria-labelledby="feb-title">
+              <header>
+                <span>2026</span>
+                <h3 id="feb-title">February</h3>
+              </header>
+              <article class="calendar-event is-past">
+                <time datetime="2026-02-14">14 Feb</time>
+                <strong>Anxhela Mumbai</strong>
+                <span>Shott, Nesco / Mumbai</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-02-20">20 Feb</time>
+                <strong>Nicolas Julian Mumbai</strong>
+                <span>Shott, Nesco / Mumbai</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-02-21">21 Feb</time>
+                <strong>No Mercy</strong>
+                <span>Scarlett &amp; GNR0 / AntiSocial, Mumbai</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-02-21">21 Feb</time>
+                <strong>Shlomo Mumbai</strong>
+                <span>Shott, Nesco / Mumbai</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-02-21">21 Feb</time>
+                <strong>Ben Techy Mumbai</strong>
+                <span>Kitty Su / Mumbai</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-02-28">28 Feb</time>
+                <strong>Vendex Bangalore</strong>
+                <span>Bangalore</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-02-28">28 Feb</time>
+                <strong>Interface F2F</strong>
+                <span>Nesco Social / Mumbai</span>
+              </article>
+            </section>
+
+            <section class="month-card" aria-labelledby="mar-title">
+              <header>
+                <span>2026</span>
+                <h3 id="mar-title">March</h3>
+              </header>
+              <article class="calendar-event is-past">
+                <time datetime="2026-03-07">07 Mar</time>
+                <strong>Schranz Movement x DSTM</strong>
+                <span>AntiSocial / Mumbai</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-03-08">08 Mar</time>
+                <strong>Unhuman x Drakk</strong>
+                <span>Nesco Social / Mumbai</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-03-20">20 Mar</time>
+                <strong>KAAI Music</strong>
+                <span>Nesco Social / Mumbai</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-03-27">27 Mar</time>
+                <strong>MOIA</strong>
+                <span>Waves / Mumbai</span>
+              </article>
+            </section>
+
+            <section class="month-card" aria-labelledby="apr-title">
+              <header>
+                <span>2026</span>
+                <h3 id="apr-title">April</h3>
+              </header>
+              <article class="calendar-event is-past">
+                <time datetime="2026-04-04">04 Apr</time>
+                <strong>RAW Afters</strong>
+                <span>AntiSocial / Mumbai</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-04-10">10 Apr</time>
+                <strong>Matrakk Bangalore</strong>
+                <span>Gylt / Bangalore</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-04-11">11 Apr</time>
+                <strong>999999999 Mumbai</strong>
+                <span>NESCO / Mumbai</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-04-11">11 Apr</time>
+                <strong>999999999 Afters</strong>
+                <span>Shott, Nesco / Mumbai</span>
+              </article>
+            </section>
+
+            <section class="month-card" aria-labelledby="may-title">
+              <header>
+                <span>2026</span>
+                <h3 id="may-title">May</h3>
+              </header>
+              <article class="calendar-event is-past">
+                <time datetime="2026-05-02">02 May</time>
+                <strong>Pisapia Bangalore</strong>
+                <span>Gylt / Bangalore</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-05-03">03 May</time>
+                <strong>Pisapia Mumbai</strong>
+                <span>Kitty Su / Mumbai</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-05-31">31 May</time>
+                <strong>F2F OPA Mumbai</strong>
+                <span>OPA / Mumbai</span>
+              </article>
+            </section>
+
+            <section class="month-card" aria-labelledby="jun-title">
+              <header>
+                <span>2026</span>
+                <h3 id="jun-title">June</h3>
+              </header>
+              <article class="calendar-event is-past">
+                <time datetime="2026-06-06">06 Jun</time>
+                <strong>Outworld Afters</strong>
+                <span>Aftermath / Game Palacio, Mumbai</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-06-21">21 Jun</time>
+                <strong>Mad Dog Mumbai</strong>
+                <span>AntiSocial / Mumbai</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-06-26">26-27 Jun</time>
+                <strong>Protocol Go Hard Goa</strong>
+                <span>Da Luna / Goa</span>
+              </article>
+              <article class="calendar-event is-past">
+                <time datetime="2026-06-28">28 Jun</time>
+                <strong>Danilo Filipe &amp; DJ Angel</strong>
+                <span>Hardground / AntiSocial, Mumbai</span>
+              </article>
+            </section>
+
+            <section class="month-card is-current" aria-labelledby="jul-title" data-current-month>
+              <header>
+                <span>Current</span>
+                <h3 id="jul-title">July</h3>
+              </header>
+              <a
+                class="calendar-event is-upcoming"
+                href="https://www.skillboxes.com/events/glitchlabs-x-in-reality-presents-continuum"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <time datetime="2026-07-10">10 Jul</time>
+                <strong>Continuum x Aiden</strong>
+                <span>The Tivoli / Delhi NCR</span>
+              </a>
+              <a
+                class="calendar-event is-upcoming"
+                href="https://sortmyscene.com/event/nexum-presents-aiden-44-front-row-more-jul-11-2026/tickets"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <time datetime="2026-07-11">11 Jul</time>
+                <strong>Aiden Mumbai</strong>
+                <span>AntiSocial / Mumbai</span>
+              </a>
+              <a
+                class="calendar-event is-upcoming"
+                href="https://linktr.ee/Wingmen.ent"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <time datetime="2026-07-12">12 Jul</time>
+                <strong>Riana Holley Mumbai</strong>
+                <span>OPA / Mumbai</span>
+              </a>
+              <article class="calendar-event is-tba">
+                <time datetime="2026-07-25">25 Jul</time>
+                <strong><span class="calendar-status">TBA</span> Morfame Mumbai</strong>
+                <span>AntiSocial / Mumbai</span>
+              </article>
+            </section>
+
+            <section class="month-card" aria-labelledby="aug-title">
+              <header>
+                <span>Next</span>
+                <h3 id="aug-title">August</h3>
+              </header>
+              <article class="calendar-event is-tba">
+                <time datetime="2026-08">TBA</time>
+                <strong><span class="calendar-status">TBA</span> Mumbai</strong>
+                <span>Artist and venue pending public announcement</span>
+              </article>
+              <article class="calendar-event is-tba">
+                <time datetime="2026-08">TBA</time>
+                <strong><span class="calendar-status">TBA</span> Delhi NCR</strong>
+                <span>Artist and venue pending public announcement</span>
+              </article>
+            </section>
+
+            <section class="month-card" aria-labelledby="sep-title">
+              <header>
+                <span>Forward</span>
+                <h3 id="sep-title">September</h3>
+              </header>
+              <article class="calendar-event is-tba">
+                <time datetime="2026-09">TBA</time>
+                <strong><span class="calendar-status">TBA</span> City pending</strong>
+                <span>Announcement locked for later</span>
+              </article>
+            </section>
+
+            <section class="month-card" aria-labelledby="oct-title">
+              <header>
+                <span>Forward</span>
+                <h3 id="oct-title">October</h3>
+              </header>
+              <article class="calendar-event is-tba">
+                <time datetime="2026-10">TBA</time>
+                <strong><span class="calendar-status">TBA</span> City pending</strong>
+                <span>Artist and venue pending public announcement</span>
+              </article>
+            </section>
+
+            <section class="month-card" aria-labelledby="nov-title">
+              <header>
+                <span>Forward</span>
+                <h3 id="nov-title">November</h3>
+              </header>
+              <article class="calendar-event is-tba">
+                <time datetime="2026-11">TBA</time>
+                <strong><span class="calendar-status">TBA</span> City pending</strong>
+                <span>Announcement locked for later</span>
+              </article>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="section announcements-section"
+        id="announcements"
+        aria-labelledby="announcements-title"
+      >
+        <div class="section-heading">
+          <div>
+            <h2 id="announcements-title">Announcements</h2>
+            <p class="eyebrow">Drops / community / tickets</p>
+          </div>
+          <a
+            class="section-action"
+            href="https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>WhatsApp</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5.2 18.8 6 15.6a7.2 7.2 0 1 1 2.5 2.3l-3.3.9Z" />
+              <path d="M9.4 8.5c.4 2.8 2.1 4.5 5 5.1l1.2-1.2 2.1.9c.1 1.6-.9 2.6-2.8 2.6-3.4 0-7-3.5-7-7 0-1.8.9-2.8 2.5-2.7l.9 2.1-1.9 1.2Z" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="announcement-grid">
+          <article class="announcement-card">
+            <span>01</span>
+            <h3>July calendar is live</h3>
+            <p>Continuum, Nexum Aiden, Riana Holley, and the Morfame hold are now in the rail.</p>
+          </article>
+          <article class="announcement-card">
+            <span>02</span>
+            <h3>TBA slots stay masked</h3>
+            <p>Unannounced August and September dates are listed without artist or venue leaks.</p>
+          </article>
+          <article class="announcement-card">
+            <span>03</span>
+            <h3>Moments archive pending</h3>
+            <p>The media shelf is folded away until real photos and details are ready.</p>
+          </article>
+        </div>
       </section>
 
       <section class="section moments-section" id="moments" aria-labelledby="moments-title">
-        <div class="section-heading section-heading--solo">
-          <h2 id="moments-title">fØ Moments</h2>
-        </div>
-        <div class="moments-track" id="moments-track" aria-label="fØ moments gallery"></div>
+        <details class="moments-accordion">
+          <summary>
+            <span>
+              <strong id="moments-title">FO Moments</strong>
+              <small>Images and details incoming</small>
+            </span>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M4 7h4l2-2h4l2 2h4v12H4V7Z" />
+              <circle cx="12" cy="13" r="3.2" />
+            </svg>
+          </summary>
+          <div class="moments-track" aria-label="FO moments gallery">
+            <article class="moment-card">
+              <div class="moment-placeholder" role="img" aria-label="FO moment 01"></div>
+            </article>
+            <article class="moment-card">
+              <div class="moment-placeholder" role="img" aria-label="FO moment 02"></div>
+            </article>
+            <article class="moment-card">
+              <div class="moment-placeholder" role="img" aria-label="FO moment 03"></div>
+            </article>
+            <article class="moment-card">
+              <div class="moment-placeholder" role="img" aria-label="FO moment 04"></div>
+            </article>
+          </div>
+        </details>
       </section>
 
       <section class="section join-section" id="join" aria-labelledby="join-title">
         <div class="join-panel">
-          <h2 id="join-title">Join fØ Mob Now</h2>
-          <p>
-            Join India’s biggest rave family for early access, up to 15% off, and
-            giveaway passes on upcoming raves.
-          </p>
-          <a class="primary-button" id="join-link" href="https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ">Join Now</a>
+          <div>
+            <p class="eyebrow">Community</p>
+            <h2 id="join-title">Join F0 Mob Now</h2>
+            <p>
+              Join India's biggest rave family for early access, community updates,
+              and pass drops before they hit the open feed.
+            </p>
+          </div>
+          <a
+            class="primary-button"
+            href="https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>Join WhatsApp</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5.2 18.8 6 15.6a7.2 7.2 0 1 1 2.5 2.3l-3.3.9Z" />
+              <path d="M9.4 8.5c.4 2.8 2.1 4.5 5 5.1l1.2-1.2 2.1.9c.1 1.6-.9 2.6-2.8 2.6-3.4 0-7-3.5-7-7 0-1.8.9-2.8 2.5-2.7l.9 2.1-1.9 1.2Z" />
+            </svg>
+          </a>
         </div>
       </section>
 
       <section class="section contact-section" id="contact" aria-labelledby="contact-title">
         <div class="section-heading">
-          <p class="eyebrow">Bookings / updates</p>
-          <h2 id="contact-title">Contact</h2>
+          <div>
+            <h2 id="contact-title">Contact</h2>
+            <p class="eyebrow">Bookings / updates</p>
+          </div>
+          <a
+            class="section-action"
+            href="https://wa.me/919516894286"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>DM</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M4 5h16v11H8l-4 4V5Z" />
+              <path d="M8 9h8M8 13h5" />
+            </svg>
+          </a>
         </div>
         <div class="contact-list">
           <a class="contact-row" href="https://wa.me/919516894286" target="_blank" rel="noreferrer">
-            <svg aria-hidden="true" viewBox="0 0 24 24">
-              <path d="M5.1 18.9 6 15.6a7.7 7.7 0 1 1 3 3l-3.9.3Z" />
-              <path d="M9.6 8.3c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .5.4l.7 1.6c.1.3.1.5-.1.7l-.4.5c-.2.2-.2.4 0 .7.5.9 1.3 1.7 2.3 2.2.3.2.5.2.7 0l.6-.7c.2-.2.4-.2.7-.1l1.6.8c.4.2.4.4.4.6 0 .6-.5 1.4-1.1 1.6-.7.3-2 .2-3.5-.6-2.6-1.3-4.3-3.7-4.4-5.5 0-.8.2-1.5.5-1.7Z" />
-            </svg>
             <span>WhatsApp</span>
+            <span>
+              Direct message
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M4 5h16v11H8l-4 4V5Z" />
+                <path d="M8 9h8M8 13h5" />
+              </svg>
+            </span>
           </a>
-          <a class="contact-row" href="https://www.instagram.com/fall0utindia" target="_blank" rel="noreferrer">
-            <svg aria-hidden="true" viewBox="0 0 24 24">
-              <rect x="4" y="4" width="16" height="16" rx="4.2" />
-              <circle cx="12" cy="12" r="3.5" />
-              <circle cx="17.1" cy="6.9" r=".8" />
-            </svg>
+          <a
+            class="contact-row"
+            href="https://www.instagram.com/fall0utindia"
+            target="_blank"
+            rel="noreferrer"
+          >
             <span>Instagram</span>
+            <span>
+              @fall0utindia
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <rect x="4" y="4" width="16" height="16" rx="4" />
+                <circle cx="12" cy="12" r="3.2" />
+                <circle cx="17" cy="7" r=".8" />
+              </svg>
+            </span>
           </a>
         </div>
       </section>
     </main>
 
     <script>
-      const siteData = {
-        ticketUrl:
-          "https://www.skillboxes.com/events/glitchlabs-x-in-reality-presents-continuum",
-        joinUrl: "https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ",
-        events: [
-          {
-            title: "CONTINUUM",
-            label: "Upcoming collaboration / Delhi NCR",
-            cta: "TICKETS",
-          },
-        ],
-        moments: [
-          // Replace src values with real portrait image paths in ./assets/moments/.
-          { label: "fØ moment 01", src: "" },
-          { label: "fØ moment 02", src: "" },
-          { label: "fØ moment 03", src: "" },
-          { label: "fØ moment 04", src: "" },
-        ],
-      };
-
-      const eventList = document.querySelector("#event-list");
-      const momentsTrack = document.querySelector("#moments-track");
-      const joinLink = document.querySelector("#join-link");
       const root = document.documentElement;
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      joinLink.href = siteData.joinUrl;
-
-      eventList.innerHTML = siteData.events
-        .map(
-          (event) => `
-            <article class="event-card">
-              <div class="event-visual">
-                <!-- TODO: add Continuum poster image here if replacing ./assets/continuum-poster.png -->
-                <img src="./assets/continuum-poster.png" alt="" />
-              </div>
-              <div>
-                <p>${event.label}</p>
-                <h3>${event.title}</h3>
-              </div>
-              <a class="ticket-link" href="${siteData.ticketUrl}" target="_blank" rel="noreferrer">${event.cta}</a>
-            </article>
-          `,
-        )
-        .join("");
-
-      momentsTrack.innerHTML = siteData.moments
-        .map(
-          (moment, index) => `
-            <article class="moment-card">
-              ${
-                moment.src
-                  ? `<img src="${moment.src}" alt="${moment.label}" />`
-                  : `<div class="moment-placeholder" role="img" aria-label="${moment.label}"></div>`
-              }
-            </article>
-          `,
-        )
-        .join("");
 
       function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
@@ -169,7 +596,10 @@
           : clamp((progress - 0.62) / 0.38, 0, 1);
 
         root.style.setProperty("--morph", headerProgress.toFixed(3));
-        root.style.setProperty("--hero-opacity", reduceMotion ? (headerProgress ? "0" : "1") : clamp(1 - progress * 1.45, 0, 1).toFixed(3));
+        root.style.setProperty(
+          "--hero-opacity",
+          reduceMotion ? (headerProgress ? "0" : "1") : clamp(1 - progress * 1.45, 0, 1).toFixed(3),
+        );
         root.style.setProperty("--hero-scale", (1 - progress * 0.42).toFixed(3));
         root.style.setProperty("--hero-y", `${Math.round(progress * -34)}vh`);
         root.style.setProperty("--header-brand-opacity", headerBrandOpacity.toFixed(3));
@@ -181,9 +611,27 @@
         document.body.classList.toggle("has-scrolled", window.scrollY > 8);
       }
 
+      function focusCurrentCalendarMonth() {
+        const rail = document.querySelector(".calendar-rail");
+        const current = document.querySelector("[data-current-month]");
+
+        if (!rail || !current) {
+          return;
+        }
+
+        const alignCurrent = () => {
+          rail.scrollLeft = Math.max(0, current.offsetLeft);
+        };
+
+        requestAnimationFrame(alignCurrent);
+        window.setTimeout(alignCurrent, 120);
+        window.setTimeout(alignCurrent, 360);
+      }
+
       updateScrollState();
       window.addEventListener("scroll", updateScrollState, { passive: true });
       window.addEventListener("resize", updateScrollState);
+      window.addEventListener("load", focusCurrentCalendarMonth);
     </script>
   </body>
 </html>
