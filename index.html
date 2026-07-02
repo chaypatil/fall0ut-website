@@ -14,6 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=DM+Sans:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="preload" as="image" href="./assets/fall0ut-wordmark-cropped.webp" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -27,7 +28,7 @@
         </div>
         <a class="header-brand" href="#top" aria-label="FALL0UT India">
           <span class="wordmark-crop compact">
-            <img src="./assets/fall0ut-wordmark-cropped.png" alt="" />
+            <img src="./assets/fall0ut-wordmark-cropped.webp" alt="" width="900" height="378" />
           </span>
           <span class="india-label">India</span>
         </a>
@@ -40,7 +41,13 @@
         <div class="hero-lockup">
           <h1 id="hero-title" class="sr-only">FALL0UT India</h1>
           <span class="wordmark-crop hero-wordmark">
-            <img src="./assets/fall0ut-wordmark-cropped.png" alt="FALL0UT" />
+            <img
+              src="./assets/fall0ut-wordmark-cropped.webp"
+              alt="FALL0UT"
+              width="900"
+              height="378"
+              fetchpriority="high"
+            />
           </span>
           <span class="india-label hero-india">India</span>
         </div>
@@ -69,7 +76,14 @@
             rel="noreferrer"
           >
             <div class="event-art">
-              <img src="./assets/continuum-poster.png" alt="Continuum event poster" />
+              <img
+                src="./assets/continuum-poster.webp"
+                alt="Continuum event poster"
+                width="502"
+                height="628"
+                loading="eager"
+                decoding="async"
+              />
               <span class="event-badge event-badge--left">01 / Featured</span>
               <span class="event-badge event-badge--right">Tickets / Skillboxes</span>
             </div>
@@ -94,7 +108,14 @@
             rel="noreferrer"
           >
             <div class="event-art">
-              <img src="./assets/nexum-aiden-poster.jpeg" alt="Nexum presents Aiden event poster" />
+              <img
+                src="./assets/nexum-aiden-poster.webp"
+                alt="Nexum presents Aiden event poster"
+                width="720"
+                height="1280"
+                loading="eager"
+                decoding="async"
+              />
               <span class="event-badge event-badge--left">02 / Featured</span>
               <span class="event-badge event-badge--right">Tickets / SortMyScene</span>
             </div>
@@ -119,7 +140,14 @@
             rel="noreferrer"
           >
             <div class="event-art">
-              <img src="./assets/riana-holley-poster.png" alt="Riana Holley event poster" />
+              <img
+                src="./assets/riana-holley-poster.webp"
+                alt="Riana Holley event poster"
+                width="720"
+                height="1280"
+                loading="eager"
+                decoding="async"
+              />
               <span class="event-badge event-badge--left">03 / Featured</span>
               <span class="event-badge event-badge--right">Wingmen / Linktree</span>
             </div>
