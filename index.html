@@ -15,6 +15,9 @@
       rel="stylesheet"
     />
     <link rel="preload" as="image" href="./assets/fall0ut-wordmark-cropped.webp" />
+    <link rel="icon" href="./assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="./assets/favicon.png" />
+    <link rel="apple-touch-icon" href="./assets/favicon.png" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -23,16 +26,16 @@
     <header class="site-header">
       <nav class="header-inner" aria-label="Primary navigation">
         <div class="nav-cluster">
-          <a href="#events" class="nav-link">Events</a>
-          <a href="#calendar" class="nav-link">Calendar</a>
+          <a href="/events" class="nav-link">Events</a>
+          <a href="/calendar" class="nav-link">Rave Calendar</a>
         </div>
-        <a class="header-brand" href="#top" aria-label="FALL0UT India">
+        <a class="header-brand" href="/" aria-label="FALL0UT India">
           <span class="wordmark-crop compact">
             <img src="./assets/fall0ut-wordmark-cropped.webp" alt="" width="900" height="378" />
           </span>
           <span class="india-label">India</span>
         </a>
-        <a href="#contact" class="nav-link nav-link--right">Contact</a>
+        <a href="/contact" class="nav-link nav-link--right">Contact</a>
       </nav>
     </header>
 
@@ -57,10 +60,10 @@
         <div class="section-heading">
           <div>
             <h2 id="events-title">Featured events</h2>
-            <p class="eyebrow">Upcoming / India</p>
+            <p class="eyebrow">Upcoming</p>
           </div>
-          <a class="section-action" href="#calendar">
-            <span>Calendar</span>
+          <a class="section-action" href="/calendar">
+            <span>Rave Calendar</span>
             <svg aria-hidden="true" viewBox="0 0 24 24">
               <rect x="4" y="5" width="16" height="15" rx="1.8" />
               <path d="M8 3v4M16 3v4M4 10h16" />
@@ -84,15 +87,13 @@
                 loading="eager"
                 decoding="async"
               />
-              <span class="event-badge event-badge--left">01 / Featured</span>
-              <span class="event-badge event-badge--right">Tickets / Skillboxes</span>
             </div>
             <div class="event-copy">
               <p class="event-date">10 Jul 2026</p>
               <h3>Continuum</h3>
-              <p class="event-location">The Tivoli / Chattarpur / Delhi NCR</p>
+              <p class="event-location">The Tivoli / Delhi NCR</p>
               <span class="event-cta">
-                <span>Open tickets</span>
+                <span>Get tickets</span>
                 <svg aria-hidden="true" viewBox="0 0 24 24">
                   <path d="M5 8.5V6.8c0-1 .8-1.8 1.8-1.8h10.4c1 0 1.8.8 1.8 1.8v1.7a2.5 2.5 0 0 0 0 5v1.7c0 1-.8 1.8-1.8 1.8H6.8c-1 0-1.8-.8-1.8-1.8v-1.7a2.5 2.5 0 0 0 0-5Z" />
                   <path d="M9 8h6M9 12h6M9 16h4" />
@@ -110,21 +111,19 @@
             <div class="event-art">
               <img
                 src="./assets/nexum-aiden-poster.webp"
-                alt="Nexum presents Aiden event poster"
+                alt="Aiden event poster"
                 width="720"
                 height="1280"
                 loading="eager"
                 decoding="async"
               />
-              <span class="event-badge event-badge--left">02 / Featured</span>
-              <span class="event-badge event-badge--right">Tickets / SortMyScene</span>
             </div>
             <div class="event-copy">
               <p class="event-date">11 Jul 2026</p>
               <h3>Aiden</h3>
-              <p class="event-location">AntiSocial / Mumbai / Nexum</p>
+              <p class="event-location">AntiSocial / Mumbai</p>
               <span class="event-cta">
-                <span>Open tickets</span>
+                <span>Get tickets</span>
                 <svg aria-hidden="true" viewBox="0 0 24 24">
                   <path d="M7 4h10l1 4-1 4 1 4-1 4H7l-1-4 1-4-1-4 1-4Z" />
                   <path d="M10 7v10M14 7v10" />
@@ -148,15 +147,13 @@
                 loading="eager"
                 decoding="async"
               />
-              <span class="event-badge event-badge--left">03 / Featured</span>
-              <span class="event-badge event-badge--right">Wingmen / Linktree</span>
             </div>
             <div class="event-copy">
               <p class="event-date">12 Jul 2026</p>
               <h3>Riana Holley</h3>
-              <p class="event-location">Opa Bar &amp; Cafe / Alongside Psyra</p>
+              <p class="event-location">OPA / Mumbai</p>
               <span class="event-cta">
-                <span>Open link</span>
+                <span>Get tickets</span>
                 <svg aria-hidden="true" viewBox="0 0 24 24">
                   <circle cx="7" cy="7" r="3" />
                   <circle cx="17" cy="7" r="3" />
@@ -191,16 +188,8 @@
       <section class="section calendar-section" id="calendar" aria-labelledby="calendar-title">
         <div class="section-heading">
           <div>
-            <h2 id="calendar-title">Calendar</h2>
-            <p class="eyebrow">Past / current / TBA</p>
+            <h2 id="calendar-title">Rave Calendar</h2>
           </div>
-          <a class="section-action" href="#announcements">
-            <span>Updates</span>
-            <svg aria-hidden="true" viewBox="0 0 24 24">
-              <path d="M4 14v-4l10-4v12L4 14Z" />
-              <path d="M14 9.5h2.5a3.5 3.5 0 0 1 0 7H14M7 15l1.3 4h3.2" />
-            </svg>
-          </a>
         </div>
 
         <div class="calendar-shell">
@@ -234,8 +223,8 @@
               </article>
               <article class="calendar-event is-past">
                 <time datetime="2026-02-21">21 Feb</time>
-                <strong>No Mercy</strong>
-                <span>Scarlett &amp; GNR0 / AntiSocial, Mumbai</span>
+                <strong>No Mercy (Scarlett &amp; GNRØ)</strong>
+                <span>AntiSocial / Mumbai</span>
               </article>
               <article class="calendar-event is-past">
                 <time datetime="2026-02-21">21 Feb</time>
@@ -342,8 +331,8 @@
               </header>
               <article class="calendar-event is-past">
                 <time datetime="2026-06-06">06 Jun</time>
-                <strong>Outworld Afters</strong>
-                <span>Aftermath / Game Palacio, Mumbai</span>
+                <strong>Outworld Afters (Aftermath)</strong>
+                <span>Game Palacio / Mumbai</span>
               </article>
               <article class="calendar-event is-past">
                 <time datetime="2026-06-21">21 Jun</time>
@@ -357,8 +346,8 @@
               </article>
               <article class="calendar-event is-past">
                 <time datetime="2026-06-28">28 Jun</time>
-                <strong>Danilo Filipe &amp; DJ Angel</strong>
-                <span>Hardground / AntiSocial, Mumbai</span>
+                <strong>Danilo Filipe &amp; DJ Angel (Hardground)</strong>
+                <span>AntiSocial / Mumbai</span>
               </article>
             </section>
 
@@ -399,7 +388,7 @@
               </a>
               <article class="calendar-event is-tba">
                 <time datetime="2026-07-25">25 Jul</time>
-                <strong><span class="calendar-status">TBA</span> Morfame Mumbai</strong>
+                <strong>Morfame Mumbai</strong>
                 <span>AntiSocial / Mumbai</span>
               </article>
             </section>
@@ -412,12 +401,12 @@
               <article class="calendar-event is-tba">
                 <time datetime="2026-08">TBA</time>
                 <strong><span class="calendar-status">TBA</span> Mumbai</strong>
-                <span>Artist and venue pending public announcement</span>
+                <span>Venue TBA / Mumbai</span>
               </article>
               <article class="calendar-event is-tba">
                 <time datetime="2026-08">TBA</time>
                 <strong><span class="calendar-status">TBA</span> Delhi NCR</strong>
-                <span>Artist and venue pending public announcement</span>
+                <span>Venue TBA / Delhi NCR</span>
               </article>
             </section>
 
@@ -428,8 +417,8 @@
               </header>
               <article class="calendar-event is-tba">
                 <time datetime="2026-09">TBA</time>
-                <strong><span class="calendar-status">TBA</span> City pending</strong>
-                <span>Announcement locked for later</span>
+                <strong><span class="calendar-status">TBA</span> City</strong>
+                <span>Venue TBA / City TBA</span>
               </article>
             </section>
 
@@ -440,8 +429,8 @@
               </header>
               <article class="calendar-event is-tba">
                 <time datetime="2026-10">TBA</time>
-                <strong><span class="calendar-status">TBA</span> City pending</strong>
-                <span>Artist and venue pending public announcement</span>
+                <strong><span class="calendar-status">TBA</span> City</strong>
+                <span>Venue TBA / City TBA</span>
               </article>
             </section>
 
@@ -452,8 +441,8 @@
               </header>
               <article class="calendar-event is-tba">
                 <time datetime="2026-11">TBA</time>
-                <strong><span class="calendar-status">TBA</span> City pending</strong>
-                <span>Announcement locked for later</span>
+                <strong><span class="calendar-status">TBA</span> City</strong>
+                <span>Venue TBA / City TBA</span>
               </article>
             </section>
           </div>
@@ -468,37 +457,29 @@
         <div class="section-heading">
           <div>
             <h2 id="announcements-title">Announcements</h2>
-            <p class="eyebrow">Drops / community / tickets</p>
           </div>
-          <a
-            class="section-action"
-            href="https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span>WhatsApp</span>
-            <svg aria-hidden="true" viewBox="0 0 24 24">
-              <path d="M5.2 18.8 6 15.6a7.2 7.2 0 1 1 2.5 2.3l-3.3.9Z" />
-              <path d="M9.4 8.5c.4 2.8 2.1 4.5 5 5.1l1.2-1.2 2.1.9c.1 1.6-.9 2.6-2.8 2.6-3.4 0-7-3.5-7-7 0-1.8.9-2.8 2.5-2.7l.9 2.1-1.9 1.2Z" />
-            </svg>
-          </a>
         </div>
 
         <div class="announcement-grid">
           <article class="announcement-card">
             <span>01</span>
-            <h3>July calendar is live</h3>
-            <p>Continuum, Nexum Aiden, Riana Holley, and the Morfame hold are now in the rail.</p>
+            <h3>Aiden India Debut</h3>
+            <p>Aiden is hitting India for the first time with Delhi and Mumbai locked into one weekend.</p>
           </article>
           <article class="announcement-card">
             <span>02</span>
-            <h3>TBA slots stay masked</h3>
-            <p>Unannounced August and September dates are listed without artist or venue leaks.</p>
+            <h3>Riana Holley Returns</h3>
+            <p>Riana Holley returns to India to give Mumbai its hardest bouncy night.</p>
           </article>
           <article class="announcement-card">
             <span>03</span>
-            <h3>Moments archive pending</h3>
-            <p>The media shelf is folded away until real photos and details are ready.</p>
+            <h3>Continuum Lands In Delhi</h3>
+            <p>Continuum takes over The Tivoli for a hard Friday in Delhi NCR.</p>
+          </article>
+          <article class="announcement-card">
+            <span>04</span>
+            <h3>Morfame Mumbai</h3>
+            <p>Morfame closes July at AntiSocial with another heavy Mumbai night.</p>
           </article>
         </div>
       </section>
@@ -507,26 +488,25 @@
         <details class="moments-accordion">
           <summary>
             <span>
-              <strong id="moments-title">FO Moments</strong>
-              <small>Images and details incoming</small>
+              <strong id="moments-title">FØ Moments</strong>
             </span>
             <svg aria-hidden="true" viewBox="0 0 24 24">
               <path d="M4 7h4l2-2h4l2 2h4v12H4V7Z" />
               <circle cx="12" cy="13" r="3.2" />
             </svg>
           </summary>
-          <div class="moments-track" aria-label="FO moments gallery">
+          <div class="moments-track" aria-label="FØ moments gallery">
             <article class="moment-card">
-              <div class="moment-placeholder" role="img" aria-label="FO moment 01"></div>
+              <div class="moment-placeholder" role="img" aria-label="FØ moment 01"></div>
             </article>
             <article class="moment-card">
-              <div class="moment-placeholder" role="img" aria-label="FO moment 02"></div>
+              <div class="moment-placeholder" role="img" aria-label="FØ moment 02"></div>
             </article>
             <article class="moment-card">
-              <div class="moment-placeholder" role="img" aria-label="FO moment 03"></div>
+              <div class="moment-placeholder" role="img" aria-label="FØ moment 03"></div>
             </article>
             <article class="moment-card">
-              <div class="moment-placeholder" role="img" aria-label="FO moment 04"></div>
+              <div class="moment-placeholder" role="img" aria-label="FØ moment 04"></div>
             </article>
           </div>
         </details>
@@ -536,10 +516,10 @@
         <div class="join-panel">
           <div>
             <p class="eyebrow">Community</p>
-            <h2 id="join-title">Join F0 Mob Now</h2>
+            <h2 id="join-title">Join FØ Mob Now</h2>
             <p>
-              Join India's biggest rave family for early access, community updates,
-              and pass drops before they hit the open feed.
+              Join India's hardest underground rave community and enjoy benefits like early access
+              to tickets, giveaways, and up to 20% off on your next raves.
             </p>
           </div>
           <a
@@ -561,26 +541,13 @@
         <div class="section-heading">
           <div>
             <h2 id="contact-title">Contact</h2>
-            <p class="eyebrow">Bookings / updates</p>
           </div>
-          <a
-            class="section-action"
-            href="https://wa.me/919516894286"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span>DM</span>
-            <svg aria-hidden="true" viewBox="0 0 24 24">
-              <path d="M4 5h16v11H8l-4 4V5Z" />
-              <path d="M8 9h8M8 13h5" />
-            </svg>
-          </a>
         </div>
         <div class="contact-list">
           <a class="contact-row" href="https://wa.me/919516894286" target="_blank" rel="noreferrer">
             <span>WhatsApp</span>
             <span>
-              Direct message
+              DM
               <svg aria-hidden="true" viewBox="0 0 24 24">
                 <path d="M4 5h16v11H8l-4 4V5Z" />
                 <path d="M8 9h8M8 13h5" />
@@ -610,6 +577,16 @@
     <script>
       const root = document.documentElement;
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const sectionRoutes = new Map([
+        ["/", "top"],
+        ["/events", "events"],
+        ["/calendar", "calendar"],
+        ["/rave-calendar", "calendar"],
+        ["/announcements", "announcements"],
+        ["/moments", "moments"],
+        ["/community", "join"],
+        ["/contact", "contact"],
+      ]);
 
       function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
@@ -656,10 +633,67 @@
         window.setTimeout(alignCurrent, 360);
       }
 
+      function scrollToSection(id, behavior = "smooth") {
+        const target = id === "top" ? document.getElementById("top") : document.getElementById(id);
+
+        if (!target) {
+          return;
+        }
+
+        target.scrollIntoView({ block: "start", behavior });
+      }
+
+      function handlePathRoute(behavior = "smooth") {
+        const sectionId = sectionRoutes.get(window.location.pathname);
+
+        if (!sectionId || sectionId === "top") {
+          return;
+        }
+
+        requestAnimationFrame(() => scrollToSection(sectionId, behavior));
+      }
+
+      document.addEventListener("click", (event) => {
+        const link = event.target.closest("a[href]");
+
+        if (!link) {
+          return;
+        }
+
+        const url = new URL(link.href, window.location.href);
+        const sectionId = sectionRoutes.get(url.pathname);
+
+        if (url.origin !== window.location.origin || !sectionId) {
+          return;
+        }
+
+        event.preventDefault();
+        window.history.pushState(null, "", url.pathname);
+        scrollToSection(sectionId);
+      });
+
+      document.querySelectorAll(".event-feature").forEach((card) => {
+        const activate = () => card.classList.add("is-touch-active");
+        const deactivate = () => {
+          window.setTimeout(() => card.classList.remove("is-touch-active"), 180);
+        };
+
+        card.addEventListener("pointerdown", activate);
+        card.addEventListener("pointerleave", deactivate);
+        card.addEventListener("pointercancel", deactivate);
+        card.addEventListener("touchstart", activate, { passive: true });
+        card.addEventListener("touchend", deactivate, { passive: true });
+        card.addEventListener("touchcancel", deactivate, { passive: true });
+      });
+
       updateScrollState();
       window.addEventListener("scroll", updateScrollState, { passive: true });
       window.addEventListener("resize", updateScrollState);
-      window.addEventListener("load", focusCurrentCalendarMonth);
+      window.addEventListener("popstate", () => handlePathRoute());
+      window.addEventListener("load", () => {
+        focusCurrentCalendarMonth();
+        handlePathRoute("auto");
+      });
     </script>
   </body>
 </html>

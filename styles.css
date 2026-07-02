@@ -130,7 +130,6 @@ svg {
 .section-action,
 .event-date,
 .event-location,
-.event-badge,
 .event-cta,
 .stat-cell span,
 .month-card header span,
@@ -139,8 +138,7 @@ svg {
 .calendar-status,
 .announcement-card > span,
 .primary-button,
-.contact-row span:last-child,
-.moments-accordion small {
+.contact-row span:last-child {
   font-family: "Barlow Condensed", sans-serif;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -152,6 +150,7 @@ svg {
   font-size: 0.88rem;
   line-height: 1;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .nav-link--right {
@@ -352,7 +351,8 @@ h2 {
 }
 
 .event-feature:hover,
-.event-feature:focus-visible {
+.event-feature:focus-visible,
+.event-feature.is-touch-active {
   background: rgba(3, 14, 12, 0.82);
   outline: none;
 }
@@ -388,34 +388,10 @@ h2 {
 }
 
 .event-feature:hover .event-art img,
-.event-feature:focus-visible .event-art img {
+.event-feature:focus-visible .event-art img,
+.event-feature.is-touch-active .event-art img {
   filter: grayscale(0) contrast(1.04) brightness(0.98);
   transform: scale(1.045);
-}
-
-.event-badge {
-  position: absolute;
-  top: 18px;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  min-height: 34px;
-  padding: 0 15px;
-  background: rgba(0, 0, 0, 0.9);
-  color: #ffffff;
-  font-size: 0.72rem;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.event-badge--left {
-  left: 18px;
-}
-
-.event-badge--right {
-  right: 18px;
-  background: rgba(245, 250, 248, 0.95);
-  color: #050908;
 }
 
 .event-copy {
@@ -463,7 +439,8 @@ h2 {
 }
 
 .event-feature:hover .event-cta,
-.event-feature:focus-visible .event-cta {
+.event-feature:focus-visible .event-cta,
+.event-feature.is-touch-active .event-cta {
   border-color: rgba(244, 248, 246, 0.86);
   background: rgba(244, 248, 246, 0.08);
   color: #ffffff;
@@ -512,7 +489,7 @@ h2 {
 
 .calendar-rail {
   display: grid;
-  grid-auto-columns: minmax(330px, 29vw);
+  grid-auto-columns: minmax(300px, 25vw);
   grid-auto-flow: column;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -522,7 +499,7 @@ h2 {
 .month-card {
   display: grid;
   align-content: start;
-  min-height: 520px;
+  min-height: 430px;
   border-right: 1px solid var(--line-strong);
   border-bottom: 1px solid var(--line-strong);
   background: rgba(1, 5, 4, 0.54);
@@ -537,9 +514,9 @@ h2 {
 
 .month-card header {
   display: grid;
-  gap: 16px;
-  min-height: 136px;
-  padding: 26px 26px 24px;
+  gap: 10px;
+  min-height: 100px;
+  padding: 20px 22px 18px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -550,15 +527,15 @@ h2 {
 
 .month-card h3 {
   color: #ffffff;
-  font-size: clamp(3rem, 4vw, 4.6rem);
+  font-size: clamp(2.25rem, 3vw, 3.35rem);
   letter-spacing: 0.06em;
 }
 
 .calendar-event {
   display: grid;
-  gap: 10px;
-  min-height: 112px;
-  padding: 20px 26px;
+  gap: 7px;
+  min-height: 82px;
+  padding: 14px 22px;
   border-bottom: 1px solid var(--line);
   color: #dce6e3;
   text-decoration: none;
@@ -577,14 +554,14 @@ a.calendar-event:focus-visible {
 
 .calendar-event strong {
   color: #ffffff;
-  font-size: clamp(1.45rem, 2vw, 2rem);
+  font-size: clamp(1.12rem, 1.45vw, 1.5rem);
   letter-spacing: 0.08em;
   line-height: 0.96;
 }
 
 .calendar-event span {
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   line-height: 1.35;
 }
 
@@ -612,13 +589,13 @@ a.calendar-event:focus-visible {
 
 .announcement-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   border-top: 1px solid var(--line-strong);
   border-left: 1px solid var(--line-strong);
 }
 
 .announcement-card {
-  min-height: 220px;
+  min-height: 196px;
   padding: clamp(22px, 3vw, 34px);
   border-right: 1px solid var(--line-strong);
   border-bottom: 1px solid var(--line-strong);
@@ -679,13 +656,6 @@ a.calendar-event:focus-visible {
   letter-spacing: 0.16em;
   line-height: 0.9;
   text-transform: uppercase;
-}
-
-.moments-accordion small {
-  display: block;
-  margin-top: 12px;
-  color: var(--muted);
-  font-size: 0.78rem;
 }
 
 .moments-track {
@@ -837,7 +807,7 @@ a.calendar-event:focus-visible {
   }
 
   .announcement-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -848,7 +818,7 @@ a.calendar-event:focus-visible {
   }
 
   .calendar-rail {
-    grid-auto-columns: minmax(300px, 82vw);
+    grid-auto-columns: minmax(280px, 82vw);
   }
 }
 
@@ -917,22 +887,6 @@ a.calendar-event:focus-visible {
     aspect-ratio: 9 / 13;
   }
 
-  .event-badge {
-    top: 14px;
-    min-height: 31px;
-    padding-inline: 10px;
-    font-size: 0.62rem;
-    letter-spacing: 0.16em;
-  }
-
-  .event-badge--left {
-    left: 14px;
-  }
-
-  .event-badge--right {
-    right: 14px;
-  }
-
   .event-copy {
     min-height: 184px;
     padding: 24px 20px 28px;
@@ -952,7 +906,7 @@ a.calendar-event:focus-visible {
   }
 
   .month-card {
-    min-height: 500px;
+    min-height: 420px;
   }
 
   .month-card header,
@@ -982,8 +936,10 @@ a.calendar-event:focus-visible {
 }
 
 @media (hover: none) {
-  .event-feature:active .event-art img {
+  .event-feature:active .event-art img,
+  .event-feature.is-touch-active .event-art img {
     filter: grayscale(0) contrast(1.04) brightness(0.98);
+    transform: scale(1.045);
   }
 }
 

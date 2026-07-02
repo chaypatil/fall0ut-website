@@ -1,0 +1,32 @@
+{
+  "rewrites": [
+    {
+      "source": "/events",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/calendar",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/rave-calendar",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/announcements",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/moments",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/community",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/index.html"
+    }
+  ]
+}
