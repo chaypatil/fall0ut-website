@@ -27,6 +27,10 @@
     {
       "source": "/contact",
       "destination": "/index.html"
+    },
+    {
+      "source": "/go/:slug",
+      "destination": "/index.html"
     }
   ]
 }

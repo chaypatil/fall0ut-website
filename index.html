@@ -73,7 +73,7 @@
         <div class="featured-events" aria-label="Featured upcoming events">
           <a
             class="event-feature"
-            href="https://www.skillboxes.com/events/glitchlabs-x-in-reality-presents-continuum"
+            href="/go/continuum-delhi"
             target="_blank"
             rel="noreferrer"
           >
@@ -103,7 +103,7 @@
 
           <a
             class="event-feature"
-            href="https://sortmyscene.com/event/nexum-presents-aiden-44-front-row-more-jul-11-2026/tickets"
+            href="/go/aiden-mumbai"
             target="_blank"
             rel="noreferrer"
           >
@@ -133,7 +133,7 @@
 
           <a
             class="event-feature"
-            href="https://linktr.ee/Wingmen.ent"
+            href="/go/riana-holley-mumbai"
             target="_blank"
             rel="noreferrer"
           >
@@ -357,7 +357,7 @@
               </header>
               <a
                 class="calendar-event is-upcoming"
-                href="https://www.skillboxes.com/events/glitchlabs-x-in-reality-presents-continuum"
+                href="/go/continuum-delhi"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -367,7 +367,7 @@
               </a>
               <a
                 class="calendar-event is-upcoming"
-                href="https://sortmyscene.com/event/nexum-presents-aiden-44-front-row-more-jul-11-2026/tickets"
+                href="/go/aiden-mumbai"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -377,7 +377,7 @@
               </a>
               <a
                 class="calendar-event is-upcoming"
-                href="https://linktr.ee/Wingmen.ent"
+                href="/go/riana-holley-mumbai"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -398,14 +398,14 @@
                 <h3 id="aug-title">August</h3>
               </header>
               <article class="calendar-event is-tba">
-                <time datetime="2026-08">TBA</time>
-                <strong><span class="calendar-status">TBA</span> Mumbai</strong>
-                <span>Venue TBA / Mumbai</span>
+                <time datetime="2026-08">Aug</time>
+                <strong>Announcing soon</strong>
+                <span>Venue locked / Mumbai</span>
               </article>
               <article class="calendar-event is-tba">
-                <time datetime="2026-08">TBA</time>
-                <strong><span class="calendar-status">TBA</span> Delhi NCR</strong>
-                <span>Venue TBA / Delhi NCR</span>
+                <time datetime="2026-08">Aug</time>
+                <strong>Announcing soon</strong>
+                <span>Venue locked / Delhi NCR</span>
               </article>
             </section>
 
@@ -414,35 +414,20 @@
                 <span>Forward</span>
                 <h3 id="sep-title">September</h3>
               </header>
-              <article class="calendar-event is-tba">
-                <time datetime="2026-09">TBA</time>
-                <strong><span class="calendar-status">TBA</span> City</strong>
-                <span>Venue TBA / City TBA</span>
-              </article>
-            </section>
-
-            <section class="month-card" aria-labelledby="oct-title">
-              <header>
-                <span>Forward</span>
-                <h3 id="oct-title">October</h3>
-              </header>
-              <article class="calendar-event is-tba">
-                <time datetime="2026-10">TBA</time>
-                <strong><span class="calendar-status">TBA</span> City</strong>
-                <span>Venue TBA / City TBA</span>
-              </article>
-            </section>
-
-            <section class="month-card" aria-labelledby="nov-title">
-              <header>
-                <span>Forward</span>
-                <h3 id="nov-title">November</h3>
-              </header>
-              <article class="calendar-event is-tba">
-                <time datetime="2026-11">TBA</time>
-                <strong><span class="calendar-status">TBA</span> City</strong>
-                <span>Venue TBA / City TBA</span>
-              </article>
+              <a
+                class="calendar-event calendar-event--notice"
+                href="https://www.instagram.com/fall0utindia"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <time datetime="2026-09">Soon</time>
+                <strong>More dates dropping soon</strong>
+                <span>
+                  Follow
+                  <span class="inline-link">@fall0utindia</span>
+                  for Mumbai, Delhi NCR, and new city drops.
+                </span>
+              </a>
             </section>
           </div>
         </div>
@@ -573,6 +558,23 @@
       </section>
     </main>
 
+    <footer class="site-footer" aria-label="Footer">
+      <span>FALL0UT India</span>
+      <nav aria-label="Footer links">
+        <a href="https://www.instagram.com/fall0utindia" target="_blank" rel="noreferrer">
+          Instagram
+        </a>
+        <a href="https://wa.me/919516894286" target="_blank" rel="noreferrer">WhatsApp DM</a>
+        <a
+          href="https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Community
+        </a>
+      </nav>
+    </footer>
+
     <script>
       const root = document.documentElement;
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -585,6 +587,17 @@
         ["/moments", "moments"],
         ["/community", "join"],
         ["/contact", "contact"],
+      ]);
+      const goRoutes = new Map([
+        [
+          "continuum-delhi",
+          "https://www.skillboxes.com/events/glitchlabs-x-in-reality-presents-continuum",
+        ],
+        [
+          "aiden-mumbai",
+          "https://sortmyscene.com/event/nexum-presents-aiden-44-front-row-more-jul-11-2026/tickets",
+        ],
+        ["riana-holley-mumbai", "https://linktr.ee/Wingmen.ent"],
       ]);
 
       function clamp(value, min, max) {
@@ -652,6 +665,34 @@
         requestAnimationFrame(() => scrollToSection(sectionId, behavior));
       }
 
+      function getTrackedTicketUrl(target, slug) {
+        const url = new URL(target);
+        url.searchParams.set("utm_source", "fall0ut.xyz");
+        url.searchParams.set("utm_medium", "website");
+        url.searchParams.set("utm_campaign", slug);
+        return url.href;
+      }
+
+      function redirectGoRoute() {
+        const match = window.location.pathname.match(/^\/go\/([^/]+)\/?$/);
+
+        if (!match) {
+          return false;
+        }
+
+        const slug = match[1];
+        const target = goRoutes.get(slug);
+
+        if (!target) {
+          window.history.replaceState(null, "", "/events");
+          scrollToSection("events", "auto");
+          return true;
+        }
+
+        window.location.replace(getTrackedTicketUrl(target, slug));
+        return true;
+      }
+
       document.addEventListener("click", (event) => {
         const link = event.target.closest("a[href]");
 
@@ -690,6 +731,10 @@
       window.addEventListener("resize", updateScrollState);
       window.addEventListener("popstate", () => handlePathRoute());
       window.addEventListener("load", () => {
+        if (redirectGoRoute()) {
+          return;
+        }
+
         focusCurrentCalendarMonth();
         handlePathRoute("auto");
       });

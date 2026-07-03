@@ -579,12 +579,27 @@ a.calendar-event:focus-visible {
     rgba(1, 5, 4, 0.5);
 }
 
+.calendar-event--notice {
+  min-height: 148px;
+  align-content: start;
+  background:
+    linear-gradient(120deg, rgba(122, 216, 203, 0.12), transparent 58%),
+    rgba(244, 248, 246, 0.035);
+}
+
 .calendar-status {
   display: inline-block;
   margin-right: 0.48em;
   color: var(--teal);
   font-size: 0.68em;
   vertical-align: 0.08em;
+}
+
+.inline-link {
+  color: #e7f1ee;
+  text-decoration: underline;
+  text-decoration-color: rgba(122, 216, 203, 0.74);
+  text-underline-offset: 0.2em;
 }
 
 .announcement-grid {
@@ -796,6 +811,45 @@ a.calendar-event:focus-visible {
   outline: none;
 }
 
+.site-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 22px clamp(18px, 4.2vw, 80px) 34px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.site-footer span,
+.site-footer a {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.site-footer a {
+  color: #c7d2cf;
+  text-decoration: none;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  color: #ffffff;
+  outline: none;
+}
+
 @media (max-width: 1120px) {
   .featured-events {
     grid-template-columns: 1fr;
@@ -813,8 +867,13 @@ a.calendar-event:focus-visible {
 
 @media (max-width: 920px) {
   .stats-strip,
-  .contact-list {
+  .contact-list,
+  .site-footer {
     grid-template-columns: 1fr;
+  }
+
+  .site-footer nav {
+    justify-content: flex-start;
   }
 
   .calendar-rail {
