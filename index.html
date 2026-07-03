@@ -19,6 +19,14 @@
     <link rel="icon" type="image/png" href="./assets/favicon.png" />
     <link rel="apple-touch-icon" href="./assets/favicon.png" />
     <link rel="stylesheet" href="./styles.css" />
+    <script>
+      window.va =
+        window.va ||
+        function () {
+          (window.vaq = window.vaq || []).push(arguments);
+        };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
   </head>
   <body>
     <div class="wall-texture" aria-hidden="true"></div>
@@ -673,6 +681,17 @@
         return url.href;
       }
 
+      function trackTicketClick(slug, target) {
+        if (typeof window.va !== "function") {
+          return;
+        }
+
+        window.va("event", "ticket_click", {
+          slug,
+          destination: new URL(target).hostname,
+        });
+      }
+
       function redirectGoRoute() {
         const match = window.location.pathname.match(/^\/go\/([^/]+)\/?$/);
 
@@ -689,7 +708,10 @@
           return true;
         }
 
-        window.location.replace(getTrackedTicketUrl(target, slug));
+        trackTicketClick(slug, target);
+        window.setTimeout(() => {
+          window.location.replace(getTrackedTicketUrl(target, slug));
+        }, 240);
         return true;
       }
 
