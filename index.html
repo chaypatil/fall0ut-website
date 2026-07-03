@@ -100,6 +100,14 @@
               <p class="event-date">10 Jul 2026</p>
               <h3>Continuum</h3>
               <p class="event-location">The Tivoli / Delhi NCR</p>
+              <p
+                class="event-countdown"
+                data-countdown
+                data-event-start="2026-07-10T20:00:00+05:30"
+                aria-live="polite"
+              >
+                Calculating time left
+              </p>
               <span class="event-cta">
                 <span>Get tickets</span>
                 <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -130,6 +138,14 @@
               <p class="event-date">11 Jul 2026</p>
               <h3>Aiden</h3>
               <p class="event-location">AntiSocial / Mumbai</p>
+              <p
+                class="event-countdown"
+                data-countdown
+                data-event-start="2026-07-11T20:00:00+05:30"
+                aria-live="polite"
+              >
+                Calculating time left
+              </p>
               <span class="event-cta">
                 <span>Get tickets</span>
                 <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -160,6 +176,14 @@
               <p class="event-date">12 Jul 2026</p>
               <h3>Riana Holley</h3>
               <p class="event-location">OPA / Mumbai</p>
+              <p
+                class="event-countdown"
+                data-countdown
+                data-event-start="2026-07-12T22:00:00+05:30"
+                aria-live="polite"
+              >
+                Calculating time left
+              </p>
               <span class="event-cta">
                 <span>Get tickets</span>
                 <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -373,6 +397,13 @@
                 <time datetime="2026-07-10">10 Jul</time>
                 <strong>Continuum x Aiden</strong>
                 <span>The Tivoli / Delhi NCR</span>
+                <span
+                  class="calendar-countdown"
+                  data-countdown
+                  data-event-start="2026-07-10T20:00:00+05:30"
+                >
+                  Calculating time left
+                </span>
               </a>
               <a
                 class="calendar-event is-upcoming"
@@ -383,6 +414,13 @@
                 <time datetime="2026-07-11">11 Jul</time>
                 <strong>Aiden Mumbai</strong>
                 <span>AntiSocial / Mumbai</span>
+                <span
+                  class="calendar-countdown"
+                  data-countdown
+                  data-event-start="2026-07-11T20:00:00+05:30"
+                >
+                  Calculating time left
+                </span>
               </a>
               <a
                 class="calendar-event is-upcoming"
@@ -393,6 +431,13 @@
                 <time datetime="2026-07-12">12 Jul</time>
                 <strong>Riana Holley Mumbai</strong>
                 <span>OPA / Mumbai</span>
+                <span
+                  class="calendar-countdown"
+                  data-countdown
+                  data-event-start="2026-07-12T22:00:00+05:30"
+                >
+                  Calculating time left
+                </span>
               </a>
               <article class="calendar-event is-tba">
                 <time datetime="2026-07-25">25 Jul</time>
@@ -693,6 +738,52 @@
         });
       }
 
+      function formatTimeLeft(milliseconds) {
+        const minute = 60 * 1000;
+        const hour = 60 * minute;
+        const day = 24 * hour;
+
+        if (milliseconds <= -6 * hour) {
+          return "Tickets closed";
+        }
+
+        if (milliseconds <= 0) {
+          return "Starts now";
+        }
+
+        const days = Math.floor(milliseconds / day);
+        const hours = Math.floor((milliseconds % day) / hour);
+        const minutes = Math.floor((milliseconds % hour) / minute);
+
+        if (days > 0) {
+          return `${days} ${days === 1 ? "day" : "days"} ${hours} ${
+            hours === 1 ? "hr" : "hrs"
+          } left`;
+        }
+
+        if (hours > 0) {
+          return `${hours} ${hours === 1 ? "hr" : "hrs"} ${minutes} ${
+            minutes === 1 ? "min" : "mins"
+          } left`;
+        }
+
+        return `${Math.max(1, minutes)} ${minutes === 1 ? "min" : "mins"} left`;
+      }
+
+      function updateCountdowns() {
+        const now = Date.now();
+
+        document.querySelectorAll("[data-countdown][data-event-start]").forEach((node) => {
+          const eventTime = new Date(node.dataset.eventStart).getTime();
+
+          if (Number.isNaN(eventTime)) {
+            return;
+          }
+
+          node.textContent = formatTimeLeft(eventTime - now);
+        });
+      }
+
       function redirectGoRoute() {
         const match = window.location.pathname.match(/^\/go\/([^/]+)\/?$/);
 
@@ -750,9 +841,11 @@
       });
 
       updateScrollState();
+      updateCountdowns();
       window.addEventListener("scroll", updateScrollState, { passive: true });
       window.addEventListener("resize", updateScrollState);
       window.addEventListener("popstate", () => handlePathRoute());
+      window.setInterval(updateCountdowns, 30000);
       window.addEventListener("load", () => {
         if (redirectGoRoute()) {
           return;

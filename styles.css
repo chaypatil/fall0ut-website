@@ -422,6 +422,20 @@ h2 {
   line-height: 1.35;
 }
 
+.event-countdown {
+  justify-self: start;
+  margin: 16px 0 0;
+  padding: 7px 10px;
+  border: 1px solid rgba(122, 216, 203, 0.34);
+  color: #dff7f2;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
 .event-cta {
   display: inline-flex;
   align-items: center;
@@ -563,6 +577,16 @@ a.calendar-event:focus-visible {
   color: var(--muted);
   font-size: 0.82rem;
   line-height: 1.35;
+}
+
+.calendar-event .calendar-countdown {
+  color: #dff7f2;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .calendar-event.is-past {
