@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <base href="/" />
+    <title>FØ Moments | FALL0UT INDIA</title>
+    <meta
+      name="description"
+      content="FØ Moments from FALL0UT India's hard techno and underground rave community."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preload" as="image" href="./assets/fall0ut-wordmark-cropped.webp" />
+    <link rel="icon" href="./assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="./assets/favicon.png" />
+    <link rel="apple-touch-icon" href="./assets/favicon.png" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script>
+      window.va =
+        window.va ||
+        function () {
+          (window.vaq = window.vaq || []).push(arguments);
+        };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </head>
+  <body class="moments-page">
+    <div class="wall-texture" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <nav class="header-inner" aria-label="Primary navigation">
+        <div class="nav-cluster">
+          <a href="/events" class="nav-link">Events</a>
+        </div>
+        <a class="header-brand" href="/" aria-label="FALL0UT India">
+          <span class="wordmark-crop compact">
+            <img src="./assets/fall0ut-wordmark-cropped.webp" alt="" width="900" height="378" />
+          </span>
+          <span class="india-label">India</span>
+        </a>
+        <a href="/contact" class="nav-link nav-link--right">Contact</a>
+      </nav>
+    </header>
+
+    <main id="top" class="moments-page-main">
+      <section class="section moments-gallery-section moments-gallery-page" id="moments" aria-labelledby="moments-gallery-title">
+        <div class="section-heading">
+          <div>
+            <h1 id="moments-gallery-title" class="page-title">FØ Moments</h1>
+          </div>
+        </div>
+        <div class="moments-gallery-grid" aria-label="FØ moments gallery">
+          <figure class="gallery-card">
+            <img src="./assets/moments/moment-01.webp" alt="FØ Moments gallery 01" loading="lazy" decoding="async" />
+          </figure>
+          <figure class="gallery-card">
+            <img src="./assets/moments/moment-02.webp" alt="FØ Moments gallery 02" loading="lazy" decoding="async" />
+          </figure>
+          <figure class="gallery-card">
+            <img src="./assets/moments/moment-03.webp" alt="FØ Moments gallery 03" loading="lazy" decoding="async" />
+          </figure>
+          <figure class="gallery-card">
+            <img src="./assets/moments/moment-04.webp" alt="FØ Moments gallery 04" loading="lazy" decoding="async" />
+          </figure>
+          <figure class="gallery-card gallery-card--wide">
+            <img src="./assets/moments/moment-05.webp" alt="FØ Moments gallery 05" loading="lazy" decoding="async" />
+          </figure>
+          <figure class="gallery-card gallery-card--wide">
+            <img src="./assets/moments/moment-06.webp" alt="FØ Moments gallery 06" loading="lazy" decoding="async" />
+          </figure>
+          <figure class="gallery-card">
+            <img
+              src="./assets/moments/library/rejected-highlight-01.webp"
+              alt="FØ Moments gallery library 01"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+          <figure class="gallery-card">
+            <img
+              src="./assets/moments/library/rejected-highlight-02.webp"
+              alt="FØ Moments gallery library 02"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+          <figure class="gallery-card gallery-card--wide">
+            <img
+              src="./assets/moments/library/rejected-highlight-03.webp"
+              alt="FØ Moments gallery library 03"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" aria-label="Footer">
+      <span>FALL0UT India</span>
+      <nav aria-label="Footer links">
+        <a href="https://www.instagram.com/fall0utindia" target="_blank" rel="noreferrer">
+          Instagram
+        </a>
+        <a href="https://wa.me/919516894286" target="_blank" rel="noreferrer">WhatsApp DM</a>
+        <a
+          href="https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Community
+        </a>
+      </nav>
+    </footer>
+
+    <script>
+      function bindTouchActive(selector) {
+        document.querySelectorAll(selector).forEach((card) => {
+          const activate = () => card.classList.add("is-touch-active");
+          const deactivate = () => {
+            window.setTimeout(() => card.classList.remove("is-touch-active"), 220);
+          };
+
+          card.addEventListener("pointerdown", activate);
+          card.addEventListener("pointerup", deactivate);
+          card.addEventListener("pointerleave", deactivate);
+          card.addEventListener("pointercancel", deactivate);
+          card.addEventListener("touchstart", activate, { passive: true });
+          card.addEventListener("touchend", deactivate, { passive: true });
+          card.addEventListener("touchcancel", deactivate, { passive: true });
+        });
+      }
+
+      bindTouchActive(".gallery-card");
+    </script>
+  </body>
+</html>

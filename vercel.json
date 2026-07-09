@@ -18,7 +18,7 @@
     },
     {
       "source": "/moments",
-      "destination": "/index.html"
+      "destination": "/moments.html"
     },
     {
       "source": "/community",

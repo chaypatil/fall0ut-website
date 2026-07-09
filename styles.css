@@ -330,6 +330,17 @@ h2 {
   letter-spacing: 0.16em;
 }
 
+.page-title {
+  margin: 0;
+  color: #e2ece9;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(2.4rem, 5vw, 5.4rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
 .featured-events {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -733,7 +744,8 @@ a.calendar-event:focus-visible {
 }
 
 .moment-card:hover img,
-.moment-card:focus-within img {
+.moment-card:focus-within img,
+.moment-card.is-touch-active img {
   filter: grayscale(0) saturate(1) contrast(1.02) brightness(0.94);
   transform: scale(1.045);
 }
@@ -807,6 +819,27 @@ a.calendar-event:focus-visible {
   padding-top: 10px;
 }
 
+.moments-page {
+  --header-bg: 0.9;
+  --header-border: 0.28;
+  --header-shadow: 0.32;
+  --header-brand-opacity: 1;
+  --header-brand-y: 0px;
+  --header-brand-scale: 1;
+  background:
+    linear-gradient(180deg, rgba(3, 22, 20, 0.38) 0, rgba(1, 5, 4, 0.98) 360px),
+    linear-gradient(112deg, rgba(0, 91, 82, 0.08), transparent 42%),
+    var(--bg);
+}
+
+.moments-page-main {
+  padding-top: clamp(104px, 12vw, 146px);
+}
+
+.moments-gallery-page {
+  min-height: calc(100vh - 220px);
+}
+
 .moments-gallery-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -845,7 +878,8 @@ a.calendar-event:focus-visible {
 }
 
 .gallery-card:hover img,
-.gallery-card:focus-within img {
+.gallery-card:focus-within img,
+.gallery-card.is-touch-active img {
   filter: grayscale(0) saturate(1) contrast(1.02) brightness(0.96);
   transform: scale(1.035);
 }

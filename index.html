@@ -571,58 +571,6 @@
         </details>
       </section>
 
-      <section class="section moments-gallery-section" id="moments" aria-labelledby="moments-gallery-title">
-        <div class="section-heading">
-          <div>
-            <h2 id="moments-gallery-title">FØ Moments</h2>
-          </div>
-        </div>
-        <div class="moments-gallery-grid" aria-label="FØ moments gallery">
-          <figure class="gallery-card">
-            <img src="./assets/moments/moment-01.webp" alt="FØ Moments gallery 01" loading="lazy" decoding="async" />
-          </figure>
-          <figure class="gallery-card">
-            <img src="./assets/moments/moment-02.webp" alt="FØ Moments gallery 02" loading="lazy" decoding="async" />
-          </figure>
-          <figure class="gallery-card">
-            <img src="./assets/moments/moment-03.webp" alt="FØ Moments gallery 03" loading="lazy" decoding="async" />
-          </figure>
-          <figure class="gallery-card">
-            <img src="./assets/moments/moment-04.webp" alt="FØ Moments gallery 04" loading="lazy" decoding="async" />
-          </figure>
-          <figure class="gallery-card gallery-card--wide">
-            <img src="./assets/moments/moment-05.webp" alt="FØ Moments gallery 05" loading="lazy" decoding="async" />
-          </figure>
-          <figure class="gallery-card gallery-card--wide">
-            <img src="./assets/moments/moment-06.webp" alt="FØ Moments gallery 06" loading="lazy" decoding="async" />
-          </figure>
-          <figure class="gallery-card">
-            <img
-              src="./assets/moments/library/rejected-highlight-01.webp"
-              alt="FØ Moments gallery library 01"
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-          <figure class="gallery-card">
-            <img
-              src="./assets/moments/library/rejected-highlight-02.webp"
-              alt="FØ Moments gallery library 02"
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-          <figure class="gallery-card gallery-card--wide">
-            <img
-              src="./assets/moments/library/rejected-highlight-03.webp"
-              alt="FØ Moments gallery library 03"
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-        </div>
-      </section>
-
       <section class="section join-section" id="join" aria-labelledby="join-title">
         <div class="join-panel">
           <div>
@@ -711,7 +659,6 @@
         ["/calendar", "calendar"],
         ["/rave-calendar", "calendar"],
         ["/announcements", "announcements"],
-        ["/moments", "moments"],
         ["/community", "join"],
         ["/contact", "contact"],
       ]);
@@ -899,19 +846,25 @@
         scrollToSection(sectionId);
       });
 
-      document.querySelectorAll(".event-feature").forEach((card) => {
-        const activate = () => card.classList.add("is-touch-active");
-        const deactivate = () => {
-          window.setTimeout(() => card.classList.remove("is-touch-active"), 180);
-        };
+      function bindTouchActive(selector) {
+        document.querySelectorAll(selector).forEach((card) => {
+          const activate = () => card.classList.add("is-touch-active");
+          const deactivate = () => {
+            window.setTimeout(() => card.classList.remove("is-touch-active"), 220);
+          };
 
-        card.addEventListener("pointerdown", activate);
-        card.addEventListener("pointerleave", deactivate);
-        card.addEventListener("pointercancel", deactivate);
-        card.addEventListener("touchstart", activate, { passive: true });
-        card.addEventListener("touchend", deactivate, { passive: true });
-        card.addEventListener("touchcancel", deactivate, { passive: true });
-      });
+          card.addEventListener("pointerdown", activate);
+          card.addEventListener("pointerup", deactivate);
+          card.addEventListener("pointerleave", deactivate);
+          card.addEventListener("pointercancel", deactivate);
+          card.addEventListener("touchstart", activate, { passive: true });
+          card.addEventListener("touchend", deactivate, { passive: true });
+          card.addEventListener("touchcancel", deactivate, { passive: true });
+        });
+      }
+
+      bindTouchActive(".event-feature");
+      bindTouchActive(".moment-card");
 
       updateScrollState();
       updateCountdowns();
