@@ -719,27 +719,74 @@ a.calendar-event:focus-visible {
   scroll-snap-align: start;
 }
 
-.moment-placeholder {
+.moment-card img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) saturate(0.86) contrast(1.08) brightness(0.74);
+  transform: scale(1.01);
+  transition:
+    filter 220ms ease,
+    transform 220ms ease;
+}
+
+.moment-card:hover img,
+.moment-card:focus-within img {
+  filter: grayscale(0) saturate(1) contrast(1.02) brightness(0.94);
+  transform: scale(1.045);
+}
+
+.moment-card:nth-child(3) img,
+.moment-card:nth-child(5) img {
+  object-position: center top;
+}
+
+.moment-more {
+  display: grid;
+  align-content: end;
+  gap: 18px;
+  min-width: 100%;
+  padding: 20px;
+  color: #ffffff;
+  text-decoration: none;
   background:
-    linear-gradient(180deg, rgba(1, 5, 4, 0.12), rgba(1, 5, 4, 0.76)),
+    linear-gradient(180deg, rgba(122, 216, 203, 0.13), rgba(1, 5, 4, 0.74)),
     url("./assets/fallout-stage-bg.jpeg") center / cover no-repeat;
-  filter: grayscale(1) saturate(0.78) contrast(1.08) brightness(0.72);
 }
 
-.moment-card:nth-child(2) .moment-placeholder {
-  background-position: 34% 62%;
+.moment-more span,
+.moment-more svg {
+  position: relative;
+  z-index: 2;
 }
 
-.moment-card:nth-child(3) .moment-placeholder {
-  background-position: 50% 44%;
+.moment-more span {
+  max-width: 11rem;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(2rem, 2.8vw, 3rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 0.92;
+  text-transform: uppercase;
 }
 
-.moment-card:nth-child(4) .moment-placeholder {
-  background-position: 72% 58%;
+.moment-more svg {
+  justify-self: end;
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  transition: transform 180ms ease;
+}
+
+.moment-more:hover svg,
+.moment-more:focus-visible svg {
+  transform: translate(3px, -3px);
 }
 
 .moment-card::after {
@@ -747,6 +794,7 @@ a.calendar-event:focus-visible {
   position: absolute;
   inset: 0;
   z-index: 1;
+  pointer-events: none;
   background:
     linear-gradient(180deg, transparent 34%, rgba(0, 0, 0, 0.72)),
     linear-gradient(90deg, rgba(122, 216, 203, 0.12), transparent 42%);
@@ -1022,6 +1070,11 @@ a.calendar-event:focus-visible {
   .event-feature:active .event-art img,
   .event-feature.is-touch-active .event-art img {
     filter: grayscale(0) contrast(1.04) brightness(0.98);
+    transform: scale(1.045);
+  }
+
+  .moment-card:active img {
+    filter: grayscale(0) saturate(1) contrast(1.02) brightness(0.94);
     transform: scale(1.045);
   }
 }
