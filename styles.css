@@ -8,7 +8,7 @@
   --line: rgba(218, 255, 247, 0.13);
   --line-strong: rgba(218, 255, 247, 0.28);
   --header-bg: 0.1;
-  --header-border: 0.12;
+  --header-border: 0;
   --header-shadow: 0.08;
   --header-brand-opacity: 0;
   --header-brand-y: 8px;
@@ -99,14 +99,29 @@ svg {
   right: clamp(10px, 3vw, 48px);
   z-index: 30;
   background: rgba(1, 5, 4, var(--header-bg));
-  border: 1px solid rgba(218, 255, 247, var(--header-border));
   border-radius: 6px;
   box-shadow: 0 16px 46px rgba(0, 0, 0, var(--header-shadow));
   backdrop-filter: blur(18px);
   transition:
     background 180ms ease,
-    border-color 180ms ease,
     box-shadow 180ms ease;
+}
+
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: calc(100% - 1.5px);
+  height: 3px;
+  pointer-events: none;
+  opacity: var(--header-border);
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(218, 255, 247, 0.26),
+    transparent
+  );
 }
 
 .header-inner {
@@ -223,13 +238,7 @@ svg {
 }
 
 .hero::after {
-  content: "";
-  position: absolute;
-  left: 6vw;
-  right: 6vw;
-  bottom: 34px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(122, 216, 203, 0.28), transparent);
+  display: none;
 }
 
 .hero-lockup {
@@ -275,9 +284,7 @@ svg {
 }
 
 .section-heading > div::after {
-  content: "";
-  height: 1px;
-  background: linear-gradient(90deg, rgba(122, 216, 203, 0.34), transparent);
+  display: none;
 }
 
 .eyebrow {
@@ -344,21 +351,17 @@ h2 {
 .featured-events {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid var(--line-strong);
-  border-left: 1px solid var(--line-strong);
+  gap: 10px;
 }
 
 .event-feature {
   display: grid;
   grid-template-rows: auto 1fr;
   min-width: 0;
-  border-right: 1px solid var(--line-strong);
-  border-bottom: 1px solid var(--line-strong);
   background: rgba(1, 5, 4, 0.64);
   text-decoration: none;
   transition:
-    background 180ms ease,
-    border-color 180ms ease;
+    background 180ms ease;
 }
 
 .event-feature:hover,
@@ -410,7 +413,6 @@ h2 {
   align-content: start;
   min-height: 214px;
   padding: clamp(24px, 3vw, 34px) clamp(18px, 2.4vw, 28px);
-  border-top: 1px solid var(--line);
 }
 
 .event-date {
@@ -474,16 +476,14 @@ h2 {
 .stats-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
   margin-top: clamp(34px, 5vw, 64px);
-  border-top: 1px solid var(--line-strong);
-  border-left: 1px solid var(--line-strong);
 }
 
 .stat-cell {
   min-height: clamp(136px, 12vw, 180px);
   padding: clamp(24px, 3vw, 38px);
-  border-right: 1px solid var(--line-strong);
-  border-bottom: 1px solid var(--line-strong);
+  background: rgba(1, 5, 4, 0.5);
 }
 
 .stat-cell span {
@@ -507,8 +507,6 @@ h2 {
 }
 
 .calendar-shell {
-  border-top: 1px solid var(--line-strong);
-  border-left: 1px solid var(--line-strong);
   overflow: hidden;
 }
 
@@ -516,6 +514,7 @@ h2 {
   display: grid;
   grid-auto-columns: minmax(300px, 25vw);
   grid-auto-flow: column;
+  gap: 10px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-color: rgba(122, 216, 203, 0.72) rgba(255, 255, 255, 0.08);
@@ -525,8 +524,6 @@ h2 {
   display: grid;
   align-content: start;
   min-height: 430px;
-  border-right: 1px solid var(--line-strong);
-  border-bottom: 1px solid var(--line-strong);
   background: rgba(1, 5, 4, 0.54);
   scroll-snap-align: start;
 }
@@ -542,7 +539,6 @@ h2 {
   gap: 10px;
   min-height: 100px;
   padding: 20px 22px 18px;
-  border-bottom: 1px solid var(--line);
 }
 
 .month-card header span {
@@ -561,7 +557,6 @@ h2 {
   gap: 7px;
   min-height: 82px;
   padding: 14px 22px;
-  border-bottom: 1px solid var(--line);
   color: #dce6e3;
   text-decoration: none;
 }
@@ -640,15 +635,12 @@ a.calendar-event:focus-visible {
 .announcement-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid var(--line-strong);
-  border-left: 1px solid var(--line-strong);
+  gap: 10px;
 }
 
 .announcement-card {
   min-height: 196px;
   padding: clamp(22px, 3vw, 34px);
-  border-right: 1px solid var(--line-strong);
-  border-bottom: 1px solid var(--line-strong);
   background: rgba(1, 5, 4, 0.58);
 }
 
@@ -677,7 +669,7 @@ a.calendar-event:focus-visible {
 }
 
 .moments-accordion {
-  border: 1px solid var(--line-strong);
+  border: 0;
   background:
     linear-gradient(90deg, rgba(122, 216, 203, 0.06), transparent 36%),
     rgba(1, 5, 4, 0.6);
@@ -723,7 +715,6 @@ a.calendar-event:focus-visible {
   position: relative;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  border: 1px solid var(--line);
   border-radius: 5px;
   background: #050908;
   isolation: isolate;
@@ -902,7 +893,6 @@ a.calendar-event:focus-visible {
   min-height: 0;
   margin: 0;
   overflow: hidden;
-  border: 1px solid var(--line);
   border-radius: 5px;
   background: #050908;
   isolation: isolate;
@@ -945,7 +935,6 @@ a.calendar-event:focus-visible {
   align-items: center;
   gap: 24px;
   padding: clamp(22px, 4vw, 42px);
-  border: 1px solid var(--line-strong);
   border-radius: 6px;
   background:
     linear-gradient(90deg, rgba(122, 216, 203, 0.08), transparent 36%),
@@ -977,8 +966,7 @@ a.calendar-event:focus-visible {
 .contact-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  border-top: 1px solid var(--line);
-  border-left: 1px solid var(--line);
+  gap: 10px;
 }
 
 .contact-row {
@@ -988,8 +976,7 @@ a.calendar-event:focus-visible {
   gap: 16px;
   min-height: 78px;
   padding: 0 22px;
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  background: rgba(1, 5, 4, 0.48);
   color: #dce6e3;
   text-decoration: none;
   transition:
@@ -1026,7 +1013,6 @@ a.calendar-event:focus-visible {
   max-width: 1480px;
   margin: 0 auto;
   padding: 22px clamp(18px, 4.2vw, 80px) 34px;
-  border-top: 1px solid var(--line);
   color: var(--muted);
 }
 

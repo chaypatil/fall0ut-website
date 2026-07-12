@@ -697,7 +697,7 @@
         root.style.setProperty("--header-brand-y", `${Math.round((1 - headerBrandOpacity) * 8)}px`);
         root.style.setProperty("--header-brand-scale", (0.94 + headerBrandOpacity * 0.06).toFixed(3));
         root.style.setProperty("--header-bg", (0.12 + progress * 0.78).toFixed(3));
-        root.style.setProperty("--header-border", (0.08 + progress * 0.2).toFixed(3));
+        root.style.setProperty("--header-border", (progress * 0.28).toFixed(3));
         root.style.setProperty("--header-shadow", (0.08 + progress * 0.26).toFixed(3));
         document.body.classList.toggle("has-scrolled", window.scrollY > 8);
       }
