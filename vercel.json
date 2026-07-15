@@ -21,6 +21,10 @@
       "destination": "/moments.html"
     },
     {
+      "source": "/f0moments",
+      "destination": "/moments.html"
+    },
+    {
       "source": "/community",
       "destination": "/index.html"
     },
