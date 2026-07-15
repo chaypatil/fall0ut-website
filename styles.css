@@ -256,7 +256,7 @@ svg {
   width: 106%;
   height: 106%;
   object-fit: cover;
-  filter: saturate(0.92) contrast(1.08) brightness(0.72);
+  filter: saturate(0.92) contrast(1.08) brightness(0.79);
 }
 
 .hero-video--desktop {
