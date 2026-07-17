@@ -104,6 +104,57 @@
         </div>
       </section>
 
+      <section class="section focus-section" id="focus" aria-labelledby="focus-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="focus-title">In Focus</h2>
+            <p class="eyebrow">Priority drop</p>
+          </div>
+        </div>
+
+        <article class="focus-event">
+          <div class="focus-art">
+            <img
+              src="./assets/steelworks-festival.png"
+              alt="Steelworks India Tour poster announcing Mumbai on 21 August"
+              width="508"
+              height="626"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+          <div class="focus-copy">
+            <p class="event-date">21 Aug 2026 / Mumbai</p>
+            <h3>Steelworks Festival</h3>
+            <p class="focus-description">
+              Steelworks brings its India tour to Mumbai for the campaign at the front of our queue.
+              Venue details and ticket access will drop next.
+            </p>
+            <dl class="focus-details">
+              <div>
+                <dt>Date</dt>
+                <dd>Friday, 21 August 2026</dd>
+              </div>
+              <div>
+                <dt>Venue</dt>
+                <dd>To be announced / Mumbai</dd>
+              </div>
+            </dl>
+            <a
+              class="primary-button focus-cta"
+              href="https://wa.me/919516894286?text=Hi%20Fall0ut%2C%20I%27m%20interested%20in%20Steelworks%20Festival%20Mumbai%20tickets."
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span>Join ticket list</span>
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      </section>
+
       <section class="section events-section" id="events" aria-labelledby="events-title">
         <div class="section-heading">
           <div>
@@ -348,7 +399,7 @@
           </div>
           <div class="stat-cell">
             <span>Upcoming events</span>
-            <strong>4</strong>
+            <strong>5</strong>
           </div>
         </div>
       </section>
@@ -594,6 +645,16 @@
                   Calculating time left
                 </span>
               </a>
+              <a
+                class="calendar-event is-upcoming"
+                href="https://wa.me/919516894286?text=Hi%20Fall0ut%2C%20I%27m%20interested%20in%20Steelworks%20Festival%20Mumbai%20tickets."
+                target="_blank"
+                rel="noreferrer"
+              >
+                <time datetime="2026-08-21">21 Aug</time>
+                <strong>Steelworks Festival</strong>
+                <span>Venue TBA / Mumbai</span>
+              </a>
             </section>
 
             <section class="month-card" aria-labelledby="sep-title">
@@ -634,8 +695,8 @@
         <div class="announcement-grid">
           <article class="announcement-card">
             <span>01</span>
-            <h3>IMHAPPY Incoming</h3>
-            <p>IMHAPPY hits this week with a masked, high-pressure night for the ones who move early.</p>
+            <h3>Steelworks India Tour</h3>
+            <p>Steelworks Festival lands in Mumbai on August 21. Venue details and ticket access follow.</p>
           </article>
           <article class="announcement-card">
             <span>02</span>
@@ -777,6 +838,46 @@
         </div>
       </section>
     </main>
+
+    <aside
+      class="community-popup"
+      data-community-popup
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="community-popup-title"
+      aria-describedby="community-popup-description"
+      hidden
+    >
+      <button
+        class="community-popup-close"
+        type="button"
+        data-community-popup-close
+        aria-label="Close community invitation"
+        title="Close community invitation"
+      >
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <path d="m6 6 12 12M18 6 6 18" />
+        </svg>
+      </button>
+      <p class="eyebrow">Community</p>
+      <h2 id="community-popup-title">Stay close to the drop</h2>
+      <p id="community-popup-description">
+        Join India's hardest underground rave community for early ticket access, giveaways, and up
+        to 20% off your next raves.
+      </p>
+      <a
+        class="primary-button community-popup-cta"
+        href="https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <span>Join community</span>
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5.2 18.8 6 15.6a7.2 7.2 0 1 1 2.5 2.3l-3.3.9Z" />
+          <path d="M9.4 8.5c.4 2.8 2.1 4.5 5 5.1l1.2-1.2 2.1.9c.1 1.6-.9 2.6-2.8 2.6-3.4 0-7-3.5-7-7 0-1.8.9-2.8 2.5-2.7l.9 2.1-1.9 1.2Z" />
+        </svg>
+      </a>
+    </aside>
 
     <footer class="site-footer" aria-label="Footer">
       <span>FALL0UT India</span>
@@ -951,7 +1052,7 @@
           return;
         }
 
-        const rotationDelay = 5000;
+        const rotationDelay = 3000;
         const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
         let activeIndex = 0;
         let rotationTimer = null;
@@ -1048,6 +1149,62 @@
         scheduleRotation();
       }
 
+      function setupCommunityPopup() {
+        const popup = document.querySelector("[data-community-popup]");
+
+        if (!popup) {
+          return;
+        }
+
+        const closeButton = popup.querySelector("[data-community-popup-close]");
+        const communityLink = popup.querySelector("a[href]");
+        const storageKey = "fall0ut-community-popup-dismissed";
+
+        try {
+          if (window.sessionStorage.getItem(storageKey) === "true") {
+            return;
+          }
+        } catch {
+          // The invite still works when browser storage is unavailable.
+        }
+
+        function rememberDismissal() {
+          try {
+            window.sessionStorage.setItem(storageKey, "true");
+          } catch {
+            // Storage can be blocked in strict privacy modes.
+          }
+        }
+
+        function closePopup() {
+          popup.classList.remove("is-visible");
+          rememberDismissal();
+          window.setTimeout(() => {
+            popup.hidden = true;
+          }, 220);
+        }
+
+        function showPopup() {
+          if (document.hidden) {
+            document.addEventListener("visibilitychange", showPopup, { once: true });
+            return;
+          }
+
+          popup.hidden = false;
+          window.requestAnimationFrame(() => popup.classList.add("is-visible"));
+        }
+
+        closeButton.addEventListener("click", closePopup);
+        communityLink.addEventListener("click", closePopup);
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && !popup.hidden) {
+            closePopup();
+          }
+        });
+
+        window.setTimeout(showPopup, 8000);
+      }
+
       function redirectGoRoute() {
         const match = window.location.pathname.match(/^\/go\/([^/]+)\/?$/);
 
@@ -1110,6 +1267,7 @@
       bindTouchActive(".event-feature");
       bindTouchActive(".moment-card");
       setupFeaturedCarousel();
+      setupCommunityPopup();
 
       updateScrollState();
       updateCountdowns();

@@ -401,6 +401,102 @@ h2 {
   letter-spacing: 0.16em;
 }
 
+.focus-event {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
+  min-height: clamp(570px, 50vw, 700px);
+  overflow: hidden;
+  background:
+    linear-gradient(112deg, rgba(37, 77, 155, 0.11), transparent 46%),
+    rgba(1, 4, 10, 0.68);
+}
+
+.focus-art {
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+  background: #02050b;
+}
+
+.focus-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent 52%, rgba(1, 4, 10, 0.58) 100%),
+    linear-gradient(90deg, transparent 72%, rgba(1, 4, 10, 0.34));
+}
+
+.focus-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.focus-copy {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  padding: clamp(34px, 6vw, 88px);
+}
+
+.focus-copy h3 {
+  max-width: 780px;
+  overflow-wrap: anywhere;
+  color: #ffffff;
+  font-size: clamp(3.2rem, 6.4vw, 6.8rem);
+  letter-spacing: 0.04em;
+}
+
+.focus-description {
+  max-width: 650px;
+  margin: 24px 0 0;
+  color: #c5d0dd;
+  font-size: clamp(1rem, 1.3vw, 1.16rem);
+  line-height: 1.6;
+}
+
+.focus-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 4vw, 64px);
+  width: min(100%, 650px);
+  margin: clamp(28px, 4vw, 46px) 0;
+}
+
+.focus-details div {
+  min-width: 0;
+}
+
+.focus-details dt,
+.focus-details dd {
+  margin: 0;
+}
+
+.focus-details dt {
+  color: var(--dim);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.focus-details dd {
+  margin-top: 8px;
+  color: #e2ece9;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.focus-cta {
+  width: auto;
+  min-width: 210px;
+}
+
 .page-title {
   margin: 0;
   color: #e2ece9;
@@ -1213,6 +1309,92 @@ a.calendar-event:focus-visible {
   display: block;
 }
 
+.community-popup {
+  position: fixed;
+  right: clamp(12px, 2.5vw, 36px);
+  bottom: clamp(12px, 2.5vw, 36px);
+  z-index: 80;
+  width: min(390px, calc(100vw - 24px));
+  padding: 26px;
+  border-radius: 6px;
+  background:
+    linear-gradient(135deg, rgba(48, 87, 173, 0.13), transparent 44%),
+    rgba(2, 7, 16, 0.97);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.54);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px);
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+  backdrop-filter: blur(18px);
+}
+
+.community-popup[hidden] {
+  display: none;
+}
+
+.community-popup.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.community-popup-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.community-popup-close:hover,
+.community-popup-close:focus-visible {
+  background: rgba(244, 248, 246, 0.08);
+  color: #ffffff;
+  outline: none;
+}
+
+.community-popup-close:focus-visible {
+  box-shadow: inset 0 0 0 1px rgba(244, 248, 246, 0.68);
+}
+
+.community-popup-close svg {
+  width: 19px;
+  height: 19px;
+}
+
+.community-popup .eyebrow {
+  padding-right: 48px;
+}
+
+.community-popup h2 {
+  max-width: 300px;
+  margin-top: 16px;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  letter-spacing: 0.08em;
+  line-height: 0.94;
+}
+
+.community-popup > p:not(.eyebrow) {
+  margin: 18px 0 0;
+  color: #becad7;
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.community-popup-cta {
+  width: 100%;
+  margin-top: 24px;
+}
+
 .site-footer {
   display: block;
   max-width: 1480px;
@@ -1248,6 +1430,19 @@ a.calendar-event:focus-visible {
 }
 
 @media (max-width: 920px) {
+  .focus-event {
+    grid-template-columns: minmax(280px, 0.88fr) minmax(0, 1.12fr);
+  }
+
+  .focus-copy {
+    padding: 34px;
+  }
+
+  .focus-details {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
   .event-feature {
     grid-template-columns: 1fr;
   }
@@ -1372,6 +1567,40 @@ a.calendar-event:focus-visible {
     min-height: 420px;
   }
 
+  .focus-event {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .focus-art {
+    min-height: 0;
+    aspect-ratio: 508 / 626;
+  }
+
+  .focus-art::after {
+    background: linear-gradient(180deg, transparent 70%, rgba(1, 4, 10, 0.54));
+  }
+
+  .focus-copy {
+    padding: 28px 20px 32px;
+  }
+
+  .focus-copy h3 {
+    font-size: clamp(3.1rem, 16vw, 5rem);
+  }
+
+  .focus-description {
+    margin-top: 18px;
+  }
+
+  .focus-details {
+    margin: 28px 0;
+  }
+
+  .focus-cta {
+    width: 100%;
+  }
+
   .month-card header,
   .calendar-event {
     padding-inline: 20px;
@@ -1450,6 +1679,12 @@ a.calendar-event:focus-visible {
 
   .primary-button {
     width: 100%;
+  }
+
+  .community-popup {
+    right: 12px;
+    bottom: 12px;
+    padding: 22px;
   }
 }
 
