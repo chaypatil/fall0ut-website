@@ -119,8 +119,20 @@
           </a>
         </div>
 
-        <div class="featured-events" aria-label="Featured upcoming events">
-          <a class="event-feature" href="/go/imhappy" target="_blank" rel="noreferrer">
+        <div
+          class="featured-carousel"
+          data-featured-carousel
+          aria-label="Featured upcoming events"
+          aria-roledescription="carousel"
+        >
+          <div class="featured-events" data-carousel-track>
+          <a
+            class="event-feature"
+            data-carousel-slide
+            href="/go/imhappy"
+            target="_blank"
+            rel="noreferrer"
+          >
             <div class="event-art">
               <img
                 src="./assets/imhappy-poster.webp"
@@ -153,7 +165,13 @@
             </div>
           </a>
 
-          <a class="event-feature" href="/go/eczodia" target="_blank" rel="noreferrer">
+          <a
+            class="event-feature"
+            data-carousel-slide
+            href="/go/eczodia"
+            target="_blank"
+            rel="noreferrer"
+          >
             <div class="event-art">
               <img
                 src="./assets/eczodia-poster.webp"
@@ -186,7 +204,13 @@
             </div>
           </a>
 
-          <a class="event-feature" href="/go/morfame" target="_blank" rel="noreferrer">
+          <a
+            class="event-feature"
+            data-carousel-slide
+            href="/go/morfame"
+            target="_blank"
+            rel="noreferrer"
+          >
             <div class="event-art">
               <img
                 src="./assets/morfame-poster.webp"
@@ -219,7 +243,13 @@
             </div>
           </a>
 
-          <a class="event-feature" href="/go/shdw" target="_blank" rel="noreferrer">
+          <a
+            class="event-feature"
+            data-carousel-slide
+            href="/go/shdw"
+            target="_blank"
+            rel="noreferrer"
+          >
             <div class="event-art">
               <img
                 src="./assets/shdw-poster.webp"
@@ -253,6 +283,54 @@
               </span>
             </div>
           </a>
+          </div>
+
+          <div class="carousel-controls">
+            <p class="carousel-status" data-carousel-status aria-label="Event 1 of 4">
+              <span data-carousel-current>01</span>
+              <span aria-hidden="true">/</span>
+              <span data-carousel-total>04</span>
+            </p>
+
+            <div class="carousel-actions" aria-label="Featured event controls">
+              <button
+                class="carousel-button"
+                type="button"
+                data-carousel-prev
+                aria-label="Previous event"
+                title="Previous event"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+              </button>
+              <button
+                class="carousel-button carousel-toggle"
+                type="button"
+                data-carousel-toggle
+                aria-label="Pause automatic rotation"
+                title="Pause automatic rotation"
+              >
+                <svg class="carousel-icon carousel-icon--pause" aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M9 5v14M15 5v14" />
+                </svg>
+                <svg class="carousel-icon carousel-icon--play" aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="m8 5 11 7-11 7Z" />
+                </svg>
+              </button>
+              <button
+                class="carousel-button"
+                type="button"
+                data-carousel-next
+                aria-label="Next event"
+                title="Next event"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
 
         <div class="stats-strip" aria-label="FALL0UT event stats">
@@ -853,6 +931,130 @@
         });
       }
 
+      function setupFeaturedCarousel() {
+        const carousel = document.querySelector("[data-featured-carousel]");
+
+        if (!carousel) {
+          return;
+        }
+
+        const track = carousel.querySelector("[data-carousel-track]");
+        const slides = Array.from(carousel.querySelectorAll("[data-carousel-slide]"));
+        const previousButton = carousel.querySelector("[data-carousel-prev]");
+        const nextButton = carousel.querySelector("[data-carousel-next]");
+        const toggleButton = carousel.querySelector("[data-carousel-toggle]");
+        const status = carousel.querySelector("[data-carousel-status]");
+        const currentNumber = carousel.querySelector("[data-carousel-current]");
+        const totalNumber = carousel.querySelector("[data-carousel-total]");
+
+        if (!track || slides.length < 2) {
+          return;
+        }
+
+        const rotationDelay = 5000;
+        const hoverQuery = window.matchMedia("(hover: hover)");
+        const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        let activeIndex = 0;
+        let rotationTimer = null;
+        let isInView = true;
+        let isPaused = reducedMotionQuery.matches;
+
+        function updateToggle() {
+          toggleButton.dataset.paused = String(isPaused);
+          toggleButton.setAttribute(
+            "aria-label",
+            isPaused ? "Start automatic rotation" : "Pause automatic rotation",
+          );
+          toggleButton.title = isPaused ? "Start automatic rotation" : "Pause automatic rotation";
+        }
+
+        function renderSlide() {
+          track.style.transform = `translate3d(-${activeIndex * 100}%, 0, 0)`;
+
+          slides.forEach((slide, index) => {
+            const isActive = index === activeIndex;
+            slide.classList.toggle("is-active", isActive);
+            slide.setAttribute("aria-hidden", String(!isActive));
+            slide.tabIndex = isActive ? 0 : -1;
+          });
+
+          const displayedIndex = String(activeIndex + 1).padStart(2, "0");
+          const displayedTotal = String(slides.length).padStart(2, "0");
+          currentNumber.textContent = displayedIndex;
+          totalNumber.textContent = displayedTotal;
+          status.setAttribute("aria-label", `Event ${activeIndex + 1} of ${slides.length}`);
+        }
+
+        function stopRotation() {
+          if (rotationTimer !== null) {
+            window.clearTimeout(rotationTimer);
+            rotationTimer = null;
+          }
+        }
+
+        function shouldRotate() {
+          const pointerIsHovering = hoverQuery.matches && carousel.matches(":hover");
+          const slideHasFocus = track.contains(document.activeElement);
+          return !isPaused && isInView && !document.hidden && !pointerIsHovering && !slideHasFocus;
+        }
+
+        function scheduleRotation() {
+          stopRotation();
+
+          if (!shouldRotate()) {
+            return;
+          }
+
+          rotationTimer = window.setTimeout(() => {
+            activeIndex = (activeIndex + 1) % slides.length;
+            renderSlide();
+            scheduleRotation();
+          }, rotationDelay);
+        }
+
+        function showSlide(index) {
+          activeIndex = (index + slides.length) % slides.length;
+          renderSlide();
+          scheduleRotation();
+        }
+
+        previousButton.addEventListener("click", () => showSlide(activeIndex - 1));
+        nextButton.addEventListener("click", () => showSlide(activeIndex + 1));
+        toggleButton.addEventListener("click", () => {
+          isPaused = !isPaused;
+          updateToggle();
+          scheduleRotation();
+        });
+
+        carousel.addEventListener("mouseenter", stopRotation);
+        carousel.addEventListener("mouseleave", scheduleRotation);
+        track.addEventListener("focusin", stopRotation);
+        track.addEventListener("focusout", () => window.setTimeout(scheduleRotation, 0));
+        document.addEventListener("visibilitychange", scheduleRotation);
+
+        reducedMotionQuery.addEventListener("change", (event) => {
+          isPaused = event.matches;
+          updateToggle();
+          scheduleRotation();
+        });
+
+        if ("IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(
+            ([entry]) => {
+              isInView = entry.isIntersecting && entry.intersectionRatio >= 0.35;
+              scheduleRotation();
+            },
+            { threshold: [0, 0.35] },
+          );
+
+          observer.observe(carousel);
+        }
+
+        updateToggle();
+        renderSlide();
+        scheduleRotation();
+      }
+
       function redirectGoRoute() {
         const match = window.location.pathname.match(/^\/go\/([^/]+)\/?$/);
 
@@ -914,6 +1116,7 @@
 
       bindTouchActive(".event-feature");
       bindTouchActive(".moment-card");
+      setupFeaturedCarousel();
 
       updateScrollState();
       updateCountdowns();
