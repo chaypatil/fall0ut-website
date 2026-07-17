@@ -113,6 +113,7 @@
 
         <article class="focus-event">
           <div class="focus-art">
+            <span class="discount-bookmark">Get ₹800* off</span>
             <img
               src="./assets/steelworks-festival.png"
               alt="Steelworks India Tour poster announcing Mumbai on 21 August"
@@ -141,7 +142,7 @@
             </dl>
             <a
               class="primary-button focus-cta"
-              href="https://wa.me/919516894286?text=Hey%2C%20I%20wanna%20buy%20Steelworks%20Festival%20tickets%20at%20up%20to%20%E2%82%B9800%20off."
+              href="/go/steelworks?placement=focus"
               target="_blank"
               rel="noreferrer"
             >
@@ -160,7 +161,13 @@
             <h2 id="events-title">Featured events</h2>
             <p class="eyebrow">Upcoming</p>
           </div>
-          <a class="section-action" href="/calendar">
+          <a
+            class="section-action"
+            href="/calendar"
+            data-analytics-event="navigation_click"
+            data-analytics-target="calendar"
+            data-analytics-placement="featured_header"
+          >
             <span>Rave Calendar</span>
             <svg aria-hidden="true" viewBox="0 0 24 24">
               <rect x="4" y="5" width="16" height="15" rx="1.8" />
@@ -179,7 +186,8 @@
           <a
             class="event-feature"
             data-carousel-slide
-            href="/go/imhappy"
+            data-event-slug="imhappy"
+            href="/go/imhappy?placement=featured"
             target="_blank"
             rel="noreferrer"
           >
@@ -218,11 +226,13 @@
           <a
             class="event-feature"
             data-carousel-slide
-            href="/go/eczodia"
+            data-event-slug="eczodia"
+            href="/go/eczodia?placement=featured"
             target="_blank"
             rel="noreferrer"
           >
             <div class="event-art">
+              <span class="discount-bookmark">Get ₹150* off</span>
               <img
                 src="./assets/eczodia-poster.webp"
                 alt="Eczodia event poster"
@@ -257,11 +267,13 @@
           <a
             class="event-feature"
             data-carousel-slide
-            href="/go/morfame"
+            data-event-slug="morfame"
+            href="/go/morfame?placement=featured"
             target="_blank"
             rel="noreferrer"
           >
             <div class="event-art">
+              <span class="discount-bookmark discount-bookmark--flat">Get ₹300 off</span>
               <img
                 src="./assets/morfame-poster.webp"
                 alt="Morfame event poster"
@@ -296,11 +308,13 @@
           <a
             class="event-feature"
             data-carousel-slide
-            href="/go/shdw"
+            data-event-slug="shdw"
+            href="/go/shdw?placement=featured"
             target="_blank"
             rel="noreferrer"
           >
             <div class="event-art">
+              <span class="discount-bookmark">Get ₹150* off</span>
               <img
                 src="./assets/shdw-poster.webp"
                 alt="SHDW event poster"
@@ -382,6 +396,11 @@
             </div>
           </div>
         </div>
+
+        <p class="discount-note">
+          *Maximum savings apply to the highest-priced single-ticket category, such as Backstage.
+          Discounts vary by ticket category and availability.
+        </p>
 
         <div class="stats-strip" aria-label="FALL0UT event stats">
           <div class="stat-cell">
@@ -589,7 +608,12 @@
                 <strong>Riana Holley Mumbai</strong>
                 <span>OPA / Mumbai</span>
               </article>
-              <a class="calendar-event is-upcoming" href="/go/imhappy" target="_blank" rel="noreferrer">
+              <a
+                class="calendar-event is-upcoming"
+                href="/go/imhappy?placement=calendar"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <time datetime="2026-07-17">17 Jul</time>
                 <strong>IMHAPPY</strong>
                 <span>Courtyard by Marriott / Mumbai</span>
@@ -601,7 +625,12 @@
                   Calculating time left
                 </span>
               </a>
-              <a class="calendar-event is-upcoming" href="/go/morfame" target="_blank" rel="noreferrer">
+              <a
+                class="calendar-event is-upcoming"
+                href="/go/morfame?placement=calendar"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <time datetime="2026-07-25">25 Jul</time>
                 <strong>Morfame Mumbai</strong>
                 <span>AntiSocial / Mumbai</span>
@@ -613,7 +642,12 @@
                   Calculating time left
                 </span>
               </a>
-              <a class="calendar-event is-upcoming" href="/go/eczodia" target="_blank" rel="noreferrer">
+              <a
+                class="calendar-event is-upcoming"
+                href="/go/eczodia?placement=calendar"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <time datetime="2026-07-26">26 Jul</time>
                 <strong>Eczodia</strong>
                 <span>Cosybox / Mumbai</span>
@@ -632,7 +666,12 @@
                 <span>Next</span>
                 <h3 id="aug-title">August</h3>
               </header>
-              <a class="calendar-event is-upcoming" href="/go/shdw" target="_blank" rel="noreferrer">
+              <a
+                class="calendar-event is-upcoming"
+                href="/go/shdw?placement=calendar"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <time datetime="2026-08-09">09 Aug</time>
                 <strong>SHDW</strong>
                 <span>AntiSocial / Mumbai</span>
@@ -646,7 +685,7 @@
               </a>
               <a
                 class="calendar-event is-upcoming"
-                href="https://wa.me/919516894286?text=Hey%2C%20I%20wanna%20buy%20Steelworks%20Festival%20tickets%20at%20up%20to%20%E2%82%B9800%20off."
+                href="/go/steelworks?placement=calendar"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -666,6 +705,9 @@
                 href="https://www.instagram.com/fall0utindia"
                 target="_blank"
                 rel="noreferrer"
+                data-analytics-event="social_click"
+                data-analytics-target="instagram"
+                data-analytics-placement="calendar"
               >
                 <time datetime="2026-09">Soon</time>
                 <strong>More dates dropping soon</strong>
@@ -753,6 +795,9 @@
               class="moment-card moment-more"
               href="/f0moments"
               aria-label="More from FØ Moments"
+              data-analytics-event="gallery_open"
+              data-analytics-target="f0_moments"
+              data-analytics-placement="moments_preview"
             >
               <span>More from FØ Moments</span>
               <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -779,6 +824,9 @@
             href="https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ"
             target="_blank"
             rel="noreferrer"
+            data-analytics-event="community_click"
+            data-analytics-target="whatsapp_group"
+            data-analytics-placement="community_section"
           >
             <span>Join WhatsApp</span>
             <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -796,7 +844,15 @@
           </div>
         </div>
         <div class="contact-list">
-          <a class="contact-row" href="https://wa.me/919516894286" target="_blank" rel="noreferrer">
+          <a
+            class="contact-row"
+            href="https://wa.me/919516894286"
+            target="_blank"
+            rel="noreferrer"
+            data-analytics-event="contact_click"
+            data-analytics-target="whatsapp_dm"
+            data-analytics-placement="contact"
+          >
             <span>
               DM for a query
               <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -810,6 +866,9 @@
             href="https://www.instagram.com/fall0utindia"
             target="_blank"
             rel="noreferrer"
+            data-analytics-event="social_click"
+            data-analytics-target="instagram"
+            data-analytics-placement="contact"
           >
             <span>
               @fall0utindia
@@ -825,6 +884,9 @@
             href="https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ"
             target="_blank"
             rel="noreferrer"
+            data-analytics-event="community_click"
+            data-analytics-target="whatsapp_group"
+            data-analytics-placement="contact"
           >
             <span>
               Community
@@ -869,6 +931,9 @@
         href="https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ"
         target="_blank"
         rel="noreferrer"
+        data-analytics-event="community_click"
+        data-analytics-target="whatsapp_group"
+        data-analytics-placement="popup"
       >
         <span>Join community</span>
         <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -894,11 +959,49 @@
         ["/community", "join"],
         ["/contact", "contact"],
       ]);
+
+      function getWhatsAppTicketUrl(message) {
+        return `https://wa.me/919516894286?text=${encodeURIComponent(message)}`;
+      }
+
       const goRoutes = new Map([
-        ["imhappy", "https://www.district.in/events/imhappy-more-jul17-2026-buy-tickets"],
-        ["morfame", "https://sklbx.com/iLvPy8o5"],
-        ["eczodia", "https://sortmyscene.com/event/eczodia-jul-26-2026"],
-        ["shdw", "https://sortmyscene.com/event/shdw-aug-09-2026"],
+        [
+          "imhappy",
+          {
+            target: getWhatsAppTicketUrl("Hey, I wanna buy IMHAPPY tickets."),
+            offer: "standard",
+          },
+        ],
+        [
+          "morfame",
+          {
+            target: getWhatsAppTicketUrl("Hey, I wanna buy Morfame tickets at a flat ₹300 off."),
+            offer: "flat_300",
+          },
+        ],
+        [
+          "eczodia",
+          {
+            target: getWhatsAppTicketUrl("Hey, I wanna buy Eczodia tickets at up to ₹150 off."),
+            offer: "up_to_150",
+          },
+        ],
+        [
+          "shdw",
+          {
+            target: getWhatsAppTicketUrl("Hey, I wanna buy SHDW tickets at up to ₹150 off."),
+            offer: "up_to_150",
+          },
+        ],
+        [
+          "steelworks",
+          {
+            target: getWhatsAppTicketUrl(
+              "Hey, I wanna buy Steelworks Festival tickets at up to ₹800 off.",
+            ),
+            offer: "up_to_800",
+          },
+        ],
       ]);
 
       function clamp(value, min, max) {
@@ -966,22 +1069,23 @@
         requestAnimationFrame(() => scrollToSection(sectionId, behavior));
       }
 
-      function getTrackedTicketUrl(target, slug) {
-        const url = new URL(target);
-        url.searchParams.set("utm_source", "fall0ut.xyz");
-        url.searchParams.set("utm_medium", "website");
-        url.searchParams.set("utm_campaign", slug);
-        return url.href;
-      }
-
-      function trackTicketClick(slug, target) {
+      function trackAnalyticsEvent(name, data = {}) {
         if (typeof window.va !== "function") {
           return;
         }
 
-        window.va("event", "ticket_click", {
-          slug,
-          destination: new URL(target).hostname,
+        window.va("event", {
+          name,
+          data,
+        });
+      }
+
+      function trackTicketClick(slug, route, placement) {
+        trackAnalyticsEvent("ticket_interest", {
+          event: slug,
+          offer: route.offer,
+          placement,
+          destination: "whatsapp",
         });
       }
 
@@ -1051,12 +1155,49 @@
           return;
         }
 
-        const rotationDelay = 3000;
+        const automaticRotationDelay = 3000;
+        const manualRotationDelay = 5000;
         const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
         let activeIndex = 0;
+        let rotationDelay = automaticRotationDelay;
         let rotationTimer = null;
-        let isInView = true;
+        let isInView = !("IntersectionObserver" in window);
         let isPaused = reducedMotionQuery.matches;
+        let pointerId = null;
+        let pointerStartX = 0;
+        let pointerStartY = 0;
+        let pointerDeltaX = 0;
+        let dragAxis = null;
+        let suppressClick = false;
+        let wheelLocked = false;
+        let wheelReleaseTimer = null;
+        const seenSlides = new Set();
+
+        function getActiveSlug() {
+          return slides[activeIndex]?.dataset.eventSlug || `slide_${activeIndex + 1}`;
+        }
+
+        function markManualInteraction(method) {
+          rotationDelay = manualRotationDelay;
+          trackAnalyticsEvent("carousel_manual", {
+            method,
+            event: getActiveSlug(),
+          });
+        }
+
+        function trackVisibleSlide() {
+          const slug = getActiveSlug();
+
+          if (!isInView || document.hidden || seenSlides.has(slug)) {
+            return;
+          }
+
+          seenSlides.add(slug);
+          trackAnalyticsEvent("featured_event_view", {
+            event: slug,
+            position: activeIndex + 1,
+          });
+        }
 
         function updateToggle() {
           toggleButton.dataset.paused = String(isPaused);
@@ -1082,6 +1223,7 @@
           currentNumber.textContent = displayedIndex;
           totalNumber.textContent = displayedTotal;
           status.setAttribute("aria-label", `Event ${activeIndex + 1} of ${slides.length}`);
+          trackVisibleSlide();
         }
 
         function stopRotation() {
@@ -1109,18 +1251,180 @@
           }, rotationDelay);
         }
 
-        function showSlide(index) {
+        function showSlide(index, options = {}) {
           activeIndex = (index + slides.length) % slides.length;
+
+          if (options.manual) {
+            markManualInteraction(options.method || "control");
+          }
+
+          track.classList.remove("is-dragging");
           renderSlide();
           scheduleRotation();
         }
 
-        previousButton.addEventListener("click", () => showSlide(activeIndex - 1));
-        nextButton.addEventListener("click", () => showSlide(activeIndex + 1));
+        function resetPointer() {
+          pointerId = null;
+          pointerDeltaX = 0;
+          dragAxis = null;
+          track.classList.remove("is-dragging");
+        }
+
+        function finishPointer(event, wasCancelled = false) {
+          if (pointerId === null || event.pointerId !== pointerId) {
+            return;
+          }
+
+          const wasHorizontal = dragAxis === "x";
+          const dragDistance = pointerDeltaX;
+          const dragThreshold = Math.max(42, carousel.clientWidth * 0.12);
+
+          if (track.hasPointerCapture?.(pointerId)) {
+            track.releasePointerCapture(pointerId);
+          }
+
+          suppressClick = !wasCancelled && wasHorizontal && Math.abs(dragDistance) > 8;
+          resetPointer();
+          window.setTimeout(() => {
+            slides.forEach((slide) => slide.classList.remove("is-touch-active"));
+          }, 220);
+
+          if (!wasHorizontal) {
+            scheduleRotation();
+            return;
+          }
+
+          if (!wasCancelled && Math.abs(dragDistance) >= dragThreshold) {
+            showSlide(activeIndex + (dragDistance < 0 ? 1 : -1), {
+              manual: true,
+              method: "swipe",
+            });
+            return;
+          }
+
+          markManualInteraction("drag");
+          renderSlide();
+          scheduleRotation();
+        }
+
+        previousButton.addEventListener("click", () =>
+          showSlide(activeIndex - 1, { manual: true, method: "previous_button" }),
+        );
+        nextButton.addEventListener("click", () =>
+          showSlide(activeIndex + 1, { manual: true, method: "next_button" }),
+        );
         toggleButton.addEventListener("click", () => {
           isPaused = !isPaused;
+          markManualInteraction(isPaused ? "pause" : "resume");
           updateToggle();
           scheduleRotation();
+        });
+
+        track.addEventListener("dragstart", (event) => event.preventDefault());
+        track.addEventListener("pointerdown", (event) => {
+          if (event.pointerType === "mouse" && event.button !== 0) {
+            return;
+          }
+
+          pointerId = event.pointerId;
+          pointerStartX = event.clientX;
+          pointerStartY = event.clientY;
+          pointerDeltaX = 0;
+          dragAxis = null;
+          suppressClick = false;
+          stopRotation();
+        });
+
+        track.addEventListener("pointermove", (event) => {
+          if (pointerId === null || event.pointerId !== pointerId) {
+            return;
+          }
+
+          const deltaX = event.clientX - pointerStartX;
+          const deltaY = event.clientY - pointerStartY;
+
+          if (dragAxis === null) {
+            if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) < 7) {
+              return;
+            }
+
+            dragAxis = Math.abs(deltaX) > Math.abs(deltaY) ? "x" : "y";
+
+            if (dragAxis === "y") {
+              if (track.hasPointerCapture?.(pointerId)) {
+                track.releasePointerCapture(pointerId);
+              }
+
+              resetPointer();
+              scheduleRotation();
+              return;
+            }
+
+            track.setPointerCapture?.(event.pointerId);
+            track.classList.add("is-dragging");
+          }
+
+          if (dragAxis !== "x") {
+            return;
+          }
+
+          pointerDeltaX = deltaX;
+          event.preventDefault();
+          track.style.transform = `translate3d(calc(-${activeIndex * 100}% + ${pointerDeltaX}px), 0, 0)`;
+        });
+
+        window.addEventListener("pointerup", (event) => finishPointer(event));
+        window.addEventListener("pointercancel", (event) => finishPointer(event, true));
+        track.addEventListener(
+          "click",
+          (event) => {
+            if (!suppressClick) {
+              return;
+            }
+
+            event.preventDefault();
+            event.stopPropagation();
+            suppressClick = false;
+          },
+          true,
+        );
+
+        track.addEventListener(
+          "wheel",
+          (event) => {
+            if (Math.abs(event.deltaX) <= Math.abs(event.deltaY) || Math.abs(event.deltaX) < 18) {
+              return;
+            }
+
+            event.preventDefault();
+
+            if (wheelLocked) {
+              return;
+            }
+
+            wheelLocked = true;
+            showSlide(activeIndex + (event.deltaX > 0 ? 1 : -1), {
+              manual: true,
+              method: "trackpad",
+            });
+            window.clearTimeout(wheelReleaseTimer);
+            wheelReleaseTimer = window.setTimeout(() => {
+              wheelLocked = false;
+            }, 520);
+          },
+          { passive: false },
+        );
+
+        carousel.addEventListener("keydown", (event) => {
+          if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+            return;
+          }
+
+          event.preventDefault();
+          showSlide(activeIndex + (event.key === "ArrowRight" ? 1 : -1), {
+            manual: true,
+            method: "keyboard",
+          });
         });
 
         document.addEventListener("visibilitychange", scheduleRotation);
@@ -1135,6 +1439,7 @@
           const observer = new IntersectionObserver(
             ([entry]) => {
               isInView = entry.isIntersecting && entry.intersectionRatio >= 0.1;
+              trackVisibleSlide();
               scheduleRotation();
             },
             { threshold: [0, 0.1] },
@@ -1204,6 +1509,77 @@
         window.setTimeout(showPopup, 8000);
       }
 
+      function setupSectionViewTracking() {
+        if (!("IntersectionObserver" in window)) {
+          return;
+        }
+
+        const sectionIds = [
+          "focus",
+          "events",
+          "calendar",
+          "announcements",
+          "moments-preview",
+          "join",
+          "contact",
+        ];
+        const seenSections = new Set();
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting || entry.intersectionRatio < 0.3) {
+                return;
+              }
+
+              const section = entry.target.id;
+
+              if (seenSections.has(section)) {
+                return;
+              }
+
+              seenSections.add(section);
+              const data = { section };
+
+              if (section === "focus") {
+                data.event = "steelworks";
+              }
+
+              trackAnalyticsEvent("section_view", data);
+              observer.unobserve(entry.target);
+            });
+          },
+          { threshold: [0.3] },
+        );
+
+        sectionIds.forEach((id) => {
+          const section = document.getElementById(id);
+
+          if (section) {
+            observer.observe(section);
+          }
+        });
+      }
+
+      function trackAttributedLink(link) {
+        const eventName = link.dataset.analyticsEvent;
+
+        if (!eventName) {
+          return;
+        }
+
+        const data = {};
+
+        if (link.dataset.analyticsTarget) {
+          data.target = link.dataset.analyticsTarget;
+        }
+
+        if (link.dataset.analyticsPlacement) {
+          data.placement = link.dataset.analyticsPlacement;
+        }
+
+        trackAnalyticsEvent(eventName, data);
+      }
+
       function redirectGoRoute() {
         const match = window.location.pathname.match(/^\/go\/([^/]+)\/?$/);
 
@@ -1212,18 +1588,24 @@
         }
 
         const slug = match[1];
-        const target = goRoutes.get(slug);
+        const route = goRoutes.get(slug);
 
-        if (!target) {
+        if (!route) {
           window.history.replaceState(null, "", "/events");
           scrollToSection("events", "auto");
           return true;
         }
 
-        trackTicketClick(slug, target);
+        const allowedPlacements = new Set(["featured", "calendar", "focus"]);
+        const requestedPlacement = new URLSearchParams(window.location.search).get("placement");
+        const placement = allowedPlacements.has(requestedPlacement)
+          ? requestedPlacement
+          : "website";
+
+        trackTicketClick(slug, route, placement);
         window.setTimeout(() => {
-          window.location.replace(getTrackedTicketUrl(target, slug));
-        }, 240);
+          window.location.replace(route.target);
+        }, 280);
         return true;
       }
 
@@ -1233,6 +1615,8 @@
         if (!link) {
           return;
         }
+
+        trackAttributedLink(link);
 
         const url = new URL(link.href, window.location.href);
         const sectionId = sectionRoutes.get(url.pathname);
@@ -1267,6 +1651,7 @@
       bindTouchActive(".moment-card");
       setupFeaturedCarousel();
       setupCommunityPopup();
+      setupSectionViewTracking();
 
       updateScrollState();
       updateCountdowns();

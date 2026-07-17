@@ -440,6 +440,33 @@ h2 {
   object-position: center;
 }
 
+.discount-bookmark {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  right: clamp(14px, 2.4vw, 34px);
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0 15px 5px;
+  background: linear-gradient(135deg, #7657df 0%, #4268c9 100%);
+  box-shadow:
+    0 12px 30px rgba(31, 54, 133, 0.28),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.18);
+  clip-path: polygon(0 0, 100% 0, 100% 82%, 90% 100%, 0 100%);
+  color: #ffffff;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.discount-bookmark--flat {
+  background: linear-gradient(135deg, #6178d8 0%, #4b5fb9 100%);
+}
+
 .focus-copy {
   display: grid;
   align-content: center;
@@ -523,7 +550,19 @@ h2 {
   width: 100%;
   transform: translate3d(0, 0, 0);
   transition: transform 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  touch-action: pan-y;
+  user-select: none;
   will-change: transform;
+  cursor: grab;
+}
+
+.featured-events.is-dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+.featured-events.is-dragging .event-feature {
+  pointer-events: none;
 }
 
 .event-feature {
@@ -572,6 +611,9 @@ h2 {
   transition:
     filter 220ms ease,
     transform 260ms ease;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .event-feature:hover .event-art img,
@@ -644,6 +686,14 @@ h2 {
   border-color: rgba(244, 248, 246, 0.86);
   background: rgba(244, 248, 246, 0.08);
   color: #ffffff;
+}
+
+.discount-note {
+  max-width: 760px;
+  margin: 14px 2px 0;
+  color: #8695a9;
+  font-size: 0.72rem;
+  line-height: 1.55;
 }
 
 .stats-strip {
@@ -1556,6 +1606,18 @@ a.calendar-event:focus-visible {
 
   .event-copy h3 {
     font-size: clamp(3rem, 15vw, 5rem);
+  }
+
+  .discount-bookmark {
+    right: 12px;
+    min-height: 40px;
+    padding: 0 12px 4px;
+    font-size: 0.7rem;
+  }
+
+  .discount-note {
+    margin-top: 12px;
+    font-size: 0.68rem;
   }
 
   .stats-strip {
