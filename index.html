@@ -952,7 +952,6 @@
         }
 
         const rotationDelay = 5000;
-        const hoverQuery = window.matchMedia("(hover: hover)");
         const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
         let activeIndex = 0;
         let rotationTimer = null;
@@ -993,9 +992,7 @@
         }
 
         function shouldRotate() {
-          const pointerIsHovering = hoverQuery.matches && carousel.matches(":hover");
-          const slideHasFocus = track.contains(document.activeElement);
-          return !isPaused && isInView && !document.hidden && !pointerIsHovering && !slideHasFocus;
+          return !isPaused && isInView && !document.hidden;
         }
 
         function scheduleRotation() {
@@ -1026,10 +1023,6 @@
           scheduleRotation();
         });
 
-        carousel.addEventListener("mouseenter", stopRotation);
-        carousel.addEventListener("mouseleave", scheduleRotation);
-        track.addEventListener("focusin", stopRotation);
-        track.addEventListener("focusout", () => window.setTimeout(scheduleRotation, 0));
         document.addEventListener("visibilitychange", scheduleRotation);
 
         reducedMotionQuery.addEventListener("change", (event) => {
@@ -1041,10 +1034,10 @@
         if ("IntersectionObserver" in window) {
           const observer = new IntersectionObserver(
             ([entry]) => {
-              isInView = entry.isIntersecting && entry.intersectionRatio >= 0.35;
+              isInView = entry.isIntersecting && entry.intersectionRatio >= 0.1;
               scheduleRotation();
             },
-            { threshold: [0, 0.35] },
+            { threshold: [0, 0.1] },
           );
 
           observer.observe(carousel);
