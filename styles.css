@@ -489,6 +489,14 @@ h2 {
   line-height: 1.6;
 }
 
+.focus-description p {
+  margin: 0;
+}
+
+.focus-description p + p {
+  margin-top: 0.72em;
+}
+
 .focus-details {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2139,7 +2147,8 @@ a.calendar-event:focus-visible {
   }
 
   .hero {
-    min-height: 92svh;
+    min-height: calc(100vh + 24px);
+    min-height: calc(100dvh + 24px);
     padding: 112px 20px 84px;
   }
 
@@ -2356,7 +2365,7 @@ a.calendar-event:focus-visible {
   }
 
   .focus-copy h3 {
-    font-size: clamp(3.1rem, 16vw, 5rem);
+    font-size: clamp(2.8rem, 14vw, 4.6rem);
   }
 
   .focus-description {

@@ -7,6 +7,7 @@ This file records durable product and implementation rules discovered while chan
 ## Homepage restraint
 
 - The homepage is an event and culture surface, not a search landing page.
+- On mobile, the landing hero must extend slightly beyond the dynamic viewport so the next event artwork never peeks out beneath the fixed quickbar on first load.
 - Do not add visible keyword lists, genre chips, city lists, SEO explanations or an About block to the homepage.
 - Do not repeat the brand-positioning sentence in the hero, footer and multiple sections. Keep the homepage visual and concise.
 - Announcements do not have a distinct job and should not appear as a section or route. Current information belongs in Hot Right Now, Featured Events or the Rave Calendar.
@@ -29,6 +30,11 @@ This file records durable product and implementation rules discovered while chan
 - On an event page, render FØ Moments only when that event has an uploaded image folder in `eventMomentFolders`.
 - If an event has no uploaded images, render no FØ Moments section, fallback message, archive button or FØ Moments continuation link. This applies to upcoming and past events.
 - A maximum of six selected images appears on an event page. The full event folder stays on `/f0moments`.
+
+## Multi-city feature rules
+
+- A tour-level homepage feature should show the complete date range and every included city rather than presenting only its first stop.
+- Set the feature archive timestamp to the final tour date so automatic delisting does not remove it after the opening city.
 
 ## Visual QA rules
 
