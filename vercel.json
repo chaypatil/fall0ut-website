@@ -25,6 +25,10 @@
       "destination": "/moments.html"
     },
     {
+      "source": "/raves-in-india",
+      "destination": "/raves.html"
+    },
+    {
       "source": "/community",
       "destination": "/index.html"
     },

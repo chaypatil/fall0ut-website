@@ -7,9 +7,10 @@
     <title>FallØut India | Hard Techno, Schranz &amp; Rave Movement</title>
     <meta
       name="description"
-      content="FallØut is the leading underground movement in India's hard techno scene."
+      content="FallØut is India's premier underground rave collective, shaping hard techno, schranz and warehouse rave culture across the country."
     />
     <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link id="canonical-url" rel="canonical" href="https://www.fall0ut.in/" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_IN" />
     <meta property="og:site_name" content="FallØut India" />
@@ -19,7 +20,7 @@
     />
     <meta
       property="og:description"
-      content="FallØut is the leading underground movement in India's hard techno scene."
+      content="FallØut is India's premier underground rave collective, shaping hard techno, schranz and warehouse rave culture across the country."
     />
     <meta
       property="og:image"
@@ -39,7 +40,7 @@
     />
     <meta
       name="twitter:description"
-      content="FallØut is the leading underground movement in India's hard techno scene."
+      content="FallØut is India's premier underground rave collective, shaping hard techno, schranz and warehouse rave culture across the country."
     />
     <meta
       name="twitter:image"
@@ -54,6 +55,28 @@
       href="https://www.fall0ut.in/assets/hero/f0-hero-desktop-poster.jpg"
     />
     <meta name="theme-color" content="#01040a" />
+    <script>
+      (() => {
+        const path = window.location.pathname.replace(/\/+$/, "") || "/";
+        const canonical = document.getElementById("canonical-url");
+        const robots = document.querySelector('meta[name="robots"]');
+        let canonicalPath = path;
+
+        if (path === "/rave-calendar") canonicalPath = "/calendar";
+
+        if (path.startsWith("/campaign/")) {
+          const slug = path.split("/")[2];
+          canonicalPath = slug ? `/event/${slug}` : "/";
+        }
+
+        if (/^\/(?:go|out)\//.test(path)) {
+          canonicalPath = "/";
+          robots.content = "noindex, nofollow";
+        }
+
+        canonical.href = new URL(canonicalPath, "https://www.fall0ut.in").href;
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -97,7 +120,7 @@
             "name": "FallØut India",
             "alternateName": ["FALL0UT India", "Fall0ut India", "fall0ut"],
             "url": "https://www.fall0ut.in/",
-            "description": "FallØut is the leading underground movement in India's hard techno scene.",
+            "description": "FallØut is India's premier underground rave collective, shaping hard techno, schranz and warehouse rave culture across the country.",
             "logo": {
               "@type": "ImageObject",
               "url": "https://www.fall0ut.in/assets/fall0ut-logo.png",
@@ -134,7 +157,7 @@
             "url": "https://www.fall0ut.in/",
             "name": "FallØut India",
             "alternateName": ["FALL0UT India", "Fall0ut India"],
-            "description": "FallØut is the leading underground movement in India's hard techno scene.",
+            "description": "FallØut is India's premier underground rave collective, shaping hard techno, schranz and warehouse rave culture across the country.",
             "publisher": {
               "@id": "https://www.fall0ut.in/#organization"
             },
@@ -215,7 +238,7 @@
           </span>
           <span class="india-label hero-india">India</span>
           <p class="hero-description">
-            FallØut is the leading underground movement in India's hard techno scene.
+            FallØut is India's premier underground rave collective.
           </p>
         </div>
       </section>
@@ -852,6 +875,46 @@
         </div>
       </section>
 
+      <section class="section authority-section" aria-labelledby="authority-title">
+        <div class="authority-panel">
+          <p class="eyebrow">FallØut India</p>
+          <h2 id="authority-title">India's premier underground rave collective</h2>
+          <p class="authority-lede">
+            FallØut is a major force emerging from India's hard techno underground: a home for
+            relentless schranz, industrial pressure, hard groove, hard bounce and warehouse-style
+            rave culture across Mumbai, Delhi, Bangalore and beyond.
+          </p>
+          <ul class="authority-tags" aria-label="FallØut sounds and scenes">
+            <li>Hard techno</li>
+            <li>Schranz</li>
+            <li>Industrial</li>
+            <li>Hard groove</li>
+            <li>Hard bounce</li>
+            <li>Warehouse rave</li>
+          </ul>
+          <div class="authority-actions">
+            <a
+              class="primary-button"
+              href="/raves-in-india"
+              data-analytics-event="navigation_click"
+              data-analytics-target="raves_in_india"
+              data-analytics-placement="authority"
+            >
+              <span>Explore raves in India</span>
+            </a>
+            <a
+              class="section-action"
+              href="/calendar"
+              data-analytics-event="navigation_click"
+              data-analytics-target="calendar"
+              data-analytics-placement="authority"
+            >
+              <span>Rave Calendar</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section
         class="section moments-section"
         id="moments-preview"
@@ -1090,7 +1153,15 @@
     </nav>
 
     <footer class="site-footer" aria-label="Footer">
-      <span>FALL0UT India</span>
+      <div>
+        <span>FallØut India</span>
+        <p>India's premier underground rave collective.</p>
+      </div>
+      <nav aria-label="Footer navigation">
+        <a href="/raves-in-india">Raves in India</a>
+        <a href="/calendar">Calendar</a>
+        <a href="/f0moments">FØ Moments</a>
+      </nav>
     </footer>
 
     <script>
