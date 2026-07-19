@@ -166,16 +166,17 @@ Treat these as locked defaults unless Chay explicitly changes them.
   - Morfame: flat Rs 300 off
   - Eczodia: up to Rs 150 off
   - SHDW: up to Rs 150 off
-  - Steelworks: up to Rs 800 off
+  - Steelworks: up to Rs. 700 off
 - Do not change discounts, phone numbers, wording, or destinations without Chay's approval.
 - Continue using Vercel Analytics events and route attribution for non-personal click/funnel measurement.
+- The linked Vercel account currently exposes page-view metrics but not the custom-event metric. Route totals such as `/event/:slug`, `/calendar`, `/f0moments`, and `/go/:slug` remain visible on the current plan; the custom Events panel requires Pro or Enterprise.
 - Do not build personal tracking or a leads database without a clear purpose, consent model, and a separate approved task.
 
 ### Calendar and announcements
 
 - Public name is `Rave Calendar` inside the page, but the top navigation stays `Events`.
 - Event presentation uses venue/city consistently.
-- Do not display meaningless TBA placeholders. Use approved “announcing soon” treatment only when the event genuinely exists but details are not public.
+- Do not display meaningless TBA placeholders. When Chay explicitly supplies `TBA` as the venue, display exactly `TBA / city` and never spell out the abbreviation.
 - Announcements contain audience-facing event copy, not developer notes, platform names, or implementation labels.
 - Past events should be preserved rather than deleted once lifecycle automation exists.
 

@@ -111,7 +111,7 @@
 
         <article class="focus-event" data-focus-event data-event-start="2026-08-21T23:59:59+05:30">
           <div class="focus-art">
-            <span class="discount-bookmark">Get ₹800* off</span>
+            <span class="discount-bookmark">Get ₹700* off</span>
             <img
               src="./assets/steelworks-festival.png"
               alt="Steelworks India Tour poster announcing Mumbai on 21 August"
@@ -135,7 +135,7 @@
               </div>
               <div>
                 <dt>Venue</dt>
-                <dd>To be announced / Mumbai</dd>
+                <dd>TBA / Mumbai</dd>
               </div>
             </dl>
             <a
@@ -366,11 +366,11 @@
           </div>
           <div class="stat-cell">
             <span>Upcoming cities</span>
-            <strong>1</strong>
+            <strong>3</strong>
           </div>
           <div class="stat-cell">
             <span>Upcoming events</span>
-            <strong data-stat-upcoming>4</strong>
+            <strong data-stat-upcoming>6</strong>
           </div>
         </div>
       </section>
@@ -633,7 +633,25 @@
               >
                 <time datetime="2026-08-21">21 Aug</time>
                 <strong>Steelworks Festival</strong>
-                <span>Venue TBA / Mumbai</span>
+                <span>TBA / Mumbai</span>
+              </a>
+              <a
+                class="calendar-event is-upcoming"
+                data-event-slug="steelworks-delhi"
+                href="/event/steelworks-delhi"
+              >
+                <time datetime="2026-08-22">22 Aug</time>
+                <strong>Steelworks Festival</strong>
+                <span>TBA / Delhi</span>
+              </a>
+              <a
+                class="calendar-event is-upcoming"
+                data-event-slug="steelworks-bangalore"
+                href="/event/steelworks-bangalore"
+              >
+                <time datetime="2026-08-23">23 Aug</time>
+                <strong>Steelworks Festival</strong>
+                <span>TBA / Bangalore</span>
               </a>
             </section>
 
@@ -949,9 +967,27 @@
           "steelworks",
           {
             target: getWhatsAppTicketUrl(
-              "Hey, I wanna buy Steelworks Festival tickets at up to ₹800 off.",
+              "Hey, I wanna buy Steelworks Festival Mumbai tickets at up to Rs. 700 off.",
             ),
-            offer: "up_to_800",
+            offer: "up_to_700",
+          },
+        ],
+        [
+          "steelworks-delhi",
+          {
+            target: getWhatsAppTicketUrl(
+              "Hey, I wanna buy Steelworks Festival Delhi tickets at up to Rs. 700 off.",
+            ),
+            offer: "up_to_700",
+          },
+        ],
+        [
+          "steelworks-bangalore",
+          {
+            target: getWhatsAppTicketUrl(
+              "Hey, I wanna buy Steelworks Festival Bangalore tickets at up to Rs. 700 off.",
+            ),
+            offer: "up_to_700",
           },
         ],
       ]);
@@ -1535,7 +1571,7 @@
       function formatEventDate(dateTime) {
         const date = new Date(dateTime);
         return Number.isNaN(date.getTime())
-          ? "Date to be announced"
+          ? "Date TBA"
           : new Intl.DateTimeFormat("en-IN", { dateStyle: "full" }).format(date);
       }
 
@@ -1660,7 +1696,7 @@
         const isLive = !isPastEvent(event.start, event.archiveAt) && goRoutes.has(slug);
         const gallery = event.moments
           ? `<section class="event-moments"><p class="eyebrow">FØ Moments</p><h2>From the night</h2><div class="event-moments-grid">${Array.from({ length: Math.min(6, event.moments.count) }, (_, index) => `<img src="./assets/moments/events/${event.moments.folder}/${String(index + 1).padStart(2, "0")}.webp" alt="${event.moments.name} moment ${index + 1}" loading="lazy">`).join("")}</div></section>`
-          : `<section class="event-moments event-moments--archive"><a class="primary-button" href="/f0moments"><span>Go to FØ Moments</span></a><p>${momentsTagline}</p></section>`;
+          : `<section class="event-moments event-moments--archive"><a class="primary-button" href="/f0moments" data-analytics-event="gallery_open" data-analytics-target="f0_moments" data-analytics-placement="event"><span>Go to FØ Moments</span></a><p>${momentsTagline}</p></section>`;
         page.innerHTML = `<section class="section event-detail"><a class="event-back" href="/calendar">← Rave Calendar</a><div class="event-detail-grid">${event.poster ? `<img class="event-detail-poster" src="${event.poster}" alt="${event.title} poster">` : ""}<div><p class="eyebrow">${isLive ? "Live event" : "Archive entry"}</p><h1>${event.title}</h1><p class="event-detail-date">${formatEventDate(event.start)}</p><p class="event-detail-venue">${event.venue}</p>${isLive ? `<a class="primary-button" href="/go/${slug}?placement=event"><span>Get tickets</span></a>` : ""}</div></div>${gallery}</section>`;
         document.querySelector("main#top").hidden = true;
         page.hidden = false;
@@ -1833,6 +1869,17 @@
 
         if (eventMatch) {
           event.preventDefault();
+          const placement = link.closest(".calendar-event")
+            ? "calendar"
+            : link.closest("[data-carousel-slide]")
+              ? "featured"
+              : link.closest("[data-focus-event]")
+                ? "focus"
+                : "website";
+          trackAnalyticsEvent("event_open", {
+            event: eventMatch[1],
+            placement,
+          });
           openEventPage(eventMatch[1]);
           return;
         }
@@ -1840,6 +1887,16 @@
         if (!sectionId) return;
 
         event.preventDefault();
+        if (!link.dataset.analyticsEvent) {
+          trackAnalyticsEvent("navigation_click", {
+            target: sectionId,
+            placement: link.closest("[data-event-page]")
+              ? "event"
+              : link.closest(".site-header")
+                ? "header"
+                : "website",
+          });
+        }
         showHomePage();
         window.history.pushState(null, "", url.pathname);
         scrollToSection(sectionId);
