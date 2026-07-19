@@ -169,7 +169,9 @@ Treat these as locked defaults unless Chay explicitly changes them.
   - Steelworks: up to Rs. 700 off
 - Do not change discounts, phone numbers, wording, or destinations without Chay's approval.
 - Continue using Vercel Analytics events and route attribution for non-personal click/funnel measurement.
-- The linked Vercel account currently exposes page-view metrics but not the custom-event metric. Route totals such as `/event/:slug`, `/calendar`, `/f0moments`, and `/go/:slug` remain visible on the current plan; the custom Events panel requires Pro or Enterprise.
+- The linked Vercel account currently exposes page-view metrics but not the custom-event metric. Route totals such as `/campaign/:event/:channel`, `/event/:slug`, `/calendar`, `/f0moments`, `/go/:slug`, and `/out/:target/:placement` remain visible on the current plan; the custom Events panel requires Pro or Enterprise.
+- Campaign attribution is retained through the same browser session and added to ticket/outbound routes and custom events.
+- Use `docs/fallout-analytics-playbook.md` for the dashboard path map, Steelworks Instagram links, and weekly review workflow.
 - Do not build personal tracking or a leads database without a clear purpose, consent model, and a separate approved task.
 
 ### Calendar and announcements

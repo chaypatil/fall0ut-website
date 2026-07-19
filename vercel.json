@@ -37,6 +37,18 @@
       "destination": "/index.html"
     },
     {
+      "source": "/out/:target/:placement",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/out/:target",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/campaign/:slug/:channel",
+      "destination": "/index.html"
+    },
+    {
       "source": "/event/:slug",
       "destination": "/index.html"
     }

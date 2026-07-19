@@ -9,6 +9,7 @@
       name="description"
       content="FALL0UT is an India-facing hard techno, schranz, and rave culture platform."
     />
+    <meta name="theme-color" content="#01040a" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -69,20 +70,34 @@
             muted
             loop
             playsinline
+            webkit-playsinline
+            disablepictureinpicture
+            disableremoteplayback
             preload="none"
             poster="./assets/hero/f0-hero-desktop-poster.jpg"
           >
-            <source src="./assets/hero/f0-hero-desktop.mp4" type="video/mp4" />
+            <source
+              data-src="./assets/hero/f0-hero-desktop.mp4"
+              type="video/mp4"
+              media="(min-width: 750px)"
+            />
           </video>
           <video
             class="hero-video hero-video--mobile"
             muted
             loop
             playsinline
+            webkit-playsinline
+            disablepictureinpicture
+            disableremoteplayback
             preload="none"
             poster="./assets/hero/f0-hero-mobile-poster.jpg"
           >
-            <source src="./assets/hero/f0-hero-mobile.mp4" type="video/mp4" />
+            <source
+              data-src="./assets/hero/f0-hero-mobile.mp4"
+              type="video/mp4"
+              media="(max-width: 749px)"
+            />
           </video>
           <div class="hero-bloom"></div>
           <div class="hero-scrim"></div>
@@ -138,15 +153,23 @@
                 <dd>TBA / Mumbai</dd>
               </div>
             </dl>
-            <a
-              class="primary-button focus-cta"
-              href="/event/steelworks"
-            >
-              <span>View event</span>
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </a>
+            <div class="focus-actions">
+              <a class="primary-button focus-cta" href="/event/steelworks">
+                <span>View event</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </a>
+              <a
+                class="section-action"
+                href="/calendar"
+                data-analytics-event="navigation_click"
+                data-analytics-target="calendar"
+                data-analytics-placement="focus"
+              >
+                <span>Rave Calendar</span>
+              </a>
+            </div>
           </div>
         </article>
       </section>
@@ -193,7 +216,7 @@
                 alt="Eczodia event poster"
                 width="900"
                 height="1280"
-                loading="eager"
+                loading="lazy"
                 decoding="async"
               />
             </div>
@@ -273,7 +296,7 @@
                 alt="SHDW event poster"
                 width="900"
                 height="1280"
-                loading="eager"
+                loading="lazy"
                 decoding="async"
               />
             </div>
@@ -380,6 +403,15 @@
           <div>
             <h2 id="calendar-title">Rave Calendar</h2>
           </div>
+          <a
+            class="section-action"
+            href="/f0moments"
+            data-analytics-event="gallery_open"
+            data-analytics-target="f0_moments"
+            data-analytics-placement="calendar_header"
+          >
+            <span>FØ Moments</span>
+          </a>
         </div>
 
         <div class="calendar-shell">
@@ -662,7 +694,7 @@
               </header>
               <a
                 class="calendar-event calendar-event--notice"
-                href="https://www.instagram.com/fall0utindia"
+                href="/out/instagram/calendar"
                 target="_blank"
                 rel="noreferrer"
                 data-analytics-event="social_click"
@@ -767,6 +799,26 @@
             </a>
           </div>
           <p class="moments-tagline">Immerse yourself in the underground's most memorable and lively events in FALL0UT's official archive.</p>
+          <div class="moments-actions">
+            <a
+              class="section-action"
+              href="/f0moments"
+              data-analytics-event="gallery_open"
+              data-analytics-target="f0_moments"
+              data-analytics-placement="moments_footer"
+            >
+              <span>Open the archive</span>
+            </a>
+            <a
+              class="section-action"
+              href="/calendar"
+              data-analytics-event="navigation_click"
+              data-analytics-target="calendar"
+              data-analytics-placement="moments_footer"
+            >
+              <span>Rave Calendar</span>
+            </a>
+          </div>
         </details>
       </section>
 
@@ -782,7 +834,7 @@
           </div>
           <a
             class="primary-button"
-            href="https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ"
+            href="/out/community/section"
             target="_blank"
             rel="noreferrer"
             data-analytics-event="community_click"
@@ -807,7 +859,7 @@
         <div class="contact-list">
           <a
             class="contact-row"
-            href="https://wa.me/919516894286"
+            href="/out/contact/contact"
             target="_blank"
             rel="noreferrer"
             data-analytics-event="contact_click"
@@ -824,7 +876,7 @@
           </a>
           <a
             class="contact-row"
-            href="https://www.instagram.com/fall0utindia"
+            href="/out/instagram/contact"
             target="_blank"
             rel="noreferrer"
             data-analytics-event="social_click"
@@ -842,7 +894,7 @@
           </a>
           <a
             class="contact-row"
-            href="https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ"
+            href="/out/community/contact"
             target="_blank"
             rel="noreferrer"
             data-analytics-event="community_click"
@@ -889,7 +941,7 @@
       </p>
       <a
         class="primary-button community-popup-cta"
-        href="https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ"
+        href="/out/community/popup"
         target="_blank"
         rel="noreferrer"
         data-analytics-event="community_click"
@@ -906,6 +958,34 @@
 
     <main class="event-page" data-event-page hidden aria-live="polite"></main>
 
+    <nav class="mobile-quickbar" aria-label="Quick actions">
+      <a
+        class="mobile-quickbar-link mobile-quickbar-link--primary"
+        href="/go/steelworks?placement=mobile_bar"
+        data-mobile-ticket
+      >
+        Tickets
+      </a>
+      <a
+        class="mobile-quickbar-link"
+        href="/calendar"
+        data-analytics-event="navigation_click"
+        data-analytics-target="calendar"
+        data-analytics-placement="mobile_bar"
+      >
+        Calendar
+      </a>
+      <a
+        class="mobile-quickbar-link"
+        href="/f0moments"
+        data-analytics-event="gallery_open"
+        data-analytics-target="f0_moments"
+        data-analytics-placement="mobile_bar"
+      >
+        FØ Moments
+      </a>
+    </nav>
+
     <footer class="site-footer" aria-label="Footer">
       <span>FALL0UT India</span>
     </footer>
@@ -913,6 +993,7 @@
     <script>
       const root = document.documentElement;
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let refreshHeroVideos = () => {};
       const sectionRoutes = new Map([
         ["/", "top"],
         ["/events", "events"],
@@ -922,6 +1003,14 @@
         ["/community", "join"],
         ["/contact", "contact"],
       ]);
+      const attributionStorageKey = "fall0ut_campaign_attribution";
+      const attributionParameterNames = [
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_content",
+        "utm_term",
+      ];
       const momentsTagline = "Immerse yourself in the underground's most memorable and lively events in FALL0UT's official archive.";
       const eventMomentFolders = {
         "999999999-afters": { name: "9x9 Afters", folder: "9x9-afters", count: 10 },
@@ -991,6 +1080,33 @@
           },
         ],
       ]);
+      const outRoutes = new Map([
+        [
+          "community",
+          {
+            target: "https://chat.whatsapp.com/GdiFCof77yM7EeRogpKrAQ",
+            event: "community_click",
+            destination: "whatsapp_group",
+          },
+        ],
+        [
+          "contact",
+          {
+            target: "https://wa.me/919516894286",
+            event: "contact_click",
+            destination: "whatsapp_dm",
+          },
+        ],
+        [
+          "instagram",
+          {
+            target: "https://www.instagram.com/fall0utindia",
+            event: "social_click",
+            destination: "instagram",
+          },
+        ],
+      ]);
+      const campaignAttribution = initializeCampaignAttribution();
 
       function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
@@ -1056,9 +1172,22 @@
         eventPage.replaceChildren();
         document.body.classList.remove("event-page-active");
         document.title = defaultDocumentTitle;
+        setMobileTicketEvent("steelworks");
+        refreshHeroVideos();
       }
 
       function handlePathRoute(behavior = "smooth") {
+        const campaignRoute = getCampaignRoute();
+
+        if (campaignRoute) {
+          if (!openEventPage(campaignRoute.eventSlug, false)) {
+            window.history.replaceState(null, "", "/events");
+            showHomePage();
+            requestAnimationFrame(() => scrollToSection("events", behavior));
+          }
+          return;
+        }
+
         const eventMatch = window.location.pathname.match(/^\/event\/([^/]+)\/?$/);
 
         if (eventMatch) {
@@ -1080,6 +1209,105 @@
         requestAnimationFrame(() => scrollToSection(sectionId, behavior));
       }
 
+      function normalizeAttributionValue(value) {
+        return String(value || "")
+          .trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9._-]+/g, "_")
+          .slice(0, 80);
+      }
+
+      function getCampaignRoute(pathname = window.location.pathname) {
+        const match = pathname.match(/^\/campaign\/([a-z0-9-]+)\/([a-z0-9-]+)\/?$/i);
+
+        if (!match) {
+          return null;
+        }
+
+        const eventSlug = normalizeAttributionValue(match[1]);
+        const channel = normalizeAttributionValue(match[2]);
+        const [source, ...mediumParts] = channel.split("-");
+
+        return {
+          eventSlug,
+          channel,
+          source: source || "campaign",
+          medium: mediumParts.join("_") || "link",
+        };
+      }
+
+      function initializeCampaignAttribution() {
+        let stored = {};
+
+        try {
+          stored = JSON.parse(window.sessionStorage.getItem(attributionStorageKey) || "{}") || {};
+        } catch {
+          stored = {};
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const explicit = {};
+
+        attributionParameterNames.forEach((name) => {
+          const value = normalizeAttributionValue(params.get(name));
+
+          if (value) {
+            explicit[name.replace("utm_", "")] = value;
+          }
+        });
+
+        const campaignRoute = getCampaignRoute();
+
+        if (campaignRoute) {
+          explicit.source = campaignRoute.source;
+          explicit.medium = campaignRoute.medium;
+          explicit.campaign = campaignRoute.eventSlug;
+          explicit.content = campaignRoute.channel;
+        }
+
+        const hasExplicitAttribution = Object.keys(explicit).length > 0;
+        const attribution = {
+          ...stored,
+          ...explicit,
+          landing_path: hasExplicitAttribution
+            ? window.location.pathname
+            : stored.landing_path || window.location.pathname,
+        };
+
+        try {
+          window.sessionStorage.setItem(attributionStorageKey, JSON.stringify(attribution));
+        } catch {
+          // Analytics attribution is non-essential to the visitor journey.
+        }
+
+        return attribution;
+      }
+
+      function addAttributionToUrl(url) {
+        const parameterMap = {
+          source: "utm_source",
+          medium: "utm_medium",
+          campaign: "utm_campaign",
+          content: "utm_content",
+          term: "utm_term",
+        };
+
+        Object.entries(parameterMap).forEach(([key, parameter]) => {
+          if (campaignAttribution[key] && !url.searchParams.has(parameter)) {
+            url.searchParams.set(parameter, campaignAttribution[key]);
+          }
+        });
+
+        return url;
+      }
+
+      function decorateConversionLinks(scope = document) {
+        scope.querySelectorAll('a[href^="/go/"], a[href^="/out/"]').forEach((link) => {
+          const url = addAttributionToUrl(new URL(link.getAttribute("href"), window.location.origin));
+          link.href = `${url.pathname}${url.search}`;
+        });
+      }
+
       function trackAnalyticsEvent(name, data = {}) {
         if (typeof window.va !== "function") {
           return;
@@ -1087,7 +1315,10 @@
 
         window.va("event", {
           name,
-          data,
+          data: {
+            ...campaignAttribution,
+            ...data,
+          },
         });
       }
 
@@ -1098,6 +1329,35 @@
           placement,
           destination: "whatsapp",
         });
+      }
+
+      function setupEngagementTracking() {
+        const trackedDepths = new Set();
+        const depthThresholds = [25, 50, 75, 90];
+
+        const trackDepth = () => {
+          const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+
+          if (scrollable <= 0) {
+            return;
+          }
+
+          const depth = Math.round((window.scrollY / scrollable) * 100);
+
+          depthThresholds.forEach((threshold) => {
+            if (depth >= threshold && !trackedDepths.has(threshold)) {
+              trackedDepths.add(threshold);
+              trackAnalyticsEvent("scroll_depth", { depth: threshold });
+            }
+          });
+        };
+
+        window.addEventListener("scroll", trackDepth, { passive: true });
+        window.setTimeout(() => {
+          if (!document.hidden) {
+            trackAnalyticsEvent("engaged_visit", { seconds: 15 });
+          }
+        }, 15000);
       }
 
       function formatTimeLeft(milliseconds) {
@@ -1689,20 +1949,41 @@
         return eventRecords.get(slug) || null;
       }
 
+      function setMobileTicketEvent(slug) {
+        const ticketLink = document.querySelector("[data-mobile-ticket]");
+
+        if (!ticketLink) {
+          return;
+        }
+
+        const route = goRoutes.get(slug);
+        ticketLink.hidden = !route;
+
+        if (route) {
+          ticketLink.href = `/go/${slug}?placement=mobile_bar`;
+          ticketLink.dataset.eventSlug = slug;
+          decorateConversionLinks(ticketLink.parentElement || document);
+        }
+      }
+
       function openEventPage(slug, push = true) {
         const event = getEventRecord(slug);
         if (!event) return false;
         const page = document.querySelector("[data-event-page]");
         const isLive = !isPastEvent(event.start, event.archiveAt) && goRoutes.has(slug);
+        const ticketPlacement = getCampaignRoute() ? "campaign" : "event";
         const gallery = event.moments
-          ? `<section class="event-moments"><p class="eyebrow">FØ Moments</p><h2>From the night</h2><div class="event-moments-grid">${Array.from({ length: Math.min(6, event.moments.count) }, (_, index) => `<img src="./assets/moments/events/${event.moments.folder}/${String(index + 1).padStart(2, "0")}.webp" alt="${event.moments.name} moment ${index + 1}" loading="lazy">`).join("")}</div></section>`
+          ? `<section class="event-moments"><p class="eyebrow">FØ Moments</p><h2>From the night</h2><div class="event-moments-grid">${Array.from({ length: Math.min(6, event.moments.count) }, (_, index) => `<img src="./assets/moments/events/${event.moments.folder}/${String(index + 1).padStart(2, "0")}.webp" alt="${event.moments.name} moment ${index + 1}" loading="lazy">`).join("")}</div><a class="section-action event-moments-action" href="/f0moments" data-analytics-event="gallery_open" data-analytics-target="f0_moments" data-analytics-placement="event_gallery"><span>Open the full archive</span></a></section>`
           : `<section class="event-moments event-moments--archive"><a class="primary-button" href="/f0moments" data-analytics-event="gallery_open" data-analytics-target="f0_moments" data-analytics-placement="event"><span>Go to FØ Moments</span></a><p>${momentsTagline}</p></section>`;
-        page.innerHTML = `<section class="section event-detail"><a class="event-back" href="/calendar">← Rave Calendar</a><div class="event-detail-grid">${event.poster ? `<img class="event-detail-poster" src="${event.poster}" alt="${event.title} poster">` : ""}<div><p class="eyebrow">${isLive ? "Live event" : "Archive entry"}</p><h1>${event.title}</h1><p class="event-detail-date">${formatEventDate(event.start)}</p><p class="event-detail-venue">${event.venue}</p>${isLive ? `<a class="primary-button" href="/go/${slug}?placement=event"><span>Get tickets</span></a>` : ""}</div></div>${gallery}</section>`;
+        page.innerHTML = `<section class="section event-detail"><a class="event-back" href="/calendar">← Rave Calendar</a><div class="event-detail-grid">${event.poster ? `<img class="event-detail-poster" src="${event.poster}" alt="${event.title} poster">` : ""}<div><p class="eyebrow">${isLive ? "Live event" : "Archive entry"}</p><h1>${event.title}</h1><p class="event-detail-date">${formatEventDate(event.start)}</p><p class="event-detail-venue">${event.venue}</p>${isLive ? `<a class="primary-button" href="/go/${slug}?placement=${ticketPlacement}"><span>Get tickets</span></a>` : ""}</div></div>${gallery}<nav class="event-discovery" aria-label="Continue exploring"><a class="section-action" href="/calendar" data-analytics-event="navigation_click" data-analytics-target="calendar" data-analytics-placement="event_footer"><span>Rave Calendar</span></a>${event.moments ? `<a class="section-action" href="/f0moments" data-analytics-event="gallery_open" data-analytics-target="f0_moments" data-analytics-placement="event_footer"><span>FØ Moments</span></a>` : ""}</nav></section>`;
         document.querySelector("main#top").hidden = true;
         page.hidden = false;
         document.body.classList.add("event-page-active");
         document.title = `${event.title} | FALL0UT INDIA`;
         if (push) window.history.pushState(null, "", `/event/${slug}`);
+        setMobileTicketEvent(isLive ? slug : "");
+        decorateConversionLinks(page);
+        refreshHeroVideos();
         window.scrollTo({ top: 0, behavior: "auto" });
         return true;
       }
@@ -1710,8 +1991,17 @@
       function setupHeroVideos() {
         const videos = Array.from(document.querySelectorAll(".hero-video"));
         const playActiveVideo = () => {
+          const home = document.querySelector("main#top");
+          const isDirectDetailRoute = /^\/(?:event|campaign|go|out)\//.test(
+            window.location.pathname,
+          );
+          const shouldSkipInitialHero = document.readyState !== "complete" && isDirectDetailRoute;
+
           videos.forEach((video) => {
-            const isActive = getComputedStyle(video).display !== "none";
+            const isActive =
+              !home.hidden &&
+              !shouldSkipInitialHero &&
+              getComputedStyle(video).display !== "none";
 
             if (!isActive || reduceMotion) {
               video.pause();
@@ -1726,6 +2016,12 @@
             video.preload = "auto";
 
             if (!video.dataset.heroLoaded) {
+              const source = video.querySelector("source[data-src]");
+
+              if (source && !source.hasAttribute("src")) {
+                source.setAttribute("src", source.dataset.src);
+              }
+
               video.dataset.heroLoaded = "true";
               video.load();
             }
@@ -1734,6 +2030,8 @@
             if (attempt) attempt.catch(() => {});
           });
         };
+
+        refreshHeroVideos = playActiveVideo;
 
         videos.forEach((video) => {
           ["loadedmetadata", "loadeddata", "canplay"].forEach((event) => {
@@ -1837,13 +2135,47 @@
           return true;
         }
 
-        const allowedPlacements = new Set(["featured", "calendar", "focus", "event"]);
+        const allowedPlacements = new Set([
+          "featured",
+          "calendar",
+          "focus",
+          "event",
+          "campaign",
+          "mobile_bar",
+        ]);
         const requestedPlacement = new URLSearchParams(window.location.search).get("placement");
         const placement = allowedPlacements.has(requestedPlacement)
           ? requestedPlacement
           : "website";
 
         trackTicketClick(slug, route, placement);
+        window.setTimeout(() => {
+          window.location.replace(route.target);
+        }, 280);
+        return true;
+      }
+
+      function redirectOutRoute() {
+        const match = window.location.pathname.match(/^\/out\/([^/]+)(?:\/([^/]+))?\/?$/);
+
+        if (!match) {
+          return false;
+        }
+
+        const route = outRoutes.get(match[1]);
+        const placement = normalizeAttributionValue(match[2] || "website");
+
+        if (!route) {
+          window.history.replaceState(null, "", "/contact");
+          scrollToSection("contact", "auto");
+          return true;
+        }
+
+        trackAnalyticsEvent(route.event, {
+          target: route.destination,
+          placement,
+          destination: route.destination,
+        });
         window.setTimeout(() => {
           window.location.replace(route.target);
         }, 280);
@@ -1922,10 +2254,18 @@
       bindTouchActive(".event-feature");
       bindTouchActive(".moment-card");
       prepareCalendarArchive();
+      decorateConversionLinks();
+      const isRedirecting = redirectGoRoute() || redirectOutRoute();
+
+      if (!isRedirecting) {
+        handlePathRoute("auto");
+      }
+
       setupFeaturedCarousel();
       setupHeroVideos();
       setupCommunityPopup();
       setupSectionViewTracking();
+      setupEngagementTracking();
 
       updateScrollState();
       updateCountdowns();
@@ -1934,12 +2274,21 @@
       window.addEventListener("popstate", () => handlePathRoute("auto"));
       window.setInterval(updateCountdowns, 30000);
       window.addEventListener("load", () => {
-        if (redirectGoRoute()) {
+        if (isRedirecting) {
           return;
         }
 
+        const campaignRoute = getCampaignRoute();
+
+        if (campaignRoute) {
+          trackAnalyticsEvent("campaign_landing", {
+            event: campaignRoute.eventSlug,
+            channel: campaignRoute.channel,
+          });
+        }
+
         focusCurrentCalendarMonth();
-        handlePathRoute("auto");
+        refreshHeroVideos();
       });
     </script>
   </body>
