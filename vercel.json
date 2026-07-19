@@ -35,6 +35,10 @@
     {
       "source": "/go/:slug",
       "destination": "/index.html"
+    },
+    {
+      "source": "/event/:slug",
+      "destination": "/index.html"
     }
   ]
 }
