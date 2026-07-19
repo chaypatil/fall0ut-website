@@ -36,6 +36,9 @@ Do not create a preview by default. Chay will ask for one when he wants one.
   - `styles.css`: shared visual system and responsive behavior
   - `vercel.json`: clean routes and rewrites
   - `assets/`: brand, event, hero, and moments media
+  - `data/search-guides.json`: source content for About, city, and sound guide pages
+  - `scripts/generate-search-guides.mjs`: deterministic guide-page generator
+  - `docs/fallout-development-learnings.md`: durable design, search, gallery, and release rules
 - Systems audit: `docs/fallout-website-system-audit.md`
 
 This canonical folder was intentionally created on 2026-07-18 by copying the complete Fallout project from `Claude\Projects\Fallout` into `Documents\Fall0ut` and byte-verifying the contents, including Git history. It is now the single active location for Codex and Claude Code.
@@ -92,7 +95,6 @@ Event data is currently duplicated inside `index.html` across:
 - Hot Right Now
 - Featured Events
 - Rave Calendar
-- Announcements
 - countdown timestamps
 - event statistics
 - `/go/:slug` ticket routes
@@ -174,22 +176,24 @@ Treat these as locked defaults unless Chay explicitly changes them.
 - Use `docs/fallout-analytics-playbook.md` for the dashboard path map, Steelworks Instagram links, and weekly review workflow.
 - Do not build personal tracking or a leads database without a clear purpose, consent model, and a separate approved task.
 
-### Calendar and announcements
+### Calendar
 
 - Public name is `Rave Calendar` inside the page, but the top navigation stays `Events`.
 - Event presentation uses venue/city consistently.
 - Do not display meaningless TBA placeholders. When Chay explicitly supplies `TBA` as the venue, display exactly `TBA / city` and never spell out the abbreviation.
-- Announcements contain audience-facing event copy, not developer notes, platform names, or implementation labels.
+- Do not add an Announcements section. Current event information belongs in Hot Right Now, Featured Events, or the Rave Calendar; `/announcements` redirects to `/events`.
 - Past events should be preserved rather than deleted once lifecycle automation exists.
 
 ### FØ Moments
 
 - Homepage shows six selected, full-color highlight images.
+- The homepage `FØ Moments` heading itself links to the archive and does not need a redundant action row below the gallery.
 - The first highlights should maintain inclusive representation when suitable approved images exist.
 - The CTA leads to a separate internal moments page, not an endlessly expanded homepage section.
 - The gallery is grouped by event and remains full color.
 - Homepage moments use a compact mobile two-column layout with a wide final CTA.
 - Gallery images must be intentionally selected and optimized. Never dump an entire drive or raw multi-gigabyte archive into the repository.
+- Event pages show FØ Moments only when that event has uploaded images. With no image folder, show no gallery, archive prompt, or FØ Moments link.
 - The Instagram CTA uses `@fall0utindia` and links to the actual profile.
 
 ### Community, contact, and footer
@@ -224,8 +228,8 @@ Automation should be introduced when it removes repeated work without prematurel
 ### Automate now
 
 1. **One structured event source**
-   - Add each event once with slug, name, city, venue, dates, timezone, poster, status, featured order, announcement copy, ticket message, and offer.
-   - Generate Featured Events, Rave Calendar, Announcements, countdowns, statistics, and `/go` routing from that source.
+   - Add each event once with slug, name, city, venue, dates, timezone, poster, status, featured order, ticket message, and offer.
+   - Generate Featured Events, Rave Calendar, countdowns, statistics, and `/go` routing from that source.
 
 2. **Automatic event lifecycle**
    - Sort by date.
@@ -294,7 +298,7 @@ The next structural improvement should be the event-data refactor, not another f
 
 1. Define a small event schema and confirm the unresolved lifecycle rules with Chay.
 2. Move current events into one structured source.
-3. Render featured cards, calendar entries, announcements, counts, countdowns, and ticket routing from that source.
+3. Render featured cards, calendar entries, counts, countdowns, and ticket routing from that source.
 4. Add deterministic validation.
 5. Verify visual parity before publishing.
 6. Then create sharp project skills for event operations, asset integration, design-system maintenance, and release checking.

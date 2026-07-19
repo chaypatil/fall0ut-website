@@ -1,0 +1,198 @@
+[
+  {
+    "slug": "about",
+    "type": "about",
+    "title": "About FallØut India | Underground Rave Culture",
+    "description": "Meet FallØut India, the underground rave collective connecting hard techno events, direct ticket access and the FØ Moments archive.",
+    "eyebrow": "About FallØut",
+    "heading": "Built from the underground",
+    "intro": "FallØut is India's premier underground rave collective. It connects the people, rooms and nights pushing the country's harder edge forward.",
+    "sections": [
+      {
+        "heading": "The movement",
+        "body": "FallØut began with a simple instinct: the underground should be documented by people inside it. The platform brings current dates, direct event access and the memory of past nights into one place without sanding down the culture that made them matter."
+      },
+      {
+        "heading": "What stays central",
+        "body": "Sound, crowd and room come first. The calendar follows what is live, permanent event pages preserve what has passed, and FØ Moments holds the photographs selected from the nights worth returning to."
+      }
+    ],
+    "primaryLabel": "Rave Calendar",
+    "primaryHref": "/calendar",
+    "secondaryLabel": "FØ Moments",
+    "secondaryHref": "/f0moments",
+    "related": [
+      { "label": "Raves in India", "href": "/raves-in-india" },
+      { "label": "Hard techno in India", "href": "/hard-techno-india" },
+      { "label": "Schranz in India", "href": "/schranz-india" }
+    ]
+  },
+  {
+    "slug": "raves-in-mumbai",
+    "type": "city",
+    "title": "Raves in Mumbai | FallØut India",
+    "description": "Find current underground raves in Mumbai with dated event pages, venue updates and direct ticket access through FallØut's Rave Calendar.",
+    "eyebrow": "City guide · Mumbai",
+    "heading": "Raves in Mumbai",
+    "intro": "A direct route into Mumbai's current underground calendar, from harder club rooms to warehouse-scale nights.",
+    "sections": [
+      {
+        "heading": "What is on",
+        "body": "The live Rave Calendar carries the date, venue status and event page for each Mumbai listing. When an event passes, it leaves the upcoming rotation but its dedicated page remains available through the calendar archive."
+      },
+      {
+        "heading": "Before the night",
+        "body": "Use the event page as the source for the latest venue and ticket information. If FallØut has an active ticket offer, the live event page shows it directly; archived events do not retain a ticket button."
+      }
+    ],
+    "primaryLabel": "See Mumbai dates",
+    "primaryHref": "/calendar",
+    "secondaryLabel": "Raves across India",
+    "secondaryHref": "/raves-in-india",
+    "related": [
+      { "label": "Raves in Delhi", "href": "/raves-in-delhi" },
+      { "label": "Raves in Bangalore", "href": "/raves-in-bangalore" },
+      { "label": "Warehouse raves in India", "href": "/warehouse-raves-india" }
+    ]
+  },
+  {
+    "slug": "raves-in-delhi",
+    "type": "city",
+    "title": "Raves in Delhi | FallØut India",
+    "description": "Find current underground raves in Delhi with dated event pages, venue updates and direct ticket access through FallØut's Rave Calendar.",
+    "eyebrow": "City guide · Delhi",
+    "heading": "Raves in Delhi",
+    "intro": "Follow Delhi's harder underground dates through one current calendar and a permanent event archive.",
+    "sections": [
+      {
+        "heading": "Current listings",
+        "body": "Delhi dates appear in the Rave Calendar as soon as their public details are confirmed. Each listing opens a dedicated page, keeping date and venue information separate from the homepage's featured campaign."
+      },
+      {
+        "heading": "After the event",
+        "body": "Passed dates move out of the upcoming rotation automatically. Their event pages remain reachable from the calendar, while FØ Moments appears only when a selected image set has actually been uploaded."
+      }
+    ],
+    "primaryLabel": "See Delhi dates",
+    "primaryHref": "/calendar",
+    "secondaryLabel": "Raves across India",
+    "secondaryHref": "/raves-in-india",
+    "related": [
+      { "label": "Raves in Mumbai", "href": "/raves-in-mumbai" },
+      { "label": "Raves in Bangalore", "href": "/raves-in-bangalore" },
+      { "label": "Hard techno in India", "href": "/hard-techno-india" }
+    ]
+  },
+  {
+    "slug": "raves-in-bangalore",
+    "type": "city",
+    "title": "Raves in Bangalore | FallØut India",
+    "description": "Find current underground raves in Bangalore with dated event pages, venue updates and direct ticket access through FallØut's Rave Calendar.",
+    "eyebrow": "City guide · Bangalore",
+    "heading": "Raves in Bangalore",
+    "intro": "A clean view of Bangalore's current underground dates, live event details and preserved past listings.",
+    "sections": [
+      {
+        "heading": "Find the next date",
+        "body": "The Rave Calendar is the live source for Bangalore listings. It keeps city, date and venue status together, then routes each event to its own page for ticket access and later reference."
+      },
+      {
+        "heading": "One listing, one source",
+        "body": "Event pages stay permanent even when a date has passed. This keeps old links useful and prevents live ticket actions from appearing on archive entries."
+      }
+    ],
+    "primaryLabel": "See Bangalore dates",
+    "primaryHref": "/calendar",
+    "secondaryLabel": "Raves across India",
+    "secondaryHref": "/raves-in-india",
+    "related": [
+      { "label": "Raves in Mumbai", "href": "/raves-in-mumbai" },
+      { "label": "Raves in Delhi", "href": "/raves-in-delhi" },
+      { "label": "Schranz in India", "href": "/schranz-india" }
+    ]
+  },
+  {
+    "slug": "hard-techno-india",
+    "type": "sound",
+    "title": "Hard Techno in India | FallØut",
+    "description": "Explore India's hard techno underground through FallØut's current rave calendar, permanent event pages and selected FØ Moments archive.",
+    "eyebrow": "Sound guide · India",
+    "heading": "Hard techno in India",
+    "intro": "Fast, physical and built for rooms where pressure matters more than polish.",
+    "sections": [
+      {
+        "heading": "The sound",
+        "body": "Hard techno pushes tempo, weight and repetition toward a direct bodily response. In India's underground it moves across industrial textures, harder grooves, distorted kicks and the faster drive that often meets schranz."
+      },
+      {
+        "heading": "Find it live",
+        "body": "FallØut's calendar connects the sound to actual dates rather than treating it as a loose label. Open a listing for its city, venue status and ticket route, then return to its permanent page after the event."
+      }
+    ],
+    "primaryLabel": "Open Rave Calendar",
+    "primaryHref": "/calendar",
+    "secondaryLabel": "Raves across India",
+    "secondaryHref": "/raves-in-india",
+    "related": [
+      { "label": "Schranz in India", "href": "/schranz-india" },
+      { "label": "Warehouse raves in India", "href": "/warehouse-raves-india" },
+      { "label": "About FallØut", "href": "/about" }
+    ]
+  },
+  {
+    "slug": "schranz-india",
+    "type": "sound",
+    "title": "Schranz in India | FallØut",
+    "description": "Follow schranz in India's underground through FallØut's current rave calendar, event pages and selected archive of past nights.",
+    "eyebrow": "Sound guide · India",
+    "heading": "Schranz in India",
+    "intro": "Relentless percussion, distorted movement and momentum that rarely lets the room breathe.",
+    "sections": [
+      {
+        "heading": "What schranz means here",
+        "body": "Schranz is a harder, highly percussive strain of techno driven by looping force and speed. The word matters only when it helps people find the sound and the rooms built around it, not when it is pasted onto every event."
+      },
+      {
+        "heading": "From search to room",
+        "body": "Use the Rave Calendar to find current dates connected to FallØut's harder spectrum. Event pages hold the practical details, while the archive keeps only the images deliberately selected from nights that already happened."
+      }
+    ],
+    "primaryLabel": "Open Rave Calendar",
+    "primaryHref": "/calendar",
+    "secondaryLabel": "Hard techno in India",
+    "secondaryHref": "/hard-techno-india",
+    "related": [
+      { "label": "Warehouse raves in India", "href": "/warehouse-raves-india" },
+      { "label": "Raves in Mumbai", "href": "/raves-in-mumbai" },
+      { "label": "About FallØut", "href": "/about" }
+    ]
+  },
+  {
+    "slug": "warehouse-raves-india",
+    "type": "sound",
+    "title": "Warehouse Raves in India | FallØut",
+    "description": "Find warehouse-style underground raves in India through FallØut's current city calendar, direct event pages and past-event archive.",
+    "eyebrow": "Culture guide · India",
+    "heading": "Warehouse raves in India",
+    "intro": "The warehouse idea is less about a visual costume and more about sound, space, crowd and intent.",
+    "sections": [
+      {
+        "heading": "Beyond the label",
+        "body": "A warehouse-style rave strips attention back to the room: a forceful system, long-form movement and a crowd participating in the atmosphere rather than observing a stage. Not every underground event needs to borrow the term."
+      },
+      {
+        "heading": "Find current nights",
+        "body": "FallØut's Rave Calendar keeps live city listings and venue status current. Dedicated pages preserve each date after it passes, while FØ Moments appears only for events with an approved image selection."
+      }
+    ],
+    "primaryLabel": "Open Rave Calendar",
+    "primaryHref": "/calendar",
+    "secondaryLabel": "Raves across India",
+    "secondaryHref": "/raves-in-india",
+    "related": [
+      { "label": "Hard techno in India", "href": "/hard-techno-india" },
+      { "label": "Schranz in India", "href": "/schranz-india" },
+      { "label": "Raves in Bangalore", "href": "/raves-in-bangalore" }
+    ]
+  }
+]

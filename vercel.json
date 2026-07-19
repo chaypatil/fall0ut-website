@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/announcements",
+      "destination": "/events",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/events",
@@ -13,10 +20,6 @@
       "destination": "/index.html"
     },
     {
-      "source": "/announcements",
-      "destination": "/index.html"
-    },
-    {
       "source": "/moments",
       "destination": "/moments.html"
     },
@@ -27,6 +30,34 @@
     {
       "source": "/raves-in-india",
       "destination": "/raves.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/about.html"
+    },
+    {
+      "source": "/raves-in-mumbai",
+      "destination": "/raves-in-mumbai.html"
+    },
+    {
+      "source": "/raves-in-delhi",
+      "destination": "/raves-in-delhi.html"
+    },
+    {
+      "source": "/raves-in-bangalore",
+      "destination": "/raves-in-bangalore.html"
+    },
+    {
+      "source": "/hard-techno-india",
+      "destination": "/hard-techno-india.html"
+    },
+    {
+      "source": "/schranz-india",
+      "destination": "/schranz-india.html"
+    },
+    {
+      "source": "/warehouse-raves-india",
+      "destination": "/warehouse-raves-india.html"
     },
     {
       "source": "/community",
