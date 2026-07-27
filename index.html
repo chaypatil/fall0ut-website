@@ -24,14 +24,14 @@
     />
     <meta
       property="og:image"
-      content="https://www.fall0ut.in/assets/hero/f0-hero-desktop-poster.jpg"
+      content="https://www.fall0ut.in/assets/fall0ut-logo.png"
     />
-    <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image:width" content="1600" />
-    <meta property="og:image:height" content="900" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1254" />
+    <meta property="og:image:height" content="1254" />
     <meta
       property="og:image:alt"
-      content="FallØut India hard techno rave performance"
+      content="FallØut India logo"
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta
@@ -44,15 +44,15 @@
     />
     <meta
       name="twitter:image"
-      content="https://www.fall0ut.in/assets/hero/f0-hero-desktop-poster.jpg"
+      content="https://www.fall0ut.in/assets/fall0ut-logo.png"
     />
     <meta
       name="twitter:image:alt"
-      content="FallØut India hard techno rave performance"
+      content="FallØut India logo"
     />
     <link
       rel="image_src"
-      href="https://www.fall0ut.in/assets/hero/f0-hero-desktop-poster.jpg"
+      href="https://www.fall0ut.in/assets/fall0ut-logo.png"
     />
     <meta name="theme-color" content="#01040a" />
     <script>
@@ -131,11 +131,11 @@
             },
             "image": {
               "@type": "ImageObject",
-              "url": "https://www.fall0ut.in/assets/hero/f0-hero-desktop-poster.jpg",
-              "contentUrl": "https://www.fall0ut.in/assets/hero/f0-hero-desktop-poster.jpg",
-              "width": 1600,
-              "height": 900,
-              "caption": "FallØut India hard techno rave performance"
+              "url": "https://www.fall0ut.in/assets/fall0ut-logo.png",
+              "contentUrl": "https://www.fall0ut.in/assets/fall0ut-logo.png",
+              "width": 1254,
+              "height": 1254,
+              "caption": "FallØut India logo"
             },
             "sameAs": ["https://www.instagram.com/fall0utindia"],
             "areaServed": {
@@ -285,8 +285,13 @@
               </div>
             </dl>
             <div class="focus-actions">
-              <a class="primary-button focus-cta" href="/event/steelworks">
-                <span>View event</span>
+              <a
+                class="primary-button focus-cta"
+                href="/go/steelworks?placement=focus"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>Get tickets</span>
                 <svg aria-hidden="true" viewBox="0 0 24 24">
                   <path d="M5 12h14M13 6l6 6-6 6" />
                 </svg>
@@ -338,7 +343,9 @@
             data-carousel-slide
             data-event-slug="eczodia"
             data-event-start="2026-07-26T21:30:00+05:30"
-            href="/event/eczodia"
+            href="/go/eczodia?placement=featured"
+            target="_blank"
+            rel="noreferrer"
           >
             <div class="event-art">
               <span class="discount-bookmark">Get ₹150* off</span>
@@ -364,7 +371,7 @@
                 Calculating time left
               </p>
               <span class="event-cta">
-                <span>View event</span>
+                <span>Get tickets</span>
                 <svg aria-hidden="true" viewBox="0 0 24 24">
                   <path d="M7 4h10l1 4-1 4 1 4-1 4H7l-1-4 1-4-1-4 1-4Z" />
                   <path d="M10 7v10M14 7v10" />
@@ -378,7 +385,9 @@
             data-carousel-slide
             data-event-slug="morfame"
             data-event-start="2026-07-25T21:00:00+05:30"
-            href="/event/morfame"
+            href="/go/morfame?placement=featured"
+            target="_blank"
+            rel="noreferrer"
           >
             <div class="event-art">
               <span class="discount-bookmark discount-bookmark--flat">Get ₹300 off</span>
@@ -404,7 +413,7 @@
                 Calculating time left
               </p>
               <span class="event-cta">
-                <span>View event</span>
+                <span>Get tickets</span>
                 <svg aria-hidden="true" viewBox="0 0 24 24">
                   <path d="M5 8.5V6.8c0-1 .8-1.8 1.8-1.8h10.4c1 0 1.8.8 1.8 1.8v1.7a2.5 2.5 0 0 0 0 5v1.7c0 1-.8 1.8-1.8 1.8H6.8c-1 0-1.8-.8-1.8-1.8v-1.7a2.5 2.5 0 0 0 0-5Z" />
                   <path d="M9 8h6M9 12h6M9 16h4" />
@@ -418,7 +427,9 @@
             data-carousel-slide
             data-event-slug="shdw"
             data-event-start="2026-08-09T20:00:00+05:30"
-            href="/event/shdw"
+            href="/go/shdw?placement=featured"
+            target="_blank"
+            rel="noreferrer"
           >
             <div class="event-art">
               <span class="discount-bookmark">Get ₹150* off</span>
@@ -444,7 +455,7 @@
                 Calculating time left
               </p>
               <span class="event-cta">
-                <span>View event</span>
+                <span>Get tickets</span>
                 <svg aria-hidden="true" viewBox="0 0 24 24">
                   <circle cx="7" cy="7" r="3" />
                   <circle cx="17" cy="7" r="3" />
@@ -2010,9 +2021,30 @@
           card.classList.toggle("is-upcoming", !isPast);
           card.dataset.eventTitle = title;
           card.dataset.eventVenue = venue;
-          card.href = `/event/${slug}`;
-          card.removeAttribute("target");
-          card.removeAttribute("rel");
+          let action = card.querySelector(".calendar-cta");
+
+          if (!action) {
+            action = document.createElement("span");
+            action.className = "calendar-cta";
+            card.append(action);
+          }
+
+          if (isPast) {
+            action.textContent = "View event";
+            card.href = `/event/${slug}`;
+            card.removeAttribute("target");
+            card.removeAttribute("rel");
+          } else if (goRoutes.has(slug)) {
+            action.textContent = "Get tickets";
+            card.href = `/go/${slug}?placement=calendar`;
+            card.target = "_blank";
+            card.rel = "noreferrer";
+          } else {
+            action.remove();
+            card.removeAttribute("href");
+            card.removeAttribute("target");
+            card.removeAttribute("rel");
+          }
         });
 
         document.querySelectorAll("[data-carousel-slide]").forEach((slide) => {

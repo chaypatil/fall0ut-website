@@ -823,6 +823,21 @@ a.calendar-event:focus-visible {
   line-height: 1.35;
 }
 
+.calendar-event .calendar-cta {
+  margin-top: 4px;
+  color: #e7f1ee;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.calendar-event.is-past .calendar-cta {
+  color: var(--muted);
+}
+
 .calendar-event .calendar-countdown {
   color: #dff7f2;
   font-family: "Barlow Condensed", sans-serif;
