@@ -576,6 +576,11 @@ h2 {
   cursor: grabbing;
 }
 
+.hot-events .focus-event {
+  flex: 0 0 100%;
+  min-width: 100%;
+}
+
 .featured-events.is-dragging .event-feature {
   pointer-events: none;
 }

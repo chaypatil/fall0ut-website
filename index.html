@@ -247,9 +247,18 @@
           </div>
         </div>
 
+        <div
+          class="featured-carousel hot-carousel"
+          data-hot-carousel
+          aria-label="Hot events"
+          aria-roledescription="carousel"
+        >
+          <div class="featured-events hot-events" data-carousel-track>
         <article
           class="focus-event"
           data-focus-event
+          data-carousel-slide
+          data-event-slug="steelworks"
           data-event-start="2026-08-21T23:59:59+05:30"
           data-event-archive="2026-08-23T23:59:59.999+05:30"
         >
@@ -308,6 +317,89 @@
             </div>
           </div>
         </article>
+
+        <article
+          class="focus-event"
+          data-focus-event
+          data-carousel-slide
+          data-event-slug="bcco-mumbai"
+          data-event-start="2026-08-21T23:59:59+05:30"
+          data-event-archive="2026-08-21T23:59:59.999+05:30"
+        >
+          <div class="focus-art">
+            <span class="discount-bookmark">Tickets via DM</span>
+            <img
+              src="./assets/bcco-mumbai-poster.webp"
+              alt="BCCO Berlin Mumbai event poster"
+              width="900"
+              height="1422"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+          <div class="focus-copy">
+            <p class="event-date">21 Aug 2026 / Mumbai</p>
+            <h3>BCCO Mumbai</h3>
+            <div class="focus-description">
+              <p>BCCO Berlin lands in Mumbai for a night built for the underground.</p>
+              <p>Waves – The Bombay Club.</p>
+            </div>
+            <dl class="focus-details">
+              <div>
+                <dt>Date</dt>
+                <dd>21 August 2026</dd>
+              </div>
+              <div>
+                <dt>Venue</dt>
+                <dd>Waves – The Bombay Club, Mumbai</dd>
+              </div>
+            </dl>
+            <div class="focus-actions">
+              <a
+                class="primary-button focus-cta"
+                href="/go/bcco-mumbai?placement=focus"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>Get tickets</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </a>
+              <a
+                class="section-action"
+                href="/calendar"
+                data-analytics-event="navigation_click"
+                data-analytics-target="calendar"
+                data-analytics-placement="focus"
+              >
+                <span>Rave Calendar</span>
+              </a>
+            </div>
+          </div>
+        </article>
+          </div>
+
+          <div class="carousel-controls">
+            <p class="carousel-status" data-carousel-status aria-label="Event 1 of 2">
+              <span data-carousel-current>01</span>
+              <span aria-hidden="true">/</span>
+              <span data-carousel-total>02</span>
+            </p>
+            <div class="carousel-actions" aria-label="Hot event controls">
+              <button class="carousel-button" type="button" data-carousel-prev aria-label="Previous hot event" title="Previous hot event">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></svg>
+              </button>
+              <button class="carousel-button carousel-toggle" type="button" data-carousel-toggle aria-label="Pause automatic rotation" title="Pause automatic rotation">
+                <svg class="carousel-icon carousel-icon--pause" aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14" /></svg>
+                <svg class="carousel-icon carousel-icon--play" aria-hidden="true" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z" /></svg>
+              </button>
+              <button class="carousel-button" type="button" data-carousel-next aria-label="Next hot event" title="Next hot event">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></svg>
+              </button>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="section events-section" id="events" aria-labelledby="events-title">
@@ -802,6 +894,22 @@
               </a>
               <a
                 class="calendar-event is-upcoming"
+                data-event-slug="bcco-mumbai"
+                href="/event/bcco-mumbai"
+              >
+                <time datetime="2026-08-21">21 Aug</time>
+                <strong>BCCO Mumbai</strong>
+                <span>Waves – The Bombay Club / Mumbai</span>
+                <span
+                  class="calendar-countdown"
+                  data-countdown
+                  data-event-start="2026-08-21T20:00:00+05:30"
+                >
+                  Calculating time left
+                </span>
+              </a>
+              <a
+                class="calendar-event is-upcoming"
                 data-event-slug="steelworks"
                 href="/event/steelworks"
               >
@@ -1169,6 +1277,13 @@
             offer: "up_to_700",
           },
         ],
+        [
+          "bcco-mumbai",
+          {
+            target: getWhatsAppTicketUrl("Hey, I wanna buy BCCO Mumbai tickets for 21 August at Waves – The Bombay Club."),
+            offer: "direct_dm",
+          },
+        ],
       ]);
       const outRoutes = new Map([
         [
@@ -1497,8 +1612,8 @@
         });
       }
 
-      function setupFeaturedCarousel() {
-        const carousel = document.querySelector("[data-featured-carousel]");
+      function setupFeaturedCarousel(selector = "[data-featured-carousel]") {
+        const carousel = document.querySelector(selector);
 
         if (!carousel) {
           return;
@@ -1988,7 +2103,13 @@
 
         document.querySelectorAll("[data-focus-event][data-event-start]").forEach((event) => {
           if (isPastEvent(event.dataset.eventStart, event.dataset.eventArchive)) {
-            event.closest("section")?.setAttribute("hidden", "");
+            event.remove();
+          }
+        });
+
+        document.querySelectorAll("[data-hot-carousel]").forEach((carousel) => {
+          if (!carousel.querySelector("[data-focus-event]")) {
+            carousel.closest("section")?.setAttribute("hidden", "");
           }
         });
 
@@ -2392,6 +2513,7 @@
       }
 
       setupFeaturedCarousel();
+      setupFeaturedCarousel("[data-hot-carousel]");
       setupHeroVideos();
       setupCommunityPopup();
       setupSectionViewTracking();
