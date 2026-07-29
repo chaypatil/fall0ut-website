@@ -1698,6 +1698,9 @@
           currentNumber.textContent = displayedIndex;
           totalNumber.textContent = displayedTotal;
           status.setAttribute("aria-label", `Event ${activeIndex + 1} of ${slides.length}`);
+          if (carousel.hasAttribute("data-hot-carousel")) {
+            setMobileTicketEvent(getActiveSlug());
+          }
           trackVisibleSlide();
         }
 
@@ -2237,7 +2240,7 @@
         const cityOptions = catalog.cities ? Object.keys(catalog.cities).map((city) => `<option value="${city}">${city}</option>`).join("") : "";
         const cityField = catalog.cities ? `<label class="ticket-field"><span>City</span><select data-ticket-city>${cityOptions}</select></label>` : "";
         const initialCity = catalog.cities ? Object.keys(catalog.cities)[0] : "";
-        return `<section class="ticket-selector" data-ticket-selector><div class="ticket-selector-heading"><p class="eyebrow">Choose your ticket</p></div>${cityField}<div class="ticket-options" data-ticket-options>${renderTicketCategories(slug, initialCity)}</div><div class="ticket-booking-bar" data-ticket-booking-bar><span><small>Book tickets</small><strong data-ticket-booking-price>Select a ticket</strong></span><button class="primary-button" type="button" data-ticket-book disabled>Book tickets</button></div></section>`;
+        return `<section class="ticket-selector" data-ticket-selector><div class="ticket-selector-heading"><p class="eyebrow">Choose your ticket</p></div>${cityField}<div class="ticket-options" data-ticket-options>${renderTicketCategories(slug, initialCity)}</div></section>`;
       }
 
       function bindTicketSelector(container, slug) {
@@ -2246,9 +2249,6 @@
         const catalog = ticketCatalog[slug];
         const citySelect = selector.querySelector("[data-ticket-city]");
         const options = selector.querySelector("[data-ticket-options]");
-        const bookingButton = selector.querySelector("[data-ticket-book]");
-        const bookingPrice = selector.querySelector("[data-ticket-booking-price]");
-        let selectedTicket = null;
         const refreshOptions = () => {
           options.innerHTML = renderTicketCategories(slug, citySelect?.value || "");
           options.querySelectorAll("[data-ticket-id]").forEach((button) => button.addEventListener("click", () => {
@@ -2256,20 +2256,13 @@
             const label = button.dataset.ticketLabel;
             const price = Number(button.dataset.ticketPrice);
             const phase = button.dataset.ticketPhase;
-            selectedTicket = { city, label, price, phase };
             options.querySelectorAll("[data-ticket-id]").forEach((option) => option.setAttribute("aria-pressed", String(option === button)));
-            bookingPrice.textContent = `${label} · ${formatRupees(price)}`;
-            bookingButton.disabled = false;
+            const cityText = catalog.cities ? ` for ${city}` : "";
+            const message = `Hey, I wanna buy ${catalog.title} tickets${cityText}. I want ${label} (${phase}) at ${formatRupees(price)}.`;
+            trackAnalyticsEvent("ticket_interest", { event: slug, city, category: label, price, phase });
+            window.location.href = getWhatsAppTicketUrl(message);
           }));
         };
-        bookingButton.addEventListener("click", () => {
-          if (!selectedTicket) return;
-          const { city, label, price, phase } = selectedTicket;
-          const cityText = catalog.cities ? ` for ${city}` : "";
-          const message = `Hey, I wanna buy ${catalog.title} tickets${cityText}. I want ${label} (${phase}) at ${formatRupees(price)}.`;
-          trackAnalyticsEvent("ticket_interest", { event: slug, city, category: label, price, phase });
-          window.location.href = getWhatsAppTicketUrl(message);
-        });
         citySelect?.addEventListener("change", refreshOptions);
         refreshOptions();
       }

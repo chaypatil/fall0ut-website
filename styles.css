@@ -1564,7 +1564,7 @@ a.calendar-event:focus-visible {
 }
 
 .carousel-controls {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: space-between;
   min-height: 62px;
