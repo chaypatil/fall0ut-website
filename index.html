@@ -1136,6 +1136,10 @@
     <main class="event-page" data-event-page hidden aria-live="polite"></main>
 
     <nav class="mobile-quickbar" aria-label="Quick actions">
+      <div class="event-ticket-bar" data-event-ticket-bar hidden>
+        <span><small data-event-ticket-title>Tickets</small><strong data-event-ticket-price></strong></span>
+        <button type="button" class="event-ticket-bar-action" data-event-ticket-action>Book tickets</button>
+      </div>
       <a
         class="mobile-quickbar-link mobile-quickbar-link--primary"
         href="/go/steelworks?placement=mobile_bar"
@@ -2169,6 +2173,27 @@
 
       function setMobileTicketEvent(slug) {
         const ticketLink = document.querySelector("[data-mobile-ticket]");
+        const quickbar = document.querySelector(".mobile-quickbar");
+        const eventBar = document.querySelector("[data-event-ticket-bar]");
+        const eventPrice = document.querySelector("[data-event-ticket-price]");
+        const eventTitle = document.querySelector("[data-event-ticket-title]");
+        const eventAction = document.querySelector("[data-event-ticket-action]");
+
+        if (eventBar) {
+          const catalog = ticketCatalog[slug];
+          const prices = catalog
+            ? Object.values(catalog.cities || { default: catalog.categories }).flat().map(([, , price]) => Number(price)).filter(Boolean)
+            : [];
+          const minimum = prices.length ? Math.min(...prices) : null;
+          const isEventPage = Boolean(slug) && Boolean(catalog) && document.body.classList.contains("event-page-active");
+          eventBar.hidden = !isEventPage;
+          quickbar?.classList.toggle("has-event-ticket-bar", isEventPage);
+          if (isEventPage) {
+            eventTitle.textContent = catalog.title;
+            eventPrice.textContent = minimum ? `${formatRupees(minimum)} onwards` : "View tickets";
+            eventAction.onclick = () => document.querySelector("[data-ticket-selector]")?.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }
 
         if (!ticketLink) {
           return;
