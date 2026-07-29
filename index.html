@@ -296,9 +296,7 @@
             <div class="focus-actions">
               <a
                 class="primary-button focus-cta"
-                href="/go/steelworks?placement=focus"
-                target="_blank"
-                rel="noreferrer"
+                href="/event/steelworks"
               >
                 <span>Get tickets</span>
                 <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -357,9 +355,7 @@
             <div class="focus-actions">
               <a
                 class="primary-button focus-cta"
-                href="/go/bcco-mumbai?placement=focus"
-                target="_blank"
-                rel="noreferrer"
+                href="/event/bcco-mumbai"
               >
                 <span>Get tickets</span>
                 <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -435,9 +431,7 @@
             data-carousel-slide
             data-event-slug="eczodia"
             data-event-start="2026-07-26T21:30:00+05:30"
-            href="/go/eczodia?placement=featured"
-            target="_blank"
-            rel="noreferrer"
+          href="/event/eczodia"
           >
             <div class="event-art">
               <span class="discount-bookmark">Get ₹150* off</span>
@@ -477,9 +471,7 @@
             data-carousel-slide
             data-event-slug="morfame"
             data-event-start="2026-07-25T21:00:00+05:30"
-            href="/go/morfame?placement=featured"
-            target="_blank"
-            rel="noreferrer"
+          href="/event/morfame"
           >
             <div class="event-art">
               <span class="discount-bookmark discount-bookmark--flat">Get ₹300 off</span>
@@ -519,9 +511,7 @@
             data-carousel-slide
             data-event-slug="shdw"
             data-event-start="2026-08-09T20:00:00+05:30"
-            href="/go/shdw?placement=featured"
-            target="_blank"
-            rel="noreferrer"
+          href="/event/shdw"
           >
             <div class="event-art">
               <span class="discount-bookmark">Get ₹150* off</span>
@@ -879,21 +869,6 @@
               </header>
               <a
                 class="calendar-event is-upcoming"
-                href="/event/shdw"
-              >
-                <time datetime="2026-08-09">09 Aug</time>
-                <strong>SHDW</strong>
-                <span>AntiSocial / Mumbai</span>
-                <span
-                  class="calendar-countdown"
-                  data-countdown
-                  data-event-start="2026-08-09T20:00:00+05:30"
-                >
-                  Calculating time left
-                </span>
-              </a>
-              <a
-                class="calendar-event is-upcoming"
                 data-event-slug="bcco-mumbai"
                 href="/event/bcco-mumbai"
               >
@@ -904,6 +879,21 @@
                   class="calendar-countdown"
                   data-countdown
                   data-event-start="2026-08-02T20:00:00+05:30"
+                >
+                  Calculating time left
+                </span>
+              </a>
+              <a
+                class="calendar-event is-upcoming"
+                href="/event/shdw"
+              >
+                <time datetime="2026-08-09">09 Aug</time>
+                <strong>SHDW</strong>
+                <span>AntiSocial / Mumbai</span>
+                <span
+                  class="calendar-countdown"
+                  data-countdown
+                  data-event-start="2026-08-09T20:00:00+05:30"
                 >
                   Calculating time left
                 </span>
@@ -1666,6 +1656,7 @@
         let dragAxis = null;
         let suppressClick = false;
         let wheelLocked = false;
+        let isFirstCycle = true;
         let wheelReleaseTimer = null;
         const seenSlides = new Set();
 
@@ -1742,9 +1733,12 @@
 
           rotationTimer = window.setTimeout(() => {
             activeIndex = (activeIndex + 1) % slides.length;
+            if (activeIndex === 0) {
+              isFirstCycle = false;
+            }
             renderSlide();
             scheduleRotation();
-          }, rotationDelay);
+          }, isFirstCycle ? 1500 : rotationDelay);
         }
 
         function showSlide(index, options = {}) {
@@ -2157,9 +2151,9 @@
             card.removeAttribute("rel");
           } else if (goRoutes.has(slug)) {
             action.textContent = "Get tickets";
-            card.href = `/go/${slug}?placement=calendar`;
-            card.target = "_blank";
-            card.rel = "noreferrer";
+            card.href = `/event/${slug}`;
+            card.removeAttribute("target");
+            card.removeAttribute("rel");
           } else {
             action.remove();
             card.removeAttribute("href");
@@ -2193,7 +2187,9 @@
         ticketLink.hidden = !route;
 
         if (route) {
-          ticketLink.href = `/go/${slug}?placement=mobile_bar`;
+          ticketLink.href = `/event/${slug}`;
+          ticketLink.removeAttribute("target");
+          ticketLink.removeAttribute("rel");
           ticketLink.dataset.eventSlug = slug;
           decorateConversionLinks(ticketLink.parentElement || document);
         }
@@ -2217,6 +2213,67 @@
         quickbar.style.setProperty("--quickbar-columns", String(Math.max(visibleItems, 1)));
       }
 
+      const ticketCatalog = {
+        steelworks: {
+          title: "Steelworks Festival",
+          note: "₹1,500 cover applies at the gates.",
+          cities: {
+            Mumbai: [["ga", "GA", 2000, "Phase 1"], ["fanpit", "Fan Pit", 3500, "Phase 1"], ["backstage", "Backstage", 5000, "Phase 1"]],
+            Delhi: [["ga", "GA", 1500, "Phase 1"], ["fanpit", "Fan Pit", 2000, "Phase 1"], ["grandstand", "Grand Stand", 2500, "Phase 1"], ["backstage", "Backstage", 5000, "Phase 1"]],
+            Bangalore: [["ga", "GA", 2000, "Phase 1"], ["fanpit", "Fan Pit", 3000, "Phase 1"], ["backstage", "Backstage", 4000, "Phase 1"]],
+          },
+        },
+        "bcco-mumbai": {
+          title: "BCCO Mumbai",
+          note: "Offline Fallout pricing. No hidden charges. Pay what you see.",
+          categories: [["ga", "GA", 1600, "Phase 1"], ["ga-group-3", "GA · Group of 3", 3900, "Phase 1"], ["backstage", "Backstage", 4200, "Phase 2"]],
+        },
+      };
+
+      function formatRupees(value) {
+        return `₹${Number(value).toLocaleString("en-IN")}`;
+      }
+
+      function renderTicketCategories(slug, city) {
+        const catalog = ticketCatalog[slug];
+        const categories = catalog.cities ? catalog.cities[city] : catalog.categories;
+        return categories.map(([id, label, price, phase]) => `<button class="ticket-option" type="button" data-ticket-id="${id}" data-ticket-label="${label}" data-ticket-price="${price}" data-ticket-phase="${phase}"><span class="ticket-option-copy"><strong>${label}</strong><small>${phase}</small></span><span class="ticket-option-price">${formatRupees(price)}</span></button>`).join("");
+      }
+
+      function renderTicketSelector(slug) {
+        const catalog = ticketCatalog[slug];
+        if (!catalog) return "";
+        const cityOptions = catalog.cities ? Object.keys(catalog.cities).map((city) => `<option value="${city}">${city}</option>`).join("") : "";
+        const cityField = catalog.cities ? `<label class="ticket-field"><span>City</span><select data-ticket-city>${cityOptions}</select></label>` : "";
+        const initialCity = catalog.cities ? Object.keys(catalog.cities)[0] : "";
+        return `<section class="ticket-selector" data-ticket-selector><div class="ticket-selector-heading"><p class="eyebrow">Choose your ticket</p><h2>No hidden charges. Pay what you see.</h2></div>${cityField}<div class="ticket-options" data-ticket-options>${renderTicketCategories(slug, initialCity)}</div><p class="ticket-selection" data-ticket-selection>Select a category to continue to WhatsApp.</p><p class="ticket-note">${catalog.note}</p></section>`;
+      }
+
+      function bindTicketSelector(container, slug) {
+        const selector = container.querySelector("[data-ticket-selector]");
+        if (!selector) return;
+        const catalog = ticketCatalog[slug];
+        const citySelect = selector.querySelector("[data-ticket-city]");
+        const options = selector.querySelector("[data-ticket-options]");
+        const selection = selector.querySelector("[data-ticket-selection]");
+        const refreshOptions = () => {
+          options.innerHTML = renderTicketCategories(slug, citySelect?.value || "");
+          options.querySelectorAll("[data-ticket-id]").forEach((button) => button.addEventListener("click", () => {
+            const city = citySelect?.value || "Mumbai";
+            const label = button.dataset.ticketLabel;
+            const price = Number(button.dataset.ticketPrice);
+            const phase = button.dataset.ticketPhase;
+            const cityText = catalog.cities ? ` for ${city}` : "";
+            const message = `Hey, I wanna buy ${catalog.title} tickets${cityText}. I want ${label} (${phase}) at ${formatRupees(price)}. No hidden charges.`;
+            selection.textContent = `${label}${cityText} · ${formatRupees(price)} · opening WhatsApp…`;
+            trackAnalyticsEvent("ticket_interest", { event: slug, city, category: label, price, phase });
+            window.location.href = getWhatsAppTicketUrl(message);
+          }));
+        };
+        citySelect?.addEventListener("change", refreshOptions);
+        refreshOptions();
+      }
+
       function openEventPage(slug, push = true) {
         const event = getEventRecord(slug);
         if (!event) return false;
@@ -2226,7 +2283,10 @@
         const gallery = event.moments
           ? `<section class="event-moments"><p class="eyebrow">FØ Moments</p><h2>From the night</h2><div class="event-moments-grid">${Array.from({ length: Math.min(6, event.moments.count) }, (_, index) => `<img src="./assets/moments/events/${event.moments.folder}/${String(index + 1).padStart(2, "0")}.webp" alt="${event.moments.name} moment ${index + 1}" loading="lazy">`).join("")}</div><a class="section-action event-moments-action" href="/f0moments" data-analytics-event="gallery_open" data-analytics-target="f0_moments" data-analytics-placement="event_gallery"><span>Open the full archive</span></a></section>`
           : "";
-        page.innerHTML = `<section class="section event-detail"><a class="event-back" href="/calendar">← Rave Calendar</a><div class="event-detail-grid">${event.poster ? `<img class="event-detail-poster" src="${event.poster}" alt="${event.title} poster">` : ""}<div><p class="eyebrow">${isLive ? "Live event" : "Archive entry"}</p><h1>${event.title}</h1><p class="event-detail-date">${formatEventDate(event.start)}</p><p class="event-detail-venue">${event.venue}</p>${isLive ? `<a class="primary-button" href="/go/${slug}?placement=${ticketPlacement}"><span>Get tickets</span></a>` : ""}</div></div>${gallery}<nav class="event-discovery" aria-label="Continue exploring"><a class="section-action" href="/calendar" data-analytics-event="navigation_click" data-analytics-target="calendar" data-analytics-placement="event_footer"><span>Rave Calendar</span></a>${event.moments ? `<a class="section-action" href="/f0moments" data-analytics-event="gallery_open" data-analytics-target="f0_moments" data-analytics-placement="event_footer"><span>FØ Moments</span></a>` : ""}</nav></section>`;
+        const ticketSelector = isLive ? renderTicketSelector(slug) : "";
+        const fallbackTicket = isLive && !ticketSelector ? `<a class="primary-button" href="/go/${slug}?placement=${ticketPlacement}"><span>Get tickets</span></a>` : "";
+        page.innerHTML = `<section class="section event-detail"><a class="event-back" href="/calendar">← Rave Calendar</a><div class="event-detail-grid">${event.poster ? `<img class="event-detail-poster" src="${event.poster}" alt="${event.title} poster">` : ""}<div><p class="eyebrow">${isLive ? "Live event" : "Archive entry"}</p><h1>${event.title}</h1><p class="event-detail-date">${formatEventDate(event.start)}</p><p class="event-detail-venue">${event.venue}</p>${fallbackTicket}</div></div>${ticketSelector}${gallery}<nav class="event-discovery" aria-label="Continue exploring"><a class="section-action" href="/calendar" data-analytics-event="navigation_click" data-analytics-target="calendar" data-analytics-placement="event_footer"><span>Rave Calendar</span></a>${event.moments ? `<a class="section-action" href="/f0moments" data-analytics-event="gallery_open" data-analytics-target="f0_moments" data-analytics-placement="event_footer"><span>FØ Moments</span></a>` : ""}</nav></section>`;
+        bindTicketSelector(page, slug);
         document.querySelector("main#top").hidden = true;
         page.hidden = false;
         document.body.classList.add("event-page-active");
