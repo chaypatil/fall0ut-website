@@ -1702,7 +1702,7 @@
           currentNumber.textContent = displayedIndex;
           totalNumber.textContent = displayedTotal;
           status.setAttribute("aria-label", `Event ${activeIndex + 1} of ${slides.length}`);
-          if (carousel.hasAttribute("data-hot-carousel")) {
+          if (carousel.hasAttribute("data-hot-carousel") && !document.body.classList.contains("event-page-active")) {
             setMobileTicketEvent(getActiveSlug());
           }
           trackVisibleSlide();
@@ -2171,6 +2171,56 @@
         return eventRecords.get(slug) || null;
       }
 
+      let teardownEventTicketVisibility = () => {};
+
+      function setEventTicketBarMode(showEventBar) {
+        const quickbar = document.querySelector(".mobile-quickbar");
+        const eventBar = document.querySelector("[data-event-ticket-bar]");
+        if (!quickbar || !eventBar) return;
+        eventBar.hidden = !showEventBar;
+        quickbar.classList.toggle("has-event-ticket-bar", showEventBar);
+      }
+
+      function setupEventTicketBarVisibility() {
+        teardownEventTicketVisibility();
+        const options = document.querySelector("[data-ticket-options]");
+        if (!options || !document.body.classList.contains("event-page-active")) return;
+
+        let frame = 0;
+        const update = () => {
+          frame = 0;
+          const rect = options.getBoundingClientRect();
+          const topBoundary = window.innerHeight * 0.1;
+          const bottomBoundary = window.innerHeight * 0.9;
+          const categoriesAreClear = rect.top >= topBoundary && rect.bottom <= bottomBoundary;
+          setEventTicketBarMode(!categoriesAreClear);
+        };
+        const requestUpdate = () => {
+          if (!frame) frame = window.requestAnimationFrame(update);
+        };
+
+        window.addEventListener("scroll", requestUpdate, { passive: true });
+        window.addEventListener("resize", requestUpdate);
+        teardownEventTicketVisibility = () => {
+          window.removeEventListener("scroll", requestUpdate);
+          window.removeEventListener("resize", requestUpdate);
+          if (frame) window.cancelAnimationFrame(frame);
+          frame = 0;
+        };
+        update();
+      }
+
+      function updateEventTicketPrice(slug, city = "") {
+        const catalog = ticketCatalog[slug];
+        const eventPrice = document.querySelector("[data-event-ticket-price]");
+        if (!catalog || !eventPrice) return;
+        const categories = catalog.cities
+          ? catalog.cities[city || Object.keys(catalog.cities)[0]]
+          : catalog.categories;
+        const prices = (categories || []).map(([, , price]) => Number(price)).filter(Boolean);
+        eventPrice.textContent = prices.length ? `${formatRupees(Math.min(...prices))} onwards` : "View tickets";
+      }
+
       function setMobileTicketEvent(slug) {
         const ticketLink = document.querySelector("[data-mobile-ticket]");
         const quickbar = document.querySelector(".mobile-quickbar");
@@ -2181,18 +2231,14 @@
 
         if (eventBar) {
           const catalog = ticketCatalog[slug];
-          const prices = catalog
-            ? Object.values(catalog.cities || { default: catalog.categories }).flat().map(([, , price]) => Number(price)).filter(Boolean)
-            : [];
-          const minimum = prices.length ? Math.min(...prices) : null;
           const isEventPage = Boolean(slug) && Boolean(catalog) && document.body.classList.contains("event-page-active");
-          eventBar.hidden = !isEventPage;
-          quickbar?.classList.toggle("has-event-ticket-bar", isEventPage);
+          setEventTicketBarMode(isEventPage);
           if (isEventPage) {
             eventTitle.textContent = catalog.title;
-            eventPrice.textContent = minimum ? `${formatRupees(minimum)} onwards` : "View tickets";
-            eventAction.onclick = () => document.querySelector("[data-ticket-selector]")?.scrollIntoView({ behavior: "smooth", block: "center" });
+            updateEventTicketPrice(slug);
+            eventAction.onclick = () => document.querySelector("[data-ticket-options]")?.scrollIntoView({ behavior: "smooth", block: "center" });
           }
+          if (!isEventPage) teardownEventTicketVisibility();
         }
 
         if (!ticketLink) {
@@ -2207,6 +2253,12 @@
           ticketLink.removeAttribute("target");
           ticketLink.removeAttribute("rel");
           ticketLink.dataset.eventSlug = slug;
+          ticketLink.onclick = document.body.classList.contains("event-page-active")
+            ? (event) => {
+                event.preventDefault();
+                document.querySelector("[data-ticket-options]")?.scrollIntoView({ behavior: "smooth", block: "center" });
+              }
+            : null;
           decorateConversionLinks(ticketLink.parentElement || document);
         }
 
@@ -2275,7 +2327,9 @@
         const citySelect = selector.querySelector("[data-ticket-city]");
         const options = selector.querySelector("[data-ticket-options]");
         const refreshOptions = () => {
-          options.innerHTML = renderTicketCategories(slug, citySelect?.value || "");
+          const city = citySelect?.value || "";
+          options.innerHTML = renderTicketCategories(slug, city);
+          updateEventTicketPrice(slug, city);
           options.querySelectorAll("[data-ticket-id]").forEach((button) => button.addEventListener("click", () => {
             const city = citySelect?.value || "Mumbai";
             const label = button.dataset.ticketLabel;
@@ -2304,7 +2358,7 @@
         const ticketSelector = isLive ? renderTicketSelector(slug) : "";
         const fallbackTicket = isLive && !ticketSelector ? `<a class="primary-button" href="/go/${slug}?placement=${ticketPlacement}"><span>Get tickets</span></a>` : "";
         const eventDescription = ticketCatalog[slug]?.description?.map((paragraph) => `<p>${paragraph}</p>`).join("") || "";
-        page.innerHTML = `<section class="section event-detail"><a class="event-back" href="/calendar">← Rave Calendar</a><div class="event-detail-grid">${event.poster ? `<img class="event-detail-poster" src="${event.poster}" alt="${event.title} poster">` : ""}<div><p class="eyebrow">${isLive ? "Live event" : "Archive entry"}</p><h1>${event.title}</h1><p class="event-detail-date">${formatEventDate(event.start)}</p><p class="event-detail-venue">${event.venue}</p>${eventDescription ? `<div class="event-detail-description">${eventDescription}</div>` : ""}${fallbackTicket}</div></div>${ticketSelector}${gallery}<nav class="event-discovery" aria-label="Continue exploring"><a class="section-action" href="/calendar" data-analytics-event="navigation_click" data-analytics-target="calendar" data-analytics-placement="event_footer"><span>Rave Calendar</span></a>${event.moments ? `<a class="section-action" href="/f0moments" data-analytics-event="gallery_open" data-analytics-target="f0_moments" data-analytics-placement="event_footer"><span>FØ Moments</span></a>` : ""}</nav></section>`;
+        page.innerHTML = `<section class="section event-detail"><a class="event-back" href="/calendar">← Rave Calendar</a><div class="event-detail-grid">${event.poster ? `<img class="event-detail-poster" src="${event.poster}" alt="${event.title} poster">` : ""}<div><p class="eyebrow">${isLive ? "Live event" : "Archive entry"}</p><h1>${event.title}</h1><p class="event-detail-date">${formatEventDate(event.start)}</p><p class="event-detail-venue">${event.venue}</p>${fallbackTicket}</div></div>${ticketSelector}${eventDescription ? `<div class="event-detail-description">${eventDescription}</div>` : ""}${gallery}<nav class="event-discovery" aria-label="Continue exploring"><a class="section-action" href="/calendar" data-analytics-event="navigation_click" data-analytics-target="calendar" data-analytics-placement="event_footer"><span>Rave Calendar</span></a>${event.moments ? `<a class="section-action" href="/f0moments" data-analytics-event="gallery_open" data-analytics-target="f0_moments" data-analytics-placement="event_footer"><span>FØ Moments</span></a>` : ""}</nav></section>`;
         bindTicketSelector(page, slug);
         document.querySelector("main#top").hidden = true;
         page.hidden = false;
@@ -2313,6 +2367,7 @@
         if (push) window.history.pushState(null, "", `/event/${slug}`);
         setMobileTicketEvent(isLive ? slug : "");
         setMobileMomentsEvent(Boolean(event.moments));
+        setupEventTicketBarVisibility();
         decorateConversionLinks(page);
         refreshHeroVideos();
         window.scrollTo({ top: 0, behavior: "auto" });

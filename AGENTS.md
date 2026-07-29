@@ -1,5 +1,16 @@
 # Fallout Website
 
+## Event Listing UX Protocol
+
+- Ticket prices must come from the event's catalog. Never hard-code one event's price into shared UI.
+- For multi-city events, the sticky mobile price follows the currently selected city's lowest available category.
+- On an event page, the mobile quickbar becomes an event-specific price and `Book tickets` bar while ticket categories are outside the central 80% of the viewport.
+- When every ticket category is clearly visible within that central 80%, restore the standard mobile quickbar so it never covers the choices.
+- `Book tickets` scrolls smoothly to the category list. Selecting a category opens WhatsApp immediately with the event, city, category, phase, and price.
+- Ticket selection is the primary conversion path. Event descriptions belong below the selector, and community prompts must not obstruct event pages.
+- Shared conversion actions use `--action-gradient`; new ticket CTAs must follow this visual language.
+- Keep event-page spacing compact on mobile. Do not add explanatory labels, duplicate buttons, platform notes, or other copy unless the user explicitly requests it.
+
 ## Deploy Configuration (configured by /setup-deploy)
 - Platform: Vercel
 - Production URL: https://fall0ut-website.vercel.app
