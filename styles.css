@@ -1014,6 +1014,18 @@ a.calendar-event:focus-visible {
   font-size: clamp(1rem, 1.8vw, 1.3rem);
 }
 
+.event-detail-description {
+  max-width: 700px;
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.event-detail-description p {
+  margin: 0 0 1em;
+}
+
 .event-detail .primary-button {
   margin-top: 28px;
 }
@@ -1118,16 +1130,54 @@ a.calendar-event:focus-visible {
   white-space: nowrap;
 }
 
-.ticket-selection,
-.ticket-note {
-  margin: 16px 0 0;
-  color: var(--muted);
-  font-size: 0.88rem;
-  line-height: 1.5;
+.ticket-booking-bar {
+  position: sticky;
+  bottom: 14px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 24px;
+  padding: 12px 14px 12px 18px;
+  border: 1px solid rgba(185, 226, 220, 0.3);
+  border-radius: 4px;
+  background: rgba(3, 12, 20, 0.94);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(16px);
 }
 
-.ticket-note {
-  color: #dbe9e6;
+.ticket-booking-bar span {
+  display: grid;
+  gap: 2px;
+}
+
+.ticket-booking-bar small {
+  color: var(--muted);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.ticket-booking-bar strong {
+  color: #ffffff;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 1.08rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ticket-booking-bar .primary-button {
+  width: auto;
+  min-width: 150px;
+  margin: 0;
+}
+
+.ticket-booking-bar .primary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .event-moments {
