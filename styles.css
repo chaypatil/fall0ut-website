@@ -2543,7 +2543,8 @@ a.calendar-event:focus-visible {
   }
 
   .focus-copy {
-    padding: 28px 20px 32px;
+    align-content: start;
+    padding: 20px 20px 28px;
   }
 
   .focus-copy h3 {
