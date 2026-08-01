@@ -1079,6 +1079,27 @@ a.calendar-event:focus-visible {
   text-transform: uppercase;
 }
 
+.ticket-selector-heading h2 {
+  max-width: 760px;
+  margin: 0;
+  color: #ffffff;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(1.35rem, 3vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.ticket-pricing-phase {
+  margin: 8px 0 0;
+  color: #bceee3;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+
 .ticket-field select {
   min-height: 46px;
   padding: 0 12px;
@@ -1146,12 +1167,25 @@ a.calendar-event:focus-visible {
 }
 
 .ticket-option-price {
+  display: grid;
+  gap: 2px;
+  justify-items: end;
   color: #bceee3;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 1.3rem;
-  font-weight: 600;
   letter-spacing: 0.06em;
   white-space: nowrap;
+}
+
+.ticket-option-price strong {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.ticket-option-price small {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .ticket-booking-bar {

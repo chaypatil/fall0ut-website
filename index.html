@@ -1252,35 +1252,29 @@
         [
           "steelworks",
           {
-            target: getWhatsAppTicketUrl(
-              "Hey, I wanna buy Steelworks Festival tickets at up to Rs. 700 off.",
-            ),
-            offer: "up_to_700",
+            eventPage: true,
+            offer: "catalog",
           },
         ],
         [
           "steelworks-delhi",
           {
-            target: getWhatsAppTicketUrl(
-              "Hey, I wanna buy Steelworks Festival Delhi tickets at up to Rs. 700 off.",
-            ),
-            offer: "up_to_700",
+            eventPage: true,
+            offer: "catalog",
           },
         ],
         [
           "steelworks-bangalore",
           {
-            target: getWhatsAppTicketUrl(
-              "Hey, I wanna buy Steelworks Festival Bangalore tickets at up to Rs. 700 off.",
-            ),
-            offer: "up_to_700",
+            eventPage: true,
+            offer: "catalog",
           },
         ],
         [
           "bcco-mumbai",
           {
-            target: getWhatsAppTicketUrl("Hey, I wanna buy BCCO Mumbai tickets for 02 August at Waves – The Bombay Club."),
-            offer: "direct_dm",
+            eventPage: true,
+            offer: "catalog",
           },
         ],
       ]);
@@ -2228,11 +2222,11 @@
       }
 
       function updateEventTicketPrice(slug, city = "") {
-        const catalog = ticketCatalog[slug];
+        const { catalog, defaultCity } = getTicketContext(slug);
         const eventPrice = document.querySelector("[data-event-ticket-price]");
         if (!catalog || !eventPrice) return;
         const categories = catalog.cities
-          ? catalog.cities[city || Object.keys(catalog.cities)[0]]
+          ? catalog.cities[city || defaultCity || Object.keys(catalog.cities)[0]]
           : catalog.categories;
         const prices = (categories || []).map(([, , price]) => Number(price)).filter(Boolean);
         eventPrice.textContent = prices.length ? `${formatRupees(Math.min(...prices))} onwards` : "View tickets";
@@ -2247,12 +2241,12 @@
         const eventAction = document.querySelector("[data-event-ticket-action]");
 
         if (eventBar) {
-          const catalog = ticketCatalog[slug];
+          const { catalog, defaultCity } = getTicketContext(slug);
           const isEventPage = Boolean(slug) && Boolean(catalog) && document.body.classList.contains("event-page-active");
           setEventTicketBarMode(isEventPage);
           if (isEventPage) {
             eventTitle.textContent = catalog.title;
-            updateEventTicketPrice(slug);
+            updateEventTicketPrice(slug, defaultCity);
             eventAction.onclick = () => document.querySelector("[data-ticket-options]")?.scrollIntoView({ behavior: "smooth", block: "center" });
           }
           if (!isEventPage) teardownEventTicketVisibility();
@@ -2301,10 +2295,12 @@
       const ticketCatalog = {
         steelworks: {
           title: "Steelworks Festival",
+          pricingTitle: "STEELWORKS X FALLØUT OFFLINE PRICES",
+          pricingPhase: "PHASE 1",
           cities: {
-            Mumbai: [["ga", "GA", 2000, "Phase 1"], ["fanpit", "Fan Pit", 3500, "Phase 1"], ["backstage", "Backstage", 5000, "Phase 1"]],
-            Delhi: [["ga", "GA", 1500, "Phase 1"], ["fanpit", "Fan Pit", 2000, "Phase 1"], ["grandstand", "Grand Stand", 2500, "Phase 1"], ["backstage", "Backstage", 5000, "Phase 1"]],
-            Bangalore: [["ga", "GA", 2000, "Phase 1"], ["fanpit", "Fan Pit", 3000, "Phase 1"], ["backstage", "Backstage", 4000, "Phase 1"]],
+            Mumbai: [["ga", "GA", 2000, "Phase 1", 400], ["fanpit", "Fan Pit", 3500, "Phase 1", 700], ["backstage", "Backstage", 5000, "Phase 1", 1000]],
+            Delhi: [["ga", "GA", 1500, "Phase 1", 300], ["fanpit", "Fan Pit", 2000, "Phase 1", 400], ["grandstand", "Grand Stand", 2500, "Phase 1", 500], ["backstage", "Backstage", 5000, "Phase 1", 1000]],
+            Bangalore: [["ga", "GA", 2000, "Phase 1", 400], ["fanpit", "Fan Pit", 3000, "Phase 1", 600], ["backstage", "Backstage", 4000, "Phase 1", 800]],
           },
         },
         "bcco-mumbai": {
@@ -2314,37 +2310,58 @@
             "Expect cutting-edge production, immersive visuals, and a carefully curated sonic journey that reflects the unmistakable energy and identity of BCCO. From driving grooves to relentless peak-time moments, this showcase is built for those who live for the underground.",
             "Whether you’re a long-time follower or experiencing BCCO for the first time, this is your chance to be part of a global movement that continues to shape electronic music culture.",
           ],
-          categories: [["ga", "GA", 1600, "Phase 1"], ["ga-group-3", "GA · Group of 3", 3900, "Phase 1"], ["backstage", "Backstage", 4200, "Phase 2"]],
+          categories: [["ga", "GA", 1900, "Phase 2"], ["ga-group-3", "GA · Group of 3", 5000, "Phase 2"], ["ga-group-5", "GA · Group of 5", 7700, "Phase 2"], ["backstage", "Backstage", 4800, "Phase 3"]],
         },
       };
+
+      const ticketContexts = {
+        steelworks: { catalogSlug: "steelworks", defaultCity: "Mumbai" },
+        "steelworks-delhi": { catalogSlug: "steelworks", defaultCity: "Delhi" },
+        "steelworks-bangalore": { catalogSlug: "steelworks", defaultCity: "Bangalore" },
+        "bcco-mumbai": { catalogSlug: "bcco-mumbai", defaultCity: "" },
+      };
+
+      function getTicketContext(slug) {
+        const context = ticketContexts[slug] || { catalogSlug: slug, defaultCity: "" };
+        return { ...context, catalog: ticketCatalog[context.catalogSlug] };
+      }
 
       function formatRupees(value) {
         return `₹${Number(value).toLocaleString("en-IN")}`;
       }
 
+      function buildTicketMessage(catalog, city, category) {
+        const cityText = catalog.cities ? ` for ${city}` : "";
+        const discountText = category.discount ? ` (${formatRupees(category.discount)} off)` : "";
+        return `Hey, I wanna buy ${catalog.title} tickets${cityText}. I want ${category.label} (${category.phase}) at ${formatRupees(category.price)}${discountText}.`;
+      }
+
       function renderTicketCategories(slug, city) {
-        const catalog = ticketCatalog[slug];
-        const categories = catalog.cities ? catalog.cities[city] : catalog.categories;
-        return categories.map(([id, label, price, phase]) => `<button class="ticket-option" type="button" data-ticket-id="${id}" data-ticket-label="${label}" data-ticket-price="${price}" data-ticket-phase="${phase}"><span class="ticket-option-copy"><strong>${label}</strong><small>${phase}</small></span><span class="ticket-option-price">${formatRupees(price)}</span></button>`).join("");
+        const { catalog, defaultCity } = getTicketContext(slug);
+        if (!catalog) return "";
+        const selectedCity = city || defaultCity;
+        const categories = catalog.cities ? catalog.cities[selectedCity] : catalog.categories;
+        return categories.map(([id, label, price, phase, discount = 0]) => `<button class="ticket-option" type="button" data-ticket-id="${id}" data-ticket-label="${label}" data-ticket-price="${price}" data-ticket-phase="${phase}" data-ticket-discount="${discount}"><span class="ticket-option-copy"><strong>${label}</strong><small>${phase}</small></span><span class="ticket-option-price"><strong>${formatRupees(price)}</strong>${discount ? `<small>${formatRupees(discount)} off</small>` : ""}</span></button>`).join("");
       }
 
       function renderTicketSelector(slug) {
-        const catalog = ticketCatalog[slug];
+        const { catalog, defaultCity } = getTicketContext(slug);
         if (!catalog) return "";
-        const cityOptions = catalog.cities ? Object.keys(catalog.cities).map((city) => `<option value="${city}">${city}</option>`).join("") : "";
+        const cityOptions = catalog.cities ? Object.keys(catalog.cities).map((city) => `<option value="${city}"${city === defaultCity ? " selected" : ""}>${city}</option>`).join("") : "";
         const cityField = catalog.cities ? `<label class="ticket-field"><span>City</span><select data-ticket-city>${cityOptions}</select></label>` : "";
-        const initialCity = catalog.cities ? Object.keys(catalog.cities)[0] : "";
-        return `<section class="ticket-selector" data-ticket-selector><div class="ticket-selector-heading"><p class="eyebrow">Choose your ticket</p></div>${cityField}<div class="ticket-options" data-ticket-options>${renderTicketCategories(slug, initialCity)}</div></section>`;
+        const initialCity = catalog.cities ? defaultCity || Object.keys(catalog.cities)[0] : "";
+        const heading = catalog.pricingTitle ? `<h2>${catalog.pricingTitle}</h2><p class="ticket-pricing-phase">${catalog.pricingPhase}</p>` : `<p class="eyebrow">Choose your ticket</p>`;
+        return `<section class="ticket-selector" data-ticket-selector><div class="ticket-selector-heading">${heading}</div>${cityField}<div class="ticket-options" data-ticket-options>${renderTicketCategories(slug, initialCity)}</div></section>`;
       }
 
       function bindTicketSelector(container, slug) {
         const selector = container.querySelector("[data-ticket-selector]");
         if (!selector) return;
-        const catalog = ticketCatalog[slug];
+        const { catalog, defaultCity } = getTicketContext(slug);
         const citySelect = selector.querySelector("[data-ticket-city]");
         const options = selector.querySelector("[data-ticket-options]");
         const refreshOptions = () => {
-          const city = citySelect?.value || "";
+          const city = citySelect?.value || defaultCity || "";
           options.innerHTML = renderTicketCategories(slug, city);
           updateEventTicketPrice(slug, city);
           options.querySelectorAll("[data-ticket-id]").forEach((button) => button.addEventListener("click", () => {
@@ -2352,10 +2369,10 @@
             const label = button.dataset.ticketLabel;
             const price = Number(button.dataset.ticketPrice);
             const phase = button.dataset.ticketPhase;
+            const discount = Number(button.dataset.ticketDiscount || 0);
             options.querySelectorAll("[data-ticket-id]").forEach((option) => option.setAttribute("aria-pressed", String(option === button)));
-            const cityText = catalog.cities ? ` for ${city}` : "";
-            const message = `Hey, I wanna buy ${catalog.title} tickets${cityText}. I want ${label} (${phase}) at ${formatRupees(price)}.`;
-            trackAnalyticsEvent("ticket_interest", { event: slug, city, category: label, price, phase });
+            const message = buildTicketMessage(catalog, city, { label, price, phase, discount });
+            trackAnalyticsEvent("ticket_interest", { event: slug, city, category: label, price, phase, discount });
             window.location.href = getWhatsAppTicketUrl(message);
           }));
         };
@@ -2374,7 +2391,7 @@
           : "";
         const ticketSelector = isLive ? renderTicketSelector(slug) : "";
         const fallbackTicket = isLive && !ticketSelector ? `<a class="primary-button" href="/go/${slug}?placement=${ticketPlacement}"><span>Get tickets</span></a>` : "";
-        const eventDescription = ticketCatalog[slug]?.description?.map((paragraph) => `<p>${paragraph}</p>`).join("") || "";
+        const eventDescription = getTicketContext(slug).catalog?.description?.map((paragraph) => `<p>${paragraph}</p>`).join("") || "";
         page.innerHTML = `<section class="section event-detail"><a class="event-back" href="/calendar">← Rave Calendar</a><div class="event-detail-grid">${event.poster ? `<img class="event-detail-poster" src="${event.poster}" alt="${event.title} poster">` : ""}<div><p class="eyebrow">${isLive ? "Live event" : "Archive entry"}</p><h1>${event.title}</h1><p class="event-detail-date">${formatEventDate(event.start)}</p><p class="event-detail-venue">${event.venue}</p>${fallbackTicket}</div></div>${ticketSelector}${eventDescription ? `<div class="event-detail-description">${eventDescription}</div>` : ""}${gallery}<nav class="event-discovery" aria-label="Continue exploring"><a class="section-action" href="/calendar" data-analytics-event="navigation_click" data-analytics-target="calendar" data-analytics-placement="event_footer"><span>Rave Calendar</span></a>${event.moments ? `<a class="section-action" href="/f0moments" data-analytics-event="gallery_open" data-analytics-target="f0_moments" data-analytics-placement="event_footer"><span>FØ Moments</span></a>` : ""}</nav></section>`;
         bindTicketSelector(page, slug);
         document.querySelector("main#top").hidden = true;
@@ -2551,6 +2568,11 @@
           : "website";
 
         trackTicketClick(slug, route, placement);
+        if (route.eventPage) {
+          window.history.replaceState(null, "", `/event/${slug}`);
+          openEventPage(slug, false);
+          return true;
+        }
         window.setTimeout(() => {
           window.location.replace(route.target);
         }, 280);
