@@ -85,6 +85,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.fall0ut.in/event/schranz-showcase</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://www.fall0ut.in/event/steelworks</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>

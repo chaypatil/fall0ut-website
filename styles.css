@@ -2605,8 +2605,9 @@ a.calendar-event:focus-visible {
   }
 
   .event-detail h1 {
-    font-size: clamp(2.3rem, 11.5vw, 4rem);
-    overflow-wrap: anywhere;
+    font-size: clamp(1.75rem, 7.6vw, 3.4rem);
+    letter-spacing: 0.03em;
+    white-space: nowrap;
   }
 
   .discount-bookmark {

@@ -32,7 +32,7 @@ Do not create a preview by default. Chay will ask for one when he wants one.
 - Primary domain: `https://fall0ut.in`
 - Main source files:
   - `index.html`: main page, event markup, routes, and main JavaScript
-  - `moments.html`: F0 Moments archive page
+  - `moments.html`: F0 Glimpses archive page
   - `styles.css`: shared visual system and responsive behavior
   - `vercel.json`: clean routes and rewrites
   - `assets/`: brand, event, hero, and moments media
@@ -80,7 +80,7 @@ Fallout / fall0ut / F0 / FØ is an Indian underground hard-techno and rave-cultu
 - an events landing page
 - a ticket enquiry destination
 - a rave calendar and past-event record
-- an FØ Moments culture/archive surface
+- an FØ Glimpses culture/archive surface
 - a WhatsApp community entry point
 - a brand and cultural identity surface
 
@@ -184,16 +184,16 @@ Treat these as locked defaults unless Chay explicitly changes them.
 - Do not add an Announcements section. Current event information belongs in Hot Right Now, Featured Events, or the Rave Calendar; `/announcements` redirects to `/events`.
 - Past events should be preserved rather than deleted once lifecycle automation exists.
 
-### FØ Moments
+### FØ Glimpses
 
 - Homepage shows six selected, full-color highlight images.
-- The homepage `FØ Moments` heading itself links to the archive and does not need a redundant action row below the gallery.
+- The homepage `FØ Glimpses` heading itself links to the archive and does not need a redundant action row below the gallery.
 - The first highlights should maintain inclusive representation when suitable approved images exist.
 - The CTA leads to a separate internal moments page, not an endlessly expanded homepage section.
 - The gallery is grouped by event and remains full color.
 - Homepage moments use a compact mobile two-column layout with a wide final CTA.
 - Gallery images must be intentionally selected and optimized. Never dump an entire drive or raw multi-gigabyte archive into the repository.
-- Event pages show FØ Moments only when that event has uploaded images. With no image folder, show no gallery, archive prompt, or FØ Moments link.
+- Event pages show FØ Glimpses only when that event has uploaded images. With no image folder, show no gallery, archive prompt, or FØ Glimpses link.
 - The Instagram CTA uses `@fall0utindia` and links to the actual profile.
 
 ### Community, contact, and footer

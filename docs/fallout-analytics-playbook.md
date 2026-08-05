@@ -15,7 +15,7 @@ The site uses normal internal paths for the key conversion steps, so they remain
 | `/out/contact/:placement` | WhatsApp DM exit |
 | `/out/instagram/:placement` | Instagram profile exit |
 | `/calendar` | Rave Calendar opened through navigation |
-| `/f0moments` | FØ Moments archive opened |
+| `/f0moments` | FØ Glimpses archive opened |
 
 Custom events also capture campaign attribution, featured-board views and manual movement, section views, scroll depth, 15-second engaged visits, event opens, and outbound destinations. Vercel does not count custom events when calculating bounce rate.
 
@@ -38,7 +38,7 @@ Review a seven-day window and record:
 1. Campaign visits by channel.
 2. Event-detail visitors.
 3. `/go/:slug` ticket-intent visitors.
-4. Calendar and FØ Moments visitors.
+4. Calendar and FØ Glimpses visitors.
 5. Community and contact exits.
 6. Mobile and Instagram in-app browser share.
 

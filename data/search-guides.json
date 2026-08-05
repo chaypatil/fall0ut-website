@@ -3,7 +3,7 @@
     "slug": "about",
     "type": "about",
     "title": "About FallØut India | Underground Rave Culture",
-    "description": "Meet FallØut India, the underground rave collective connecting hard techno events, direct ticket access and the FØ Moments archive.",
+    "description": "Meet FallØut India, the underground rave collective connecting hard techno events, direct ticket access and the FØ Glimpses archive.",
     "eyebrow": "About FallØut",
     "heading": "Built from the underground",
     "intro": "FallØut is India's premier underground rave collective. It connects the people, rooms and nights pushing the country's harder edge forward.",
@@ -14,12 +14,12 @@
       },
       {
         "heading": "What stays central",
-        "body": "Sound, crowd and room come first. The calendar follows what is live, permanent event pages preserve what has passed, and FØ Moments holds the photographs selected from the nights worth returning to."
+        "body": "Sound, crowd and room come first. The calendar follows what is live, permanent event pages preserve what has passed, and FØ Glimpses holds the photographs selected from the nights worth returning to."
       }
     ],
     "primaryLabel": "Rave Calendar",
     "primaryHref": "/calendar",
-    "secondaryLabel": "FØ Moments",
+    "secondaryLabel": "FØ Glimpses",
     "secondaryHref": "/f0moments",
     "related": [
       { "label": "Raves in India", "href": "/raves-in-india" },
@@ -70,7 +70,7 @@
       },
       {
         "heading": "After the event",
-        "body": "Passed dates move out of the upcoming rotation automatically. Their event pages remain reachable from the calendar, while FØ Moments appears only when a selected image set has actually been uploaded."
+        "body": "Passed dates move out of the upcoming rotation automatically. Their event pages remain reachable from the calendar, while FØ Glimpses appears only when a selected image set has actually been uploaded."
       }
     ],
     "primaryLabel": "See Delhi dates",
@@ -115,7 +115,7 @@
     "slug": "hard-techno-india",
     "type": "sound",
     "title": "Hard Techno in India | FallØut",
-    "description": "Explore India's hard techno underground through FallØut's current rave calendar, permanent event pages and selected FØ Moments archive.",
+    "description": "Explore India's hard techno underground through FallØut's current rave calendar, permanent event pages and selected FØ Glimpses archive.",
     "eyebrow": "Sound guide · India",
     "heading": "Hard techno in India",
     "intro": "Fast, physical and built for rooms where pressure matters more than polish.",
@@ -182,7 +182,7 @@
       },
       {
         "heading": "Find current nights",
-        "body": "FallØut's Rave Calendar keeps live city listings and venue status current. Dedicated pages preserve each date after it passes, while FØ Moments appears only for events with an approved image selection."
+        "body": "FallØut's Rave Calendar keeps live city listings and venue status current. Dedicated pages preserve each date after it passes, while FØ Glimpses appears only for events with an approved image selection."
       }
     ],
     "primaryLabel": "Open Rave Calendar",

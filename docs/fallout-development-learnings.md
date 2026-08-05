@@ -21,14 +21,14 @@ This file records durable product and implementation rules discovered while chan
 - The preferred brand sentence may appear once on the About page. Machine metadata can describe the same entity where technically required, but visible repetition is not a design strategy.
 - Part 2 guide content lives in `data/search-guides.json`. Run `node scripts/generate-search-guides.mjs` after editing it. Do not hand-edit generated guide HTML.
 
-## FØ Moments rules
+## FØ Glimpses rules
 
-- On the homepage, the `FØ Moments` heading itself links to `/f0moments`.
+- On the homepage, the `FØ Glimpses` heading itself links to `/f0moments`.
 - Keep the homepage gallery frame close to the viewport edges, especially on mobile.
 - Align the title, image grid and description to the same internal gutter.
 - Do not add a redundant button row below the gallery when the heading and final tile already open the archive.
-- On an event page, render FØ Moments only when that event has an uploaded image folder in `eventMomentFolders`.
-- If an event has no uploaded images, render no FØ Moments section, fallback message, archive button or FØ Moments continuation link. This applies to upcoming and past events.
+- On an event page, render FØ Glimpses only when that event has an uploaded image folder in `eventMomentFolders`.
+- If an event has no uploaded images, render no FØ Glimpses section, fallback message, archive button or FØ Glimpses continuation link. This applies to upcoming and past events.
 - A maximum of six selected images appears on an event page. The full event folder stays on `/f0moments`.
 
 ## Multi-city feature rules
@@ -40,7 +40,7 @@ This file records durable product and implementation rules discovered while chan
 
 - Inspect the affected surface at 1280×720 and 390×844 before release.
 - Check horizontal overflow numerically, not only by eye.
-- For FØ Moments, capture the whole section on desktop and mobile to verify outer gutter, caption alignment and link hierarchy.
+- For FØ Glimpses, capture the whole section on desktop and mobile to verify outer gutter, caption alignment and link hierarchy.
 - Check one event with images and one event without images after any event-page change.
 - Browser QA can create `debug.log`; remove it before staging.
 

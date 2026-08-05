@@ -31,7 +31,7 @@ Nine project files were inspected. Recent Git commit titles and Git remote/branc
 | File | Purpose | Why inspected |
 |---|---|---|
 | `website/index.html` | Main page, event content, routes, and all main-page JavaScript | Live-page architecture, behavior, data, links |
-| `website/moments.html` | F0 Moments archive page | Gallery behavior and media organization |
+| `website/moments.html` | F0 Glimpses archive page | Gallery behavior and media organization |
 | `website/styles.css` | Shared styling and responsive rules | Actual design system and breakpoints |
 | `website/vercel.json` | Vercel rewrites | Routes and hosting behavior |
 | `website/AGENTS.md` | Repo-level operating instructions | Deployment and always-on context audit |
@@ -116,7 +116,7 @@ Runtime status below is based on direct implementation inspection, not a live br
 | Current-month initial alignment | Partial | Hardcoded `data-current-month` and scroll positioning | Correct month marker | Move marker monthly | High |
 | Stats strip | Partial | Four hardcoded numbers | Manual counts | Recount and edit | High |
 | Announcements | Working | Four hardcoded cards | Repeated event copy | Rewrite and reorder | Medium |
-| F0 Moments homepage preview | Working | Open accordion and six cards | Six fixed image paths | Replace files/markup manually | Medium |
+| F0 Glimpses homepage preview | Working | Open accordion and six cards | Six fixed image paths | Replace files/markup manually | Medium |
 | More Moments route | Working | `/f0moments` rewrite to `moments.html` | Vercel rewrite | Maintain route and page | Low |
 | Moments archive | Working | Three static event sections, 28 images | Folder naming and markup | Add every figure manually | High |
 | Join F0 Mob | Working | WhatsApp community link | One repeated URL | Update in multiple locations | Medium |
@@ -450,7 +450,7 @@ Additional protocol:
 9. Is GitHub-to-Vercel auto-deploy now the only production path, or is CLI deployment still intentionally supported?
 10. Should `fall0ut.xyz` redirect to `fall0ut.in`, remain independently active, or be retired?
 11. Who besides Chay may approve public event facts, discounts, copy, and production deployment?
-12. For F0 Moments, what determines which images are homepage highlights and which archive cards are wide?
+12. For F0 Glimpses, what determines which images are homepage highlights and which archive cards are wide?
 
 Unanswered questions count: **12**.
 
@@ -521,7 +521,7 @@ This structure is a target, not a recommendation to move every file immediately.
 | Show per-event discount bookmarks and explanatory note | Event/focus markup and CSS | Event structured data plus renderer |
 | Format event location as venue/city | Featured and calendar strings | Structured event fields plus renderer |
 | Posters are grayscale until interaction; gallery images stay full color | Event/gallery CSS | Design skill/code |
-| Homepage F0 Moments contains six highlights then More Moments | `index.html` moments preview and mobile CSS | `moments.json` plus renderer |
+| Homepage F0 Glimpses contains six highlights then More Moments | `index.html` moments preview and mobile CSS | `moments.json` plus renderer |
 | More Moments opens a separate internal page | `vercel.json`, homepage CTA, `moments.html` | Website routing |
 | Community uses WhatsApp and contact uses WhatsApp/Instagram | Repeated main-page links | `site.json` |
 | Preserve accessible controls and reduced-motion behavior | ARIA labels, keyboard events, reduced-motion rules | Website code plus release validation |
