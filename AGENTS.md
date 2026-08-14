@@ -12,6 +12,7 @@
 - WhatsApp ticket messages must be generated from the category the buyer selected and include event, city when applicable, category, phase, current price, and discount when one exists.
 - Every pricing update must be checked across all cities and categories, including the rendered selector, sticky `onwards` price, analytics payload, and encoded WhatsApp message.
 - Time-based ticket phases belong in the catalog as `pricingSwitchAt` plus `categoriesAfterSwitch`; the page must switch automatically at the specified India-time timestamp and generate WhatsApp copy from the active phase.
+- Ticket availability belongs in the catalog. `sold-out` categories display `Sold out`, are disabled, and never open WhatsApp; `last-few` categories show a compact scarcity badge without changing their price or message.
 - Past calendar entries show `View event` only when their slug exists in `eventMomentFolders`. Past entries without FØ Glimpses remain visible as history but are not actionable.
 - Never show `Tickets closed` in the Rave Calendar.
 - Ticket selection is the primary conversion path. Event descriptions belong below the selector, and community prompts must not obstruct event pages.

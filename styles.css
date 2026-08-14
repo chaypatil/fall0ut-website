@@ -1118,6 +1118,7 @@ a.calendar-event:focus-visible {
 }
 
 .ticket-option {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1131,6 +1132,37 @@ a.calendar-event:focus-visible {
   cursor: pointer;
   text-align: left;
   transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.ticket-option--last-few {
+  padding-top: 24px;
+}
+
+.ticket-option-status {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  color: #bceee3;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ticket-option--sold-out,
+.ticket-option--sold-out:hover,
+.ticket-option--sold-out:focus-visible {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.025);
+  color: rgba(255, 255, 255, 0.46);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.ticket-option--sold-out .ticket-option-copy small,
+.ticket-option--sold-out .ticket-option-price {
+  color: rgba(255, 255, 255, 0.38);
 }
 
 .ticket-option:hover,

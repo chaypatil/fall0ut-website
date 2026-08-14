@@ -2347,7 +2347,10 @@
         const eventPrice = document.querySelector("[data-event-ticket-price]");
         if (!catalog || !eventPrice) return;
         const categories = getCatalogCategories(catalog, city || defaultCity);
-        const prices = (categories || []).map(([, , price]) => Number(price)).filter(Boolean);
+        const prices = (categories || [])
+          .filter(([, , , , , availability = ""]) => availability !== "sold-out")
+          .map(([, , price]) => Number(price))
+          .filter(Boolean);
         eventPrice.textContent = prices.length ? `${formatRupees(Math.min(...prices))} onwards` : "View tickets";
       }
 
@@ -2435,7 +2438,7 @@
           title: "Schranz Showcase",
           pricingSwitchAt: "2026-08-05T18:00:00+05:30",
           categories: [["ga", "GA", 1499, "Early Bird"], ["backstage", "Backstage", 2999, "Early Bird"]],
-          categoriesAfterSwitch: [["ga", "GA", 2499, "Phase 1"], ["backstage", "Backstage", 5999, "Phase 1"], ["ga-group-3", "3 GA", 5999, "Phase 1 · Group Pass"], ["ga-group-5", "5 GA", 9999, "Phase 1 · Group Pass"]],
+          categoriesAfterSwitch: [["ga", "GA", 2499, "Phase 1", 0, "last-few"], ["backstage", "Backstage", 5999, "Phase 1", 0, "last-few"], ["ga-group-3", "3 GA", 5999, "Phase 1 · Group Pass", 0, "sold-out"], ["ga-group-5", "5 GA", 9999, "Phase 1 · Group Pass", 0, "sold-out"]],
         },
       };
 
@@ -2476,7 +2479,12 @@
         if (!catalog) return "";
         const selectedCity = city || defaultCity;
         const categories = getCatalogCategories(catalog, selectedCity);
-        return categories.map(([id, label, price, phase, discount = 0]) => `<button class="ticket-option" type="button" data-ticket-id="${id}" data-ticket-label="${label}" data-ticket-price="${price}" data-ticket-phase="${phase}" data-ticket-discount="${discount}"><span class="ticket-option-copy"><strong>${label}</strong><small>${phase}</small></span><span class="ticket-option-price"><strong>${formatRupees(price)}</strong>${discount ? `<small>${formatRupees(discount)} off</small>` : ""}</span></button>`).join("");
+        return categories.map(([id, label, price, phase, discount = 0, availability = ""]) => {
+          const isSoldOut = availability === "sold-out";
+          const scarcityLabel = availability === "last-few" ? `<span class="ticket-option-status">Last few left</span>` : "";
+          const priceMarkup = isSoldOut ? `<strong>Sold out</strong>` : `<strong>${formatRupees(price)}</strong>${discount ? `<small>${formatRupees(discount)} off</small>` : ""}`;
+          return `<button class="ticket-option${availability ? ` ticket-option--${availability}` : ""}" type="button" data-ticket-id="${id}" data-ticket-label="${label}" data-ticket-price="${price}" data-ticket-phase="${phase}" data-ticket-discount="${discount}" data-ticket-availability="${availability}"${isSoldOut ? ` disabled aria-disabled="true"` : ""}>${scarcityLabel}<span class="ticket-option-copy"><strong>${label}</strong><small>${phase}</small></span><span class="ticket-option-price">${priceMarkup}</span></button>`;
+        }).join("");
       }
 
       function renderTicketSelector(slug) {
