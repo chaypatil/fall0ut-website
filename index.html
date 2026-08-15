@@ -280,7 +280,7 @@
           data-event-archive="2026-08-23T23:59:59.999+05:30"
         >
           <div class="focus-art">
-            <span class="discount-bookmark">Get ₹700* off</span>
+            <span class="discount-bookmark discount-bookmark--flat">Independence Weekend Drop</span>
             <img
               src="./assets/steelworks-festival.png"
               alt="Steelworks India Tour poster announcing Mumbai, Delhi and Bangalore from 21 to 23 August"
@@ -696,8 +696,7 @@
         </div>
 
         <p class="discount-note">
-          *Maximum savings apply to the highest-priced single-ticket category, such as Backstage.
-          Discounts vary by ticket category and availability.
+          Savings vary by ticket category, city and availability.
         </p>
 
         <div class="stats-strip" aria-label="FALL0UT event stats">
@@ -2418,11 +2417,11 @@
         steelworks: {
           title: "Steelworks Festival",
           pricingTitle: "STEELWORKS X FALLØUT OFFLINE PRICES",
-          pricingPhase: "PHASE 1",
+          pricingPhase: "INDEPENDENCE WEEKEND DROP",
           cities: {
-            Mumbai: [["ga", "GA", 2000, "Phase 1", 400], ["fanpit", "Fan Pit", 3500, "Phase 1", 700], ["backstage", "Backstage", 5000, "Phase 1", 1000]],
-            Delhi: [["ga", "GA", 1500, "Phase 1", 300], ["fanpit", "Fan Pit", 2000, "Phase 1", 400], ["grandstand", "Grand Stand", 2500, "Phase 1", 500], ["backstage", "Backstage", 5000, "Phase 1", 1000]],
-            Bangalore: [["ga", "GA", 2000, "Phase 1", 400], ["fanpit", "Fan Pit", 3000, "Phase 1", 600], ["backstage", "Backstage", 4000, "Phase 1", 800]],
+            Mumbai: [["ga-early-entry", "GA · Early entry before 6 PM", 999, "Independence Weekend", 1401, "", 1001], ["ga-group-3", "Group of 3 · GA", 4999, "Independence Weekend", 2201, "", 1001], ["fanpit-group-3", "Group of 3 · Fan Pit", 7499, "Independence Weekend", 5101, "", 3001]],
+            Delhi: [["ga-early-entry", "GA · Early entry before 6 PM", 999, "Independence Weekend", 801, "", 501], ["ga-group-3", "Group of 3 · GA", 4000, "Independence Weekend", 1400, "", 500], ["fanpit-group-3", "Group of 3 · Fan Pit", 5000, "Independence Weekend", 2200, "", 1000], ["grandstand-group-3", "Group of 3 · Grand Stand", 6000, "Independence Weekend", 3000, "", 1500]],
+            Bangalore: [["ga-early-entry", "GA · Early entry before 6 PM", 999, "Independence Weekend", 1401, "", 1001], ["ga-group-3", "Group of 3 · GA", 4999, "Independence Weekend", 2201, "", 1001], ["fanpit-group-3", "Group of 3 · Fan Pit", 7499, "Independence Weekend", 3301, "", 1501]],
           },
         },
         "bcco-mumbai": {
@@ -2461,8 +2460,10 @@
 
       function buildTicketMessage(catalog, city, category) {
         const cityText = catalog.cities ? ` for ${city}` : "";
-        const discountText = category.discount ? ` (${formatRupees(category.discount)} off)` : "";
-        return `Hey, I wanna buy ${catalog.title} tickets${cityText}. I want ${category.label} (${category.phase}) at ${formatRupees(category.price)}${discountText}.`;
+        const discountText = category.discount ? ` (${formatRupees(category.discount)} off` : "";
+        const extraDiscountText = category.extraDiscount ? `, including ${formatRupees(category.extraDiscount)} extra off for the Independence Weekend drop` : "";
+        const savingsText = discountText ? `${discountText}${extraDiscountText})` : "";
+        return `Hey, I wanna buy ${catalog.title} tickets${cityText}. I want ${category.label} (${category.phase}) at ${formatRupees(category.price)}${savingsText}.`;
       }
 
       function getCatalogCategories(catalog, city = "") {
@@ -2479,11 +2480,11 @@
         if (!catalog) return "";
         const selectedCity = city || defaultCity;
         const categories = getCatalogCategories(catalog, selectedCity);
-        return categories.map(([id, label, price, phase, discount = 0, availability = ""]) => {
+        return categories.map(([id, label, price, phase, discount = 0, availability = "", extraDiscount = 0]) => {
           const isSoldOut = availability === "sold-out";
           const scarcityLabel = availability === "last-few" ? `<span class="ticket-option-status">Last few left</span>` : "";
-          const priceMarkup = isSoldOut ? `<strong>Sold out</strong>` : `<strong>${formatRupees(price)}</strong>${discount ? `<small>${formatRupees(discount)} off</small>` : ""}`;
-          return `<button class="ticket-option${availability ? ` ticket-option--${availability}` : ""}" type="button" data-ticket-id="${id}" data-ticket-label="${label}" data-ticket-price="${price}" data-ticket-phase="${phase}" data-ticket-discount="${discount}" data-ticket-availability="${availability}"${isSoldOut ? ` disabled aria-disabled="true"` : ""}>${scarcityLabel}<span class="ticket-option-copy"><strong>${label}</strong><small>${phase}</small></span><span class="ticket-option-price">${priceMarkup}</span></button>`;
+          const priceMarkup = isSoldOut ? `<strong>Sold out</strong>` : `<strong>${formatRupees(price)}</strong>${discount ? `<small>${formatRupees(discount)} off</small>` : ""}${extraDiscount ? `<small>${formatRupees(extraDiscount)} extra sale off</small>` : ""}`;
+          return `<button class="ticket-option${availability ? ` ticket-option--${availability}` : ""}" type="button" data-ticket-id="${id}" data-ticket-label="${label}" data-ticket-price="${price}" data-ticket-phase="${phase}" data-ticket-discount="${discount}" data-ticket-extra-discount="${extraDiscount}" data-ticket-availability="${availability}"${isSoldOut ? ` disabled aria-disabled="true"` : ""}>${scarcityLabel}<span class="ticket-option-copy"><strong>${label}</strong><small>${phase}</small></span><span class="ticket-option-price">${priceMarkup}</span></button>`;
         }).join("");
       }
 
@@ -2513,9 +2514,10 @@
             const price = Number(button.dataset.ticketPrice);
             const phase = button.dataset.ticketPhase;
             const discount = Number(button.dataset.ticketDiscount || 0);
+            const extraDiscount = Number(button.dataset.ticketExtraDiscount || 0);
             options.querySelectorAll("[data-ticket-id]").forEach((option) => option.setAttribute("aria-pressed", String(option === button)));
-            const message = buildTicketMessage(catalog, city, { label, price, phase, discount });
-            trackAnalyticsEvent("ticket_interest", { event: slug, city, category: label, price, phase, discount });
+            const message = buildTicketMessage(catalog, city, { label, price, phase, discount, extraDiscount });
+            trackAnalyticsEvent("ticket_interest", { event: slug, city, category: label, price, phase, discount, extraDiscount });
             window.location.href = getWhatsAppTicketUrl(message);
           }));
         };
