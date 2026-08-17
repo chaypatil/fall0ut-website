@@ -281,14 +281,30 @@
         >
           <div class="focus-art">
             <span class="discount-bookmark">Get ₹1,400* off</span>
-            <img
-              src="./assets/steelworks-festival.png"
-              alt="Steelworks India Tour poster announcing Mumbai, Delhi and Bangalore from 21 to 23 August"
-              width="508"
-              height="626"
-              loading="eager"
-              decoding="async"
-            />
+            <div class="poster-flip" data-poster-flip>
+              <div class="poster-flip-inner">
+                <div class="poster-flip-face poster-flip-front">
+                  <img
+                    src="./assets/steelworks-lineup.webp"
+                    alt="Steelworks lineup: Stella Bossi, Lee Ann Roberts, Junkie Kid and more"
+                    width="508"
+                    height="626"
+                    loading="eager"
+                    decoding="async"
+                  />
+                </div>
+                <div class="poster-flip-face poster-flip-back">
+                  <img
+                    src="./assets/steelworks-venue-map.webp"
+                    alt="Steelworks Mumbai venue layout map"
+                    width="508"
+                    height="626"
+                    loading="eager"
+                    decoding="async"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           <div class="focus-copy">
             <p class="event-date">21–23 Aug 2026 / Mumbai · Delhi · Bangalore</p>
@@ -632,6 +648,46 @@
                 class="event-countdown"
                 data-countdown
                 data-event-start="2026-08-14T20:00:00+05:30"
+                aria-live="polite"
+              >
+                Calculating time left
+              </p>
+              <span class="event-cta">
+                <span>Get tickets</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M7 4h10l1 4-1 4 1 4-1 4H7l-1-4 1-4-1-4 1-4Z" />
+                  <path d="M10 7v10M14 7v10" />
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <a
+            class="event-feature"
+            data-carousel-slide
+            data-event-slug="franky-b"
+            data-event-start="2026-08-30T21:00:00+05:30"
+            href="/event/franky-b"
+          >
+            <div class="event-art">
+              <span class="discount-bookmark">Get ₹200* off</span>
+              <img
+                src="./assets/franky-b-poster.webp"
+                alt="Franky-B event poster at antiSOCIAL Mumbai, 30 August"
+                width="900"
+                height="1280"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="event-copy">
+              <p class="event-date">30 Aug 2026</p>
+              <h3>Franky-B</h3>
+              <p class="event-location">antiSOCIAL / Mumbai</p>
+              <p
+                class="event-countdown"
+                data-countdown
+                data-event-start="2026-08-30T21:00:00+05:30"
                 aria-live="polite"
               >
                 Calculating time left
@@ -1039,6 +1095,22 @@
                 <strong>Steelworks Festival</strong>
                 <span>TBA / Bangalore</span>
               </a>
+              <a
+                class="calendar-event is-upcoming"
+                data-event-slug="franky-b"
+                href="/event/franky-b"
+              >
+                <time datetime="2026-08-30">30 Aug</time>
+                <strong>Franky-B</strong>
+                <span>antiSOCIAL / Mumbai</span>
+                <span
+                  class="calendar-countdown"
+                  data-countdown
+                  data-event-start="2026-08-30T21:00:00+05:30"
+                >
+                  Calculating time left
+                </span>
+              </a>
             </section>
 
             <section class="month-card" aria-labelledby="sep-title">
@@ -1328,6 +1400,7 @@
         "aiden-mumbai": "./assets/nexum-aiden-poster.webp",
         "riana-holley-mumbai": "./assets/riana-holley-poster.webp",
         steelworks: "./assets/steelworks-festival.png",
+        "franky-b": "./assets/franky-b-poster.webp",
       };
       const eventRecords = new Map();
       const defaultDocumentTitle = document.title;
@@ -1388,6 +1461,13 @@
         ],
         [
           "bcco-mumbai",
+          {
+            eventPage: true,
+            offer: "catalog",
+          },
+        ],
+        [
+          "franky-b",
           {
             eventPage: true,
             offer: "catalog",
@@ -2435,6 +2515,12 @@
           ],
           categories: [["ga", "GA", 1900, "Phase 2"], ["ga-group-3", "GA · Group of 3", 5000, "Phase 2"], ["ga-group-5", "GA · Group of 5", 7700, "Phase 2"], ["backstage", "Backstage", 4800, "Phase 3"]],
         },
+        "franky-b": {
+          title: "Franky-B",
+          pricingTitle: "FRANKY-B X FALLØUT OFFLINE PRICES",
+          pricingPhase: "EARLY BIRD",
+          categories: [["ga", "GA", 799, "Early Bird", 200]],
+        },
         "schranz-showcase": {
           title: "Schranz Showcase",
           pricingSwitchAt: "2026-08-05T18:00:00+05:30",
@@ -2449,6 +2535,7 @@
         "steelworks-bangalore": { catalogSlug: "steelworks", defaultCity: "Bangalore" },
         "bcco-mumbai": { catalogSlug: "bcco-mumbai", defaultCity: "" },
         "schranz-showcase": { catalogSlug: "schranz-showcase", defaultCity: "" },
+        "franky-b": { catalogSlug: "franky-b", defaultCity: "" },
       };
 
       function getTicketContext(slug) {
@@ -2460,10 +2547,13 @@
         return `₹${Number(value).toLocaleString("en-IN")}`;
       }
 
-      function buildTicketMessage(catalog, city, category) {
+      function buildTicketMessage(catalog, city, category, quantity = 1) {
         const cityText = catalog.cities ? ` for ${city}` : "";
-        const discountText = category.discount ? ` (${formatRupees(category.discount)} off)` : "";
-        return `Hey, I wanna buy ${catalog.title} tickets${cityText}. I want ${category.label} (${category.phase}) at ${formatRupees(category.price)}${discountText}.`;
+        const qtyText = quantity > 1 ? ` x ${quantity}` : "";
+        const totalPrice = category.price * quantity;
+        const totalDiscount = category.discount * quantity;
+        const discountText = totalDiscount ? ` (${formatRupees(totalDiscount)} off)` : "";
+        return `Hey, I wanna buy ${catalog.title} tickets${cityText}. I want ${category.label}${qtyText} (${category.phase}) at ${formatRupees(totalPrice)}${discountText}.`;
       }
 
       function getCatalogCategories(catalog, city = "") {
@@ -2496,7 +2586,8 @@
         const initialCity = catalog.cities ? defaultCity || Object.keys(catalog.cities)[0] : "";
         const heading = catalog.pricingTitle ? `<h2>${catalog.pricingTitle}</h2><p class="ticket-pricing-phase">${catalog.pricingPhase}</p>` : `<p class="eyebrow">Choose your ticket</p>`;
         const coverNote = catalog.coverNote ? `<p class="ticket-cover-note">${catalog.coverNote}</p>` : "";
-        return `<section class="ticket-selector" data-ticket-selector><div class="ticket-selector-heading">${heading}</div>${cityField}<div class="ticket-options" data-ticket-options>${renderTicketCategories(slug, initialCity)}</div>${coverNote}</section>`;
+        const quantityField = `<div class="ticket-quantity" data-ticket-quantity><span>Quantity</span><div class="ticket-quantity-control"><button type="button" data-qty-decrement aria-label="Decrease quantity">−</button><span data-qty-value>1</span><button type="button" data-qty-increment aria-label="Increase quantity">+</button></div></div>`;
+        return `<section class="ticket-selector" data-ticket-selector><div class="ticket-selector-heading">${heading}</div>${cityField}${quantityField}<div class="ticket-options" data-ticket-options>${renderTicketCategories(slug, initialCity)}</div>${coverNote}</section>`;
       }
 
       function bindTicketSelector(container, slug) {
@@ -2505,6 +2596,26 @@
         const { catalog, defaultCity } = getTicketContext(slug);
         const citySelect = selector.querySelector("[data-ticket-city]");
         const options = selector.querySelector("[data-ticket-options]");
+        const qtyValueEl = selector.querySelector("[data-qty-value]");
+        const qtyDecrement = selector.querySelector("[data-qty-decrement]");
+        const qtyIncrement = selector.querySelector("[data-qty-increment]");
+        const MAX_TICKET_QUANTITY = 10;
+        let quantity = 1;
+        const updateQuantityDisplay = () => {
+          if (!qtyValueEl) return;
+          qtyValueEl.textContent = String(quantity);
+          if (qtyDecrement) qtyDecrement.disabled = quantity <= 1;
+          if (qtyIncrement) qtyIncrement.disabled = quantity >= MAX_TICKET_QUANTITY;
+        };
+        qtyDecrement?.addEventListener("click", () => {
+          quantity = Math.max(1, quantity - 1);
+          updateQuantityDisplay();
+        });
+        qtyIncrement?.addEventListener("click", () => {
+          quantity = Math.min(MAX_TICKET_QUANTITY, quantity + 1);
+          updateQuantityDisplay();
+        });
+        updateQuantityDisplay();
         const refreshOptions = () => {
           const city = citySelect?.value || defaultCity || "";
           options.innerHTML = renderTicketCategories(slug, city);
@@ -2516,8 +2627,8 @@
             const phase = button.dataset.ticketPhase;
             const discount = Number(button.dataset.ticketDiscount || 0);
             options.querySelectorAll("[data-ticket-id]").forEach((option) => option.setAttribute("aria-pressed", String(option === button)));
-            const message = buildTicketMessage(catalog, city, { label, price, phase, discount });
-            trackAnalyticsEvent("ticket_interest", { event: slug, city, category: label, price, phase, discount });
+            const message = buildTicketMessage(catalog, city, { label, price, phase, discount }, quantity);
+            trackAnalyticsEvent("ticket_interest", { event: slug, city, category: label, price, phase, discount, quantity });
             window.location.href = getWhatsAppTicketUrl(message);
           }));
         };
@@ -2555,6 +2666,16 @@
         refreshHeroVideos();
         window.scrollTo({ top: 0, behavior: "auto" });
         return true;
+      }
+
+      function setupPosterFlip() {
+        if (reduceMotion) return;
+        document.querySelectorAll("[data-poster-flip]").forEach((flip) => {
+          window.setTimeout(() => {
+            flip.classList.toggle("is-flipped");
+            window.setInterval(() => flip.classList.toggle("is-flipped"), 5000);
+          }, 2000);
+        });
       }
 
       function setupHeroVideos() {
@@ -2837,6 +2958,7 @@
       setupFeaturedCarousel();
       setupFeaturedCarousel("[data-hot-carousel]");
       setupHeroVideos();
+      setupPosterFlip();
       setupCommunityPopup();
       setupSectionViewTracking();
       setupEngagementTracking();
