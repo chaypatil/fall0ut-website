@@ -280,7 +280,7 @@
           data-event-archive="2026-08-23T23:59:59.999+05:30"
         >
           <div class="focus-art">
-            <span class="discount-bookmark">Get ₹700* off</span>
+            <span class="discount-bookmark">Get ₹1,400* off</span>
             <img
               src="./assets/steelworks-festival.png"
               alt="Steelworks India Tour poster announcing Mumbai, Delhi and Bangalore from 21 to 23 August"
@@ -2418,11 +2418,12 @@
         steelworks: {
           title: "Steelworks Festival",
           pricingTitle: "STEELWORKS X FALLØUT OFFLINE PRICES",
-          pricingPhase: "PHASE 1",
+          pricingPhase: "PHASE 2",
+          coverNote: "₹1,500 cover at gates",
           cities: {
-            Mumbai: [["ga", "GA", 2000, "Phase 1", 400], ["fanpit", "Fan Pit", 3500, "Phase 1", 700], ["backstage", "Backstage", 5000, "Phase 1", 1000]],
-            Delhi: [["ga", "GA", 1500, "Phase 1", 300], ["fanpit", "Fan Pit", 2000, "Phase 1", 400], ["grandstand", "Grand Stand", 2500, "Phase 1", 500], ["backstage", "Backstage", 5000, "Phase 1", 1000]],
-            Bangalore: [["ga", "GA", 2000, "Phase 1", 400], ["fanpit", "Fan Pit", 3000, "Phase 1", 600], ["backstage", "Backstage", 4000, "Phase 1", 800]],
+            Mumbai: [["ga", "GA", 2500, "Phase 2", 500], ["fanpit", "Fan Pit", 4500, "Phase 2", 900], ["backstage", "Backstage", 6500, "Phase 2", 1300]],
+            Delhi: [["ga", "GA", 2000, "Phase 2", 400], ["fanpit", "Fan Pit", 2500, "Phase 2", 500], ["grandstand", "Grand Stand", 3000, "Phase 2", 600], ["backstage", "Backstage", 7000, "Phase 2", 1400]],
+            Bangalore: [["ga", "GA", 2500, "Phase 2", 500], ["fanpit", "Fan Pit", 4500, "Phase 2", 900], ["backstage", "Backstage", 6500, "Phase 2", 1300]],
           },
         },
         "bcco-mumbai": {
@@ -2494,7 +2495,8 @@
         const cityField = catalog.cities ? `<label class="ticket-field"><span>City</span><select data-ticket-city>${cityOptions}</select></label>` : "";
         const initialCity = catalog.cities ? defaultCity || Object.keys(catalog.cities)[0] : "";
         const heading = catalog.pricingTitle ? `<h2>${catalog.pricingTitle}</h2><p class="ticket-pricing-phase">${catalog.pricingPhase}</p>` : `<p class="eyebrow">Choose your ticket</p>`;
-        return `<section class="ticket-selector" data-ticket-selector><div class="ticket-selector-heading">${heading}</div>${cityField}<div class="ticket-options" data-ticket-options>${renderTicketCategories(slug, initialCity)}</div></section>`;
+        const coverNote = catalog.coverNote ? `<p class="ticket-cover-note">${catalog.coverNote}</p>` : "";
+        return `<section class="ticket-selector" data-ticket-selector><div class="ticket-selector-heading">${heading}</div>${cityField}<div class="ticket-options" data-ticket-options>${renderTicketCategories(slug, initialCity)}</div>${coverNote}</section>`;
       }
 
       function bindTicketSelector(container, slug) {

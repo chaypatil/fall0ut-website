@@ -1117,6 +1117,16 @@ a.calendar-event:focus-visible {
   margin-top: 24px;
 }
 
+.ticket-cover-note {
+  margin: 10px 0 0;
+  color: #bceee3;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .ticket-option {
   position: relative;
   display: flex;
