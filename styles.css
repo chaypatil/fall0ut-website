@@ -1139,59 +1139,58 @@ a.calendar-event:focus-visible {
   letter-spacing: 0.08em;
 }
 
-.ticket-quantity {
-  display: flex;
+.ticket-qty {
+  display: inline-flex;
+  flex: none;
   align-items: center;
-  justify-content: space-between;
-  max-width: 300px;
-  margin-top: 20px;
-  gap: 12px;
-  color: var(--muted);
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: 0.76rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.ticket-quantity-control {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 6px 12px;
-  border: 1px solid rgba(185, 226, 220, 0.35);
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid rgba(185, 226, 220, 0.16);
   border-radius: 999px;
-  background: #07121b;
+  background: rgba(255, 255, 255, 0.04);
 }
 
-.ticket-quantity-control button {
+.ticket-qty button {
   display: flex;
+  flex: none;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 25px;
+  height: 25px;
+  padding: 0;
   border: none;
   border-radius: 50%;
   background: transparent;
   color: #bceee3;
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
   line-height: 1;
   cursor: pointer;
+  transition: background 140ms ease, color 140ms ease;
 }
 
-.ticket-quantity-control button:disabled {
-  opacity: 0.35;
+.ticket-qty button:hover:not(:disabled),
+.ticket-qty button:focus-visible:not(:disabled) {
+  background: rgba(188, 238, 227, 0.16);
+  color: #ffffff;
+  outline: none;
+}
+
+.ticket-qty button:disabled {
+  opacity: 0.28;
   cursor: not-allowed;
 }
 
-.ticket-quantity-control span[data-qty-value] {
-  min-width: 16px;
+.ticket-qty [data-qty-value] {
+  min-width: 17px;
   color: #ffffff;
   font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0;
   text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 
 .ticket-options {
@@ -1222,9 +1221,8 @@ a.calendar-event:focus-visible {
   border-radius: 2px;
   background: rgba(5, 16, 25, 0.6);
   color: #ffffff;
-  cursor: pointer;
   text-align: left;
-  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+  transition: border-color 160ms ease, background 160ms ease;
 }
 
 .ticket-option--last-few {
@@ -1244,13 +1242,10 @@ a.calendar-event:focus-visible {
 }
 
 .ticket-option--sold-out,
-.ticket-option--sold-out:hover,
-.ticket-option--sold-out:focus-visible {
+.ticket-option--sold-out:hover {
   border-color: rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.025);
   color: rgba(255, 255, 255, 0.46);
-  cursor: not-allowed;
-  transform: none;
 }
 
 .ticket-option--sold-out .ticket-option-copy small,
@@ -1258,23 +1253,25 @@ a.calendar-event:focus-visible {
   color: rgba(255, 255, 255, 0.38);
 }
 
-.ticket-option:hover,
-.ticket-option:focus-visible {
-  border-color: rgba(185, 226, 220, 0.74);
-  background: rgba(26, 66, 77, 0.42);
-  outline: none;
-  transform: translateY(-1px);
+.ticket-option:hover {
+  border-color: rgba(185, 226, 220, 0.5);
 }
 
-.ticket-option:active,
-.ticket-option[aria-pressed="true"] {
+.ticket-option.is-selected {
   border-color: rgba(153, 131, 255, 0.88);
   background: var(--action-gradient);
 }
 
+.ticket-option.is-selected .ticket-qty {
+  border-color: rgba(255, 255, 255, 0.34);
+  background: rgba(0, 0, 0, 0.22);
+}
+
 .ticket-option-copy {
   display: grid;
+  flex: 1 1 auto;
   gap: 3px;
+  min-width: 0;
 }
 
 .ticket-option-copy strong {
@@ -1314,20 +1311,15 @@ a.calendar-event:focus-visible {
 }
 
 .ticket-booking-bar {
-  position: sticky;
-  bottom: 14px;
-  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  margin-top: 24px;
+  margin-top: 18px;
   padding: 12px 14px 12px 18px;
   border: 1px solid rgba(185, 226, 220, 0.3);
   border-radius: 4px;
   background: rgba(3, 12, 20, 0.94);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.34);
-  backdrop-filter: blur(16px);
 }
 
 .ticket-booking-bar span {
@@ -1356,11 +1348,26 @@ a.calendar-event:focus-visible {
   width: auto;
   min-width: 150px;
   margin: 0;
+  border-color: rgba(153, 131, 255, 0.88);
+  background: var(--action-gradient);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.ticket-booking-bar .primary-button:hover:not(:disabled),
+.ticket-booking-bar .primary-button:focus-visible:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.8);
+  background: var(--action-gradient);
+  color: #ffffff;
+  filter: brightness(1.12);
 }
 
 .ticket-booking-bar .primary-button:disabled {
+  border-color: var(--line-strong);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(231, 241, 238, 0.5);
   cursor: not-allowed;
-  opacity: 0.45;
+  filter: none;
 }
 
 .event-moments {
@@ -2528,7 +2535,33 @@ a.calendar-event:focus-visible {
 
   .ticket-option {
     min-height: 58px;
+    gap: 10px;
     padding: 10px 12px;
+  }
+
+  .ticket-option-copy strong {
+    font-size: 1.02rem;
+    letter-spacing: 0.08em;
+  }
+
+  .ticket-option-price strong {
+    font-size: 1.12rem;
+  }
+
+  .ticket-qty button {
+    width: 23px;
+    height: 23px;
+  }
+
+  .ticket-booking-bar {
+    gap: 12px;
+    padding: 10px 10px 10px 14px;
+  }
+
+  .ticket-booking-bar .primary-button {
+    min-width: 0;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .site-header {

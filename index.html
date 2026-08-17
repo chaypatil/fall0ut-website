@@ -2547,13 +2547,30 @@
         return `₹${Number(value).toLocaleString("en-IN")}`;
       }
 
-      function buildTicketMessage(catalog, city, category, quantity = 1) {
+      function summariseSelections(selections) {
+        return selections.reduce(
+          (totals, selection) => ({
+            quantity: totals.quantity + selection.quantity,
+            price: totals.price + selection.price * selection.quantity,
+            discount: totals.discount + selection.discount * selection.quantity,
+          }),
+          { quantity: 0, price: 0, discount: 0 },
+        );
+      }
+
+      function buildTicketMessage(catalog, city, selections) {
         const cityText = catalog.cities ? ` for ${city}` : "";
-        const qtyText = quantity > 1 ? ` x ${quantity}` : "";
-        const totalPrice = category.price * quantity;
-        const totalDiscount = category.discount * quantity;
-        const discountText = totalDiscount ? ` (${formatRupees(totalDiscount)} off)` : "";
-        return `Hey, I wanna buy ${catalog.title} tickets${cityText}. I want ${category.label}${qtyText} (${category.phase}) at ${formatRupees(totalPrice)}${discountText}.`;
+        const lines = selections.map((selection) => {
+          const linePrice = selection.price * selection.quantity;
+          const lineDiscount = selection.discount * selection.quantity;
+          const discountText = lineDiscount ? ` (${formatRupees(lineDiscount)} off)` : "";
+          return `${selection.label} x ${selection.quantity} (${selection.phase}) at ${formatRupees(linePrice)}${discountText}`;
+        });
+        const totals = summariseSelections(selections);
+        const totalText = selections.length > 1
+          ? ` Total ${formatRupees(totals.price)}${totals.discount ? ` (${formatRupees(totals.discount)} off)` : ""}.`
+          : "";
+        return `Hey, I wanna buy ${catalog.title} tickets${cityText}. I want ${lines.join(", ")}.${totalText}`;
       }
 
       function getCatalogCategories(catalog, city = "") {
@@ -2574,7 +2591,10 @@
           const isSoldOut = availability === "sold-out";
           const scarcityLabel = availability === "last-few" ? `<span class="ticket-option-status">Last few left</span>` : "";
           const priceMarkup = isSoldOut ? `<strong>Sold out</strong>` : `<strong>${formatRupees(price)}</strong>${discount ? `<small>${formatRupees(discount)} off</small>` : ""}`;
-          return `<button class="ticket-option${availability ? ` ticket-option--${availability}` : ""}" type="button" data-ticket-id="${id}" data-ticket-label="${label}" data-ticket-price="${price}" data-ticket-phase="${phase}" data-ticket-discount="${discount}" data-ticket-availability="${availability}"${isSoldOut ? ` disabled aria-disabled="true"` : ""}>${scarcityLabel}<span class="ticket-option-copy"><strong>${label}</strong><small>${phase}</small></span><span class="ticket-option-price">${priceMarkup}</span></button>`;
+          const stepper = isSoldOut
+            ? ""
+            : `<div class="ticket-qty" data-ticket-qty><button type="button" data-qty-step="-1" aria-label="Remove one ${label}" disabled>&minus;</button><span data-qty-value>0</span><button type="button" data-qty-step="1" aria-label="Add one ${label}">+</button></div>`;
+          return `<div class="ticket-option${availability ? ` ticket-option--${availability}` : ""}" data-ticket-id="${id}" data-ticket-label="${label}" data-ticket-price="${price}" data-ticket-phase="${phase}" data-ticket-discount="${discount}" data-ticket-availability="${availability}"${isSoldOut ? ` aria-disabled="true"` : ""}>${scarcityLabel}${stepper}<span class="ticket-option-copy"><strong>${label}</strong><small>${phase}</small></span><span class="ticket-option-price">${priceMarkup}</span></div>`;
         }).join("");
       }
 
@@ -2586,8 +2606,8 @@
         const initialCity = catalog.cities ? defaultCity || Object.keys(catalog.cities)[0] : "";
         const heading = catalog.pricingTitle ? `<h2>${catalog.pricingTitle}</h2><p class="ticket-pricing-phase">${catalog.pricingPhase}</p>` : `<p class="eyebrow">Choose your ticket</p>`;
         const coverNote = catalog.coverNote ? `<p class="ticket-cover-note">${catalog.coverNote}</p>` : "";
-        const quantityField = `<div class="ticket-quantity" data-ticket-quantity><span>Quantity</span><div class="ticket-quantity-control"><button type="button" data-qty-decrement aria-label="Decrease quantity">−</button><span data-qty-value>1</span><button type="button" data-qty-increment aria-label="Increase quantity">+</button></div></div>`;
-        return `<section class="ticket-selector" data-ticket-selector><div class="ticket-selector-heading">${heading}</div>${cityField}${quantityField}<div class="ticket-options" data-ticket-options>${renderTicketCategories(slug, initialCity)}</div>${coverNote}</section>`;
+        const bookingBar = `<div class="ticket-booking-bar" data-ticket-booking><span><small data-booking-count>No tickets selected</small><strong data-booking-total>&#8377;0</strong></span><button class="primary-button" type="button" data-ticket-checkout disabled><span>Book on WhatsApp</span></button></div>`;
+        return `<section class="ticket-selector" data-ticket-selector><div class="ticket-selector-heading">${heading}</div>${cityField}<div class="ticket-options" data-ticket-options>${renderTicketCategories(slug, initialCity)}</div>${coverNote}${bookingBar}</section>`;
       }
 
       function bindTicketSelector(container, slug) {
@@ -2596,42 +2616,76 @@
         const { catalog, defaultCity } = getTicketContext(slug);
         const citySelect = selector.querySelector("[data-ticket-city]");
         const options = selector.querySelector("[data-ticket-options]");
-        const qtyValueEl = selector.querySelector("[data-qty-value]");
-        const qtyDecrement = selector.querySelector("[data-qty-decrement]");
-        const qtyIncrement = selector.querySelector("[data-qty-increment]");
+        const checkoutButton = selector.querySelector("[data-ticket-checkout]");
+        const bookingCount = selector.querySelector("[data-booking-count]");
+        const bookingTotal = selector.querySelector("[data-booking-total]");
         const MAX_TICKET_QUANTITY = 10;
-        let quantity = 1;
-        const updateQuantityDisplay = () => {
-          if (!qtyValueEl) return;
-          qtyValueEl.textContent = String(quantity);
-          if (qtyDecrement) qtyDecrement.disabled = quantity <= 1;
-          if (qtyIncrement) qtyIncrement.disabled = quantity >= MAX_TICKET_QUANTITY;
+
+        const readSelections = () => Array.from(options.querySelectorAll("[data-ticket-id]"))
+          .map((row) => ({
+            label: row.dataset.ticketLabel,
+            price: Number(row.dataset.ticketPrice),
+            phase: row.dataset.ticketPhase,
+            discount: Number(row.dataset.ticketDiscount || 0),
+            quantity: Number(row.querySelector("[data-qty-value]")?.textContent || 0),
+          }))
+          .filter((selection) => selection.quantity > 0);
+
+        const refreshBookingBar = () => {
+          const selections = readSelections();
+          const totals = summariseSelections(selections);
+          if (checkoutButton) checkoutButton.disabled = totals.quantity === 0;
+          if (bookingCount) {
+            bookingCount.textContent = totals.quantity === 0
+              ? "No tickets selected"
+              : `${totals.quantity} ticket${totals.quantity > 1 ? "s" : ""} selected`;
+          }
+          if (bookingTotal) bookingTotal.textContent = formatRupees(totals.price);
         };
-        qtyDecrement?.addEventListener("click", () => {
-          quantity = Math.max(1, quantity - 1);
-          updateQuantityDisplay();
-        });
-        qtyIncrement?.addEventListener("click", () => {
-          quantity = Math.min(MAX_TICKET_QUANTITY, quantity + 1);
-          updateQuantityDisplay();
-        });
-        updateQuantityDisplay();
+
+        const bindQuantitySteppers = () => {
+          options.querySelectorAll("[data-ticket-qty]").forEach((stepper) => {
+            const valueEl = stepper.querySelector("[data-qty-value]");
+            const row = stepper.closest("[data-ticket-id]");
+            stepper.querySelectorAll("[data-qty-step]").forEach((button) => button.addEventListener("click", () => {
+              const step = Number(button.dataset.qtyStep);
+              const next = Math.min(MAX_TICKET_QUANTITY, Math.max(0, Number(valueEl.textContent || 0) + step));
+              valueEl.textContent = String(next);
+              row?.classList.toggle("is-selected", next > 0);
+              stepper.querySelectorAll("[data-qty-step]").forEach((control) => {
+                const controlStep = Number(control.dataset.qtyStep);
+                control.disabled = controlStep < 0 ? next <= 0 : next >= MAX_TICKET_QUANTITY;
+              });
+              refreshBookingBar();
+            }));
+          });
+        };
+
         const refreshOptions = () => {
           const city = citySelect?.value || defaultCity || "";
           options.innerHTML = renderTicketCategories(slug, city);
           updateEventTicketPrice(slug, city);
-          options.querySelectorAll("[data-ticket-id]").forEach((button) => button.addEventListener("click", () => {
-            const city = citySelect?.value || "Mumbai";
-            const label = button.dataset.ticketLabel;
-            const price = Number(button.dataset.ticketPrice);
-            const phase = button.dataset.ticketPhase;
-            const discount = Number(button.dataset.ticketDiscount || 0);
-            options.querySelectorAll("[data-ticket-id]").forEach((option) => option.setAttribute("aria-pressed", String(option === button)));
-            const message = buildTicketMessage(catalog, city, { label, price, phase, discount }, quantity);
-            trackAnalyticsEvent("ticket_interest", { event: slug, city, category: label, price, phase, discount, quantity });
-            window.location.href = getWhatsAppTicketUrl(message);
-          }));
+          bindQuantitySteppers();
+          refreshBookingBar();
         };
+
+        checkoutButton?.addEventListener("click", () => {
+          const selections = readSelections();
+          if (!selections.length) return;
+          const city = citySelect?.value || defaultCity || "";
+          const totals = summariseSelections(selections);
+          const message = buildTicketMessage(catalog, city, selections);
+          trackAnalyticsEvent("ticket_interest", {
+            event: slug,
+            city,
+            categories: selections.map((selection) => `${selection.label} x ${selection.quantity}`).join(", "),
+            price: totals.price,
+            discount: totals.discount,
+            quantity: totals.quantity,
+          });
+          window.location.href = getWhatsAppTicketUrl(message);
+        });
+
         citySelect?.addEventListener("change", refreshOptions);
         refreshOptions();
         const pricingSwitchTime = new Date(catalog.pricingSwitchAt || "").getTime();
@@ -2671,10 +2725,28 @@
       function setupPosterFlip() {
         if (reduceMotion) return;
         document.querySelectorAll("[data-poster-flip]").forEach((flip) => {
-          window.setTimeout(() => {
-            flip.classList.toggle("is-flipped");
-            window.setInterval(() => flip.classList.toggle("is-flipped"), 5000);
-          }, 2000);
+          let started = false;
+          const startFlipping = () => {
+            if (started) return;
+            started = true;
+            window.setTimeout(() => {
+              flip.classList.toggle("is-flipped");
+              window.setInterval(() => flip.classList.toggle("is-flipped"), 5000);
+            }, 3000);
+          };
+
+          if (typeof IntersectionObserver !== "function") {
+            startFlipping();
+            return;
+          }
+
+          const observer = new IntersectionObserver((entries) => {
+            if (entries.some((entry) => entry.isIntersecting)) {
+              observer.disconnect();
+              startFlipping();
+            }
+          }, { threshold: 0.5 });
+          observer.observe(flip);
         });
       }
 
