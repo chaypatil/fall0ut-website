@@ -1340,8 +1340,11 @@
       </div>
       <a
         class="mobile-quickbar-link mobile-quickbar-link--primary"
-        href="/go/steelworks?placement=mobile_bar"
+        href="/events"
         data-mobile-ticket
+        data-analytics-event="navigation_click"
+        data-analytics-target="events"
+        data-analytics-placement="mobile_bar"
       >
         Tickets
       </a>
@@ -1547,8 +1550,14 @@
         window.setTimeout(alignCurrent, 360);
       }
 
+      function getEventsLandingId() {
+        const hotSection = document.getElementById("focus");
+        return hotSection && !hotSection.hidden ? "focus" : "events";
+      }
+
       function scrollToSection(id, behavior = "smooth") {
-        const target = id === "top" ? document.getElementById("top") : document.getElementById(id);
+        const resolvedId = id === "events" ? getEventsLandingId() : id;
+        const target = document.getElementById(resolvedId);
 
         if (!target) {
           return;
@@ -1566,7 +1575,7 @@
         eventPage.replaceChildren();
         document.body.classList.remove("event-page-active");
         document.title = defaultDocumentTitle;
-        setMobileTicketEvent("steelworks");
+        setMobileTicketEvent("");
         setMobileMomentsEvent(true);
         refreshHeroVideos();
       }
@@ -1909,9 +1918,6 @@
           currentNumber.textContent = displayedIndex;
           totalNumber.textContent = displayedTotal;
           status.setAttribute("aria-label", `Event ${activeIndex + 1} of ${slides.length}`);
-          if (carousel.hasAttribute("data-hot-carousel") && !document.body.classList.contains("event-page-active")) {
-            setMobileTicketEvent(getActiveSlug());
-          }
           trackVisibleSlide();
         }
 
@@ -2459,12 +2465,12 @@
         }
 
         const route = goRoutes.get(slug);
-        ticketLink.hidden = !route;
+        ticketLink.hidden = false;
+        ticketLink.removeAttribute("target");
+        ticketLink.removeAttribute("rel");
 
         if (route) {
           ticketLink.href = `/event/${slug}`;
-          ticketLink.removeAttribute("target");
-          ticketLink.removeAttribute("rel");
           ticketLink.dataset.eventSlug = slug;
           ticketLink.onclick = document.body.classList.contains("event-page-active")
             ? (event) => {
@@ -2473,6 +2479,10 @@
               }
             : null;
           decorateConversionLinks(ticketLink.parentElement || document);
+        } else {
+          ticketLink.href = "/events";
+          delete ticketLink.dataset.eventSlug;
+          ticketLink.onclick = null;
         }
 
         updateMobileQuickbarLayout();
