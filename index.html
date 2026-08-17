@@ -2606,7 +2606,7 @@
         const initialCity = catalog.cities ? defaultCity || Object.keys(catalog.cities)[0] : "";
         const heading = catalog.pricingTitle ? `<h2>${catalog.pricingTitle}</h2><p class="ticket-pricing-phase">${catalog.pricingPhase}</p>` : `<p class="eyebrow">Choose your ticket</p>`;
         const coverNote = catalog.coverNote ? `<p class="ticket-cover-note">${catalog.coverNote}</p>` : "";
-        const bookingBar = `<div class="ticket-booking-bar" data-ticket-booking><span><small data-booking-count>No tickets selected</small><strong data-booking-total>&#8377;0</strong></span><button class="primary-button" type="button" data-ticket-checkout disabled><span>Book on WhatsApp</span></button></div>`;
+        const bookingBar = `<div class="ticket-booking-bar" data-ticket-booking><span><small data-booking-count>No tickets selected</small><strong data-booking-total>&#8377;0</strong></span><button class="primary-button" type="button" data-ticket-checkout disabled><span>Buy now</span></button></div>`;
         return `<section class="ticket-selector" data-ticket-selector><div class="ticket-selector-heading">${heading}</div>${cityField}<div class="ticket-options" data-ticket-options>${renderTicketCategories(slug, initialCity)}</div>${coverNote}${bookingBar}</section>`;
       }
 

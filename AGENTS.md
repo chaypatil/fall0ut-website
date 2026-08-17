@@ -8,7 +8,7 @@
 - When every ticket category is clearly visible within that central 80%, restore the standard mobile quickbar so it never covers the choices.
 - `Book tickets` scrolls smoothly to the category list.
 - Every available category carries its own quantity stepper, starting at 0, placed ahead of the category name. Buyers can mix categories in one order (for example 2 GA plus 2 Backstage).
-- The `Book on WhatsApp` bar below the list stays disabled until at least one category has a quantity above 0, and shows the running ticket count and order total.
+- The `Buy now` bar below the list stays disabled until at least one category has a quantity above 0, and shows the running ticket count and order total.
 - Changing city re-renders the categories and resets every quantity to 0, so a stale quantity can never carry across cities.
 - `ticketCatalog` is the single source of truth for category pricing, phase, and discounts. Never repeat those values in `goRoutes`, buttons, or hand-written WhatsApp URLs.
 - Multi-city archive slugs must resolve through `ticketContexts` to one canonical catalog and the correct default city.
