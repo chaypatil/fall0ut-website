@@ -665,12 +665,52 @@
           <a
             class="event-feature"
             data-carousel-slide
+            data-event-slug="fight-night"
+            data-event-start="2026-08-21T22:30:00+05:30"
+            href="/event/fight-night"
+          >
+            <div class="event-art">
+              <span class="discount-bookmark discount-bookmark--flat">Get ₹40 off</span>
+              <img
+                src="./assets/fight-night-poster.webp"
+                alt="Fight Night poster: Ajna vs Skeef Menezes, Insin vs Vira, Milliverse vs Nocturna"
+                width="1080"
+                height="1080"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="event-copy">
+              <p class="event-date">21 Aug 2026</p>
+              <h3>Fight Night</h3>
+              <p class="event-location">Cosybox / Mumbai</p>
+              <p
+                class="event-countdown"
+                data-countdown
+                data-event-start="2026-08-21T22:30:00+05:30"
+                aria-live="polite"
+              >
+                Calculating time left
+              </p>
+              <span class="event-cta">
+                <span>Get tickets</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M7 4h10l1 4-1 4 1 4-1 4H7l-1-4 1-4-1-4 1-4Z" />
+                  <path d="M10 7v10M14 7v10" />
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <a
+            class="event-feature"
+            data-carousel-slide
             data-event-slug="franky-b"
             data-event-start="2026-08-30T21:00:00+05:30"
             href="/event/franky-b"
           >
             <div class="event-art">
-              <span class="discount-bookmark">Get ₹200* off</span>
+              <span class="discount-bookmark discount-bookmark--flat">Get ₹200 off</span>
               <img
                 src="./assets/franky-b-poster.webp"
                 alt="Franky-B event poster at antiSOCIAL Mumbai, 30 August"
@@ -1079,6 +1119,22 @@
               </a>
               <a
                 class="calendar-event is-upcoming"
+                data-event-slug="fight-night"
+                href="/event/fight-night"
+              >
+                <time datetime="2026-08-21">21 Aug</time>
+                <strong>Fight Night</strong>
+                <span>Cosybox / Mumbai</span>
+                <span
+                  class="calendar-countdown"
+                  data-countdown
+                  data-event-start="2026-08-21T22:30:00+05:30"
+                >
+                  Calculating time left
+                </span>
+              </a>
+              <a
+                class="calendar-event is-upcoming"
                 data-event-slug="steelworks-delhi"
                 href="/event/steelworks-delhi"
               >
@@ -1404,6 +1460,7 @@
         "riana-holley-mumbai": "./assets/riana-holley-poster.webp",
         steelworks: "./assets/steelworks-festival.png",
         "franky-b": "./assets/franky-b-poster.webp",
+        "fight-night": "./assets/fight-night-poster.webp",
       };
       const eventRecords = new Map();
       const defaultDocumentTitle = document.title;
@@ -1471,6 +1528,13 @@
         ],
         [
           "franky-b",
+          {
+            eventPage: true,
+            offer: "catalog",
+          },
+        ],
+        [
+          "fight-night",
           {
             eventPage: true,
             offer: "catalog",
@@ -2531,6 +2595,12 @@
           pricingPhase: "EARLY BIRD",
           categories: [["ga", "GA", 799, "Early Bird", 200]],
         },
+        "fight-night": {
+          title: "Fight Night",
+          pricingTitle: "FIGHT NIGHT X FALLØUT OFFLINE PRICES",
+          pricingPhase: "PHASE 1",
+          categories: [["ga", "GA", 759, "Phase 1", 40]],
+        },
         "schranz-showcase": {
           title: "Schranz Showcase",
           pricingSwitchAt: "2026-08-05T18:00:00+05:30",
@@ -2546,6 +2616,7 @@
         "bcco-mumbai": { catalogSlug: "bcco-mumbai", defaultCity: "" },
         "schranz-showcase": { catalogSlug: "schranz-showcase", defaultCity: "" },
         "franky-b": { catalogSlug: "franky-b", defaultCity: "" },
+        "fight-night": { catalogSlug: "fight-night", defaultCity: "" },
       };
 
       function getTicketContext(slug) {
