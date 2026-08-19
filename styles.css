@@ -3078,6 +3078,13 @@ a.calendar-event:focus-visible {
 }
 
 @media (hover: none) {
+  /* Touch devices never fire hover, so the greyscale-to-colour reveal was
+     unreachable and posters read as dead on a phone. Show them in colour by
+     default here; desktop keeps the reveal. */
+  .event-feature .event-art img {
+    filter: grayscale(0) contrast(1.04) brightness(0.92);
+  }
+
   .event-feature:active .event-art img,
   .event-feature.is-touch-active .event-art img {
     filter: grayscale(0) contrast(1.04) brightness(0.98);

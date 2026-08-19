@@ -200,7 +200,104 @@ for (const entry of live) {
 
 console.log(`Built ${built.length} share pages:`);
 built.forEach((b) => console.log(`  /event/${b.slug}  <-  ${b.poster}`));
-console.log("\nAdd these to vercel.json rewrites ABOVE the catch-all /event/:slug rule:");
+
+/* ------------------------------------------------------------------ *
+ * Keep the sitemap and the raves.html event schema in step with the
+ * same list, so they cannot drift the way they did before.
+ * ------------------------------------------------------------------ */
+
+const liveSlugs = new Set(built.map((b) => b.slug));
+const stamp = new Date().toISOString().slice(0, 10);
+
+function syncSitemap() {
+  const file = path.join(ROOT, "sitemap.xml");
+  let xml = fs.readFileSync(file, "utf8");
+
+  // Drop event URLs that are no longer sellable.
+  xml = xml.replace(
+    /\s*<url>\s*<loc>https:\/\/www\.fall0ut\.in\/event\/([^<]+)<\/loc>[\s\S]*?<\/url>/g,
+    (block, slug) => (liveSlugs.has(slug) ? block : ""),
+  );
+
+  // Add any live event that is missing, and refresh lastmod on the rest.
+  for (const slug of liveSlugs) {
+    const loc = `${SITE}/event/${slug}`;
+    if (xml.includes(`<loc>${loc}</loc>`)) {
+      xml = xml.replace(
+        new RegExp(`(<loc>${loc.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}</loc>\\s*<lastmod>)[^<]*`),
+        `$1${stamp}`,
+      );
+    } else {
+      xml = xml.replace(
+        "</urlset>",
+        `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${stamp}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n</urlset>`,
+      );
+    }
+  }
+
+  fs.writeFileSync(file, xml, "utf8");
+  console.log(`\nSitemap synced: ${liveSlugs.size} event URLs.`);
+}
+
+function syncEventSchema() {
+  const file = path.join(ROOT, "raves.html");
+  let page = fs.readFileSync(file, "utf8");
+
+  const anchor = page.indexOf('"@id": "https://www.fall0ut.in/raves-in-india#events"');
+  if (anchor === -1) {
+    console.warn("  skipped raves.html: events ItemList not found");
+    return;
+  }
+  const keyAt = page.indexOf('"itemListElement"', anchor);
+  const open = page.indexOf("[", keyAt);
+  let depth = 0;
+  let close = open;
+  for (; close < page.length; close += 1) {
+    if (page[close] === "[") depth += 1;
+    else if (page[close] === "]") {
+      depth -= 1;
+      if (depth === 0) break;
+    }
+  }
+
+  const items = built.map((b, index) => {
+    const entry = calendar.get(b.slug);
+    const [venueName, city] = entry.venue.split("/").map((part) => part.trim());
+    return {
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "MusicEvent",
+        name: `${entry.title}${city ? ` ${city}` : ""}`,
+        startDate: entry.date,
+        eventStatus: "https://schema.org/EventScheduled",
+        eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+        url: `${SITE}/event/${b.slug}`,
+        image: `${SITE}/assets/og/${b.slug}.jpg`,
+        location: {
+          "@type": "Place",
+          name: venueName,
+          address: { "@type": "PostalAddress", addressLocality: city || "India", addressCountry: "IN" },
+        },
+      },
+    };
+  });
+
+  const indented = JSON.stringify(items, null, 2)
+    .split("\n")
+    .map((line, i) => (i === 0 ? line : `            ${line}`))
+    .join("\n");
+
+  page = page.slice(0, open) + indented + page.slice(close + 1);
+  page = page.replace(/("numberOfItems":\s*)\d+/, `$1${items.length}`);
+  fs.writeFileSync(file, page, "utf8");
+  console.log(`Event schema synced: ${items.length} events in raves.html.`);
+}
+
+syncSitemap();
+syncEventSchema();
+
+console.log("\nvercel.json rewrites needed ABOVE the catch-all /event/:slug rule:");
 console.log(
   JSON.stringify(
     built.map((b) => ({ source: `/event/${b.slug}`, destination: `/event/${b.slug}.html` })),
