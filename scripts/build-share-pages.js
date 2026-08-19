@@ -112,9 +112,29 @@ const formatDate = (iso) =>
 const escapeHtml = (value) =>
   value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
+/* ImageMagick is present on a workstation but not on the deploy builder, so the
+ * cards are generated locally and committed. On the builder we reuse them and
+ * only rebuild the HTML, which is the part that actually goes stale. */
+const hasMagick = (() => {
+  try {
+    execFileSync("magick", ["-version"], { stdio: "ignore" });
+    return true;
+  } catch {
+    return false;
+  }
+})();
+
 /** Letterbox the poster onto a 1200x630 card so nothing is cropped and the shape suits every platform. */
 function buildShareImage(slug, posterFile) {
   const out = path.join(OG_DIR, `${slug}.jpg`);
+
+  if (!hasMagick) {
+    // Without a card the link would preview as the generic site card, so say so
+    // rather than shipping a page pointing at an image that does not exist.
+    if (!fs.existsSync(out)) return null;
+    return out;
+  }
+
   execFileSync("magick", [
     "-size", "1200x630", "xc:#01040a",
     "(", path.join(ROOT, posterFile), "-resize", "1200x630", ")",
@@ -193,7 +213,10 @@ for (const entry of live) {
     console.warn(`  skipped ${entry.slug}: no poster found`);
     continue;
   }
-  buildShareImage(entry.slug, posterFile);
+  if (!buildShareImage(entry.slug, posterFile)) {
+    console.warn(`  skipped ${entry.slug}: share card missing and ImageMagick unavailable`);
+    continue;
+  }
   fs.writeFileSync(path.join(OUT_DIR, `${entry.slug}.html`), buildPage(entry), "utf8");
   built.push({ slug: entry.slug, poster: posterFile });
 }
