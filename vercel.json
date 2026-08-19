@@ -84,6 +84,26 @@
       "destination": "/index.html"
     },
     {
+      "source": "/event/steelworks",
+      "destination": "/event/steelworks.html"
+    },
+    {
+      "source": "/event/steelworks-delhi",
+      "destination": "/event/steelworks-delhi.html"
+    },
+    {
+      "source": "/event/steelworks-bangalore",
+      "destination": "/event/steelworks-bangalore.html"
+    },
+    {
+      "source": "/event/franky-b",
+      "destination": "/event/franky-b.html"
+    },
+    {
+      "source": "/event/fight-night",
+      "destination": "/event/fight-night.html"
+    },
+    {
       "source": "/event/:slug",
       "destination": "/index.html"
     }

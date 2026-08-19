@@ -1151,6 +1151,7 @@ a.calendar-event:focus-visible {
 }
 
 .ticket-qty button {
+  position: relative;
   display: flex;
   flex: none;
   align-items: center;
@@ -1168,6 +1169,17 @@ a.calendar-event:focus-visible {
   line-height: 1;
   cursor: pointer;
   transition: background 140ms ease, color 140ms ease;
+}
+
+/* Invisible hit area so a near miss still counts, without changing how the control looks.
+   Stops short of the midpoint between the two, so plus and minus can never overlap. */
+.ticket-qty button::after {
+  content: "";
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  left: -9px;
+  right: -9px;
 }
 
 .ticket-qty button:hover:not(:disabled),
