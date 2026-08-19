@@ -1790,6 +1790,16 @@
         });
       }
 
+      // Meta needs conversion signals, not just PageView, to optimise ad delivery
+      // and to let a campaign report which spend produced ticket intent.
+      function trackPixelEvent(name, params = {}) {
+        if (typeof window.fbq !== "function") {
+          return;
+        }
+
+        window.fbq("track", name, { currency: "INR", ...params });
+      }
+
       function trackTicketClick(slug, route, placement) {
         trackAnalyticsEvent("ticket_interest", {
           event: slug,
@@ -2764,6 +2774,13 @@
             discount: totals.discount,
             quantity: totals.quantity,
           });
+          trackPixelEvent("InitiateCheckout", {
+            content_name: catalog.title,
+            content_category: city || "",
+            content_ids: selections.map((selection) => selection.label),
+            num_items: totals.quantity,
+            value: totals.price,
+          });
           window.location.href = getWhatsAppTicketUrl(message);
         });
 
@@ -2793,6 +2810,19 @@
         page.hidden = false;
         document.body.classList.add("event-page-active");
         document.title = `${event.title} | FALL0UT INDIA`;
+        if (isLive) {
+          const { catalog, defaultCity } = getTicketContext(slug);
+          const prices = (getCatalogCategories(catalog || {}, defaultCity) || [])
+            .filter((category) => category[5] !== "sold-out")
+            .map((category) => Number(category[2]))
+            .filter(Boolean);
+          trackPixelEvent("ViewContent", {
+            content_name: (catalog && catalog.title) || event.title,
+            content_type: "product",
+            content_ids: [slug],
+            value: prices.length ? Math.min(...prices) : undefined,
+          });
+        }
         if (push) window.history.pushState(null, "", `/event/${slug}`);
         setMobileTicketEvent(isLive ? slug : "");
         setMobileMomentsEvent(Boolean(event.moments));
