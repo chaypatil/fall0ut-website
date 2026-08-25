@@ -90,6 +90,10 @@
       "destination": "/event/franky-b.html"
     },
     {
+      "source": "/event/schranz-showcase-sep",
+      "destination": "/event/schranz-showcase-sep.html"
+    },
+    {
       "source": "/event/:slug",
       "destination": "/index.html"
     }

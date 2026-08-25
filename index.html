@@ -665,6 +665,46 @@
           <a
             class="event-feature"
             data-carousel-slide
+            data-event-slug="schranz-showcase-sep"
+            data-event-start="2026-09-12T20:00:00+05:30"
+            href="/event/schranz-showcase-sep"
+          >
+            <div class="event-art">
+              <span class="discount-bookmark">Get ₹800* off</span>
+              <img
+                src="./assets/schranz-sep-poster.webp"
+                alt="Schranz Showcase poster for Delhi on 11 September and Mumbai on 12 September"
+                width="502"
+                height="628"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="event-copy">
+              <p class="event-date">12 Sep 2026</p>
+              <h3>Schranz Showcase</h3>
+              <p class="event-location">antiSOCIAL / Mumbai</p>
+              <p
+                class="event-countdown"
+                data-countdown
+                data-event-start="2026-09-12T20:00:00+05:30"
+                aria-live="polite"
+              >
+                Calculating time left
+              </p>
+              <span class="event-cta">
+                <span>Get tickets</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M7 4h10l1 4-1 4 1 4-1 4H7l-1-4 1-4-1-4 1-4Z" />
+                  <path d="M10 7v10M14 7v10" />
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <a
+            class="event-feature"
+            data-carousel-slide
             data-event-slug="fight-night"
             data-event-start="2026-08-21T22:30:00+05:30"
             href="/event/fight-night"
@@ -1174,6 +1214,22 @@
                 <h3 id="sep-title">September</h3>
               </header>
               <a
+                class="calendar-event is-upcoming"
+                data-event-slug="schranz-showcase-sep"
+                href="/event/schranz-showcase-sep"
+              >
+                <time datetime="2026-09-12">12 Sep</time>
+                <strong>Schranz Showcase</strong>
+                <span>antiSOCIAL / Mumbai</span>
+                <span
+                  class="calendar-countdown"
+                  data-countdown
+                  data-event-start="2026-09-12T20:00:00+05:30"
+                >
+                  Calculating time left
+                </span>
+              </a>
+              <a
                 class="calendar-event calendar-event--notice"
                 href="/out/instagram/calendar"
                 target="_blank"
@@ -1460,6 +1516,7 @@
         steelworks: "./assets/steelworks-festival.png",
         "franky-b": "./assets/franky-b-poster.webp",
         "fight-night": "./assets/fight-night-poster.webp",
+        "schranz-showcase-sep": "./assets/schranz-sep-poster.webp",
       };
       const eventRecords = new Map();
       const defaultDocumentTitle = document.title;
@@ -1534,6 +1591,13 @@
         ],
         [
           "fight-night",
+          {
+            eventPage: true,
+            offer: "catalog",
+          },
+        ],
+        [
+          "schranz-showcase-sep",
           {
             eventPage: true,
             offer: "catalog",
@@ -2604,6 +2668,12 @@
           pricingPhase: "PHASE 1",
           categories: [["ga", "GA", 1000, "Phase 1", 300]],
         },
+        "schranz-showcase-sep": {
+          title: "Schranz Showcase",
+          pricingTitle: "SCHRANZ SHOWCASE X FALLØUT OFFLINE PRICES",
+          pricingPhase: "EARLY BIRD",
+          categories: [["ga", "GA", 1499, "Early Bird", 400], ["backstage", "Backstage", 2999, "Early Bird", 800]],
+        },
         "fight-night": {
           title: "Fight Night",
           pricingTitle: "FIGHT NIGHT X FALLØUT OFFLINE PRICES",
@@ -2626,6 +2696,7 @@
         "schranz-showcase": { catalogSlug: "schranz-showcase", defaultCity: "" },
         "franky-b": { catalogSlug: "franky-b", defaultCity: "" },
         "fight-night": { catalogSlug: "fight-night", defaultCity: "" },
+        "schranz-showcase-sep": { catalogSlug: "schranz-showcase-sep", defaultCity: "" },
       };
 
       function getTicketContext(slug) {
