@@ -224,6 +224,37 @@ for (const entry of live) {
 console.log(`Built ${built.length} share pages:`);
 built.forEach((b) => console.log(`  /event/${b.slug}  <-  ${b.poster}`));
 
+// An event that has been and gone should stop claiming its own share card, and
+// its rewrite has to come out of vercel.json or it points at a deleted file.
+const liveNow = new Set(built.map((b) => b.slug));
+const retired = fs
+  .readdirSync(OUT_DIR)
+  .filter((file) => file.endsWith(".html"))
+  .map((file) => file.replace(/\.html$/, ""))
+  .filter((slug) => !liveNow.has(slug));
+
+for (const slug of retired) {
+  fs.rmSync(path.join(OUT_DIR, `${slug}.html`), { force: true });
+  fs.rmSync(path.join(OG_DIR, `${slug}.jpg`), { force: true });
+  console.log(`  retired /event/${slug}`);
+}
+
+function syncRewrites() {
+  const file = path.join(ROOT, "vercel.json");
+  const config = JSON.parse(fs.readFileSync(file, "utf8"));
+  const catchAll = config.rewrites.filter((rule) => rule.source === "/event/:slug");
+  const others = config.rewrites.filter(
+    (rule) => rule.source !== "/event/:slug" && !/^\/event\/[^:]+$/.test(rule.source),
+  );
+  config.rewrites = [
+    ...others,
+    ...built.map((b) => ({ source: `/event/${b.slug}`, destination: `/event/${b.slug}.html` })),
+    ...catchAll,
+  ];
+  fs.writeFileSync(file, `${JSON.stringify(config, null, 2)}\n`, "utf8");
+  console.log(`Rewrites synced: ${built.length} event routes.`);
+}
+
 /* ------------------------------------------------------------------ *
  * Keep the sitemap and the raves.html event schema in step with the
  * same list, so they cannot drift the way they did before.
@@ -319,12 +350,4 @@ function syncEventSchema() {
 
 syncSitemap();
 syncEventSchema();
-
-console.log("\nvercel.json rewrites needed ABOVE the catch-all /event/:slug rule:");
-console.log(
-  JSON.stringify(
-    built.map((b) => ({ source: `/event/${b.slug}`, destination: `/event/${b.slug}.html` })),
-    null,
-    2,
-  ),
-);
+syncRewrites();
