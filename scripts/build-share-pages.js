@@ -45,8 +45,17 @@ function extractObject(source, name) {
 }
 
 const ticketCatalog = extractObject(html, "ticketCatalog");
-const ticketContexts = extractObject(html, "ticketContexts");
 const posterFallbacks = extractObject(html, "eventPosterFallbacks");
+
+// Mirrors the derivation in index.html: every catalog slug maps to itself, and
+// only multi-city events override that.
+const ticketContextOverrides = extractObject(html, "ticketContextOverrides");
+const ticketContexts = {
+  ...Object.fromEntries(
+    Object.keys(ticketCatalog).map((slug) => [slug, { catalogSlug: slug, defaultCity: "" }]),
+  ),
+  ...ticketContextOverrides,
+};
 
 /** Every calendar row is the authoritative list of title / date / venue per slug. */
 function readCalendarEntries(source) {
@@ -77,9 +86,11 @@ const slidePosters = readSlidePosters(html);
 
 function resolvePoster(slug) {
   const context = ticketContexts[slug];
+  const catalogEntry = context && ticketCatalog[context.catalogSlug];
   const candidates = [
     slidePosters.get(slug),
     posterFallbacks[slug] && posterFallbacks[slug].replace(/^\.\//, ""),
+    catalogEntry && catalogEntry.poster && catalogEntry.poster.replace(/^\.\//, ""),
     // Multi-city events share one catalog, so fall back to the canonical slug's art.
     context && slidePosters.get(context.catalogSlug),
     context && posterFallbacks[context.catalogSlug] && posterFallbacks[context.catalogSlug].replace(/^\.\//, ""),

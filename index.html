@@ -1513,10 +1513,6 @@
         "continuum-x-aiden": "./assets/nexum-aiden-poster.webp",
         "aiden-mumbai": "./assets/nexum-aiden-poster.webp",
         "riana-holley-mumbai": "./assets/riana-holley-poster.webp",
-        steelworks: "./assets/steelworks-festival.png",
-        "franky-b": "./assets/franky-b-poster.webp",
-        "fight-night": "./assets/fight-night-poster.webp",
-        "schranz-showcase-sep": "./assets/schranz-sep-poster.webp",
       };
       const eventRecords = new Map();
       const defaultDocumentTitle = document.title;
@@ -1545,62 +1541,6 @@
           {
             target: getWhatsAppTicketUrl("Hey, I wanna buy SHDW tickets at up to ₹150 off."),
             offer: "up_to_150",
-          },
-        ],
-        [
-          "schranz-showcase",
-          {
-            eventPage: true,
-            offer: "catalog",
-          },
-        ],
-        [
-          "steelworks",
-          {
-            eventPage: true,
-            offer: "catalog",
-          },
-        ],
-        [
-          "steelworks-delhi",
-          {
-            eventPage: true,
-            offer: "catalog",
-          },
-        ],
-        [
-          "steelworks-bangalore",
-          {
-            eventPage: true,
-            offer: "catalog",
-          },
-        ],
-        [
-          "bcco-mumbai",
-          {
-            eventPage: true,
-            offer: "catalog",
-          },
-        ],
-        [
-          "franky-b",
-          {
-            eventPage: true,
-            offer: "catalog",
-          },
-        ],
-        [
-          "fight-night",
-          {
-            eventPage: true,
-            offer: "catalog",
-          },
-        ],
-        [
-          "schranz-showcase-sep",
-          {
-            eventPage: true,
-            offer: "catalog",
           },
         ],
       ]);
@@ -1658,6 +1598,93 @@
         root.style.setProperty("--header-border", (progress * 0.28).toFixed(3));
         root.style.setProperty("--header-shadow", (0.08 + progress * 0.26).toFixed(3));
         document.body.classList.toggle("has-scrolled", window.scrollY > 8);
+      }
+
+      const CALENDAR_MONTH_KEYS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+      const NEXT_MONTH_SLOTS = 2;
+
+      function getIndiaNow() {
+        return new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+      }
+
+      function getCalendarMonthIndex(card) {
+        const heading = card.querySelector("h3[id$='-title']");
+        return heading ? CALENDAR_MONTH_KEYS.indexOf(heading.id.replace("-title", "")) : -1;
+      }
+
+      function buildCalendarNotice(monthValue) {
+        const notice = document.createElement("a");
+        notice.className = "calendar-event calendar-event--notice";
+        notice.href = "/out/instagram/calendar";
+        notice.target = "_blank";
+        notice.rel = "noreferrer";
+        notice.dataset.analyticsEvent = "social_click";
+        notice.dataset.analyticsTarget = "instagram";
+        notice.dataset.analyticsPlacement = "calendar";
+        notice.innerHTML = `<time datetime="${monthValue}">Soon</time><strong>More dates dropping soon</strong><span>Follow <span class="inline-link">@fall0utindia</span> for Mumbai, Delhi NCR, and new city drops.</span>`;
+        return notice;
+      }
+
+      // Next month should always read as two slots, so the calendar never looks empty
+      // ahead. Each announced event takes one of those slots away from the teaser.
+      function padNextMonthNotices(card, monthValue) {
+        if (!card) return;
+        const announced = card.querySelectorAll(".calendar-event:not(.calendar-event--notice)").length;
+        const notices = Array.from(card.querySelectorAll(".calendar-event--notice"));
+        const wanted = Math.max(0, NEXT_MONTH_SLOTS - announced);
+        const keep = Math.min(notices.length, wanted);
+
+        notices.slice(keep).forEach((notice) => notice.remove());
+        for (let index = keep; index < wanted; index += 1) {
+          card.append(buildCalendarNotice(monthValue));
+        }
+      }
+
+      // The current month used to be hardcoded, so the rail opened on a month that
+      // had already finished and silently drifted further out every month.
+      function setupCalendarMonths() {
+        const cards = Array.from(document.querySelectorAll(".month-card"));
+        if (!cards.length) return;
+
+        const now = getIndiaNow();
+        const currentMonth = now.getMonth();
+        const year = now.getFullYear();
+        let currentCard = null;
+        let nextCard = null;
+
+        cards.forEach((card) => {
+          card.classList.remove("is-current");
+          card.removeAttribute("data-current-month");
+
+          const month = getCalendarMonthIndex(card);
+          const eyebrow = card.querySelector("header span");
+          if (month === -1 || !eyebrow) return;
+
+          if (month === currentMonth) {
+            currentCard = card;
+            eyebrow.textContent = "Current";
+          } else if (month === currentMonth + 1) {
+            nextCard = card;
+            eyebrow.textContent = "Next";
+          } else if (month > currentMonth) {
+            eyebrow.textContent = "Forward";
+          } else {
+            eyebrow.textContent = String(year);
+          }
+        });
+
+        // If the calendar has not been extended into the real current month yet,
+        // open on the nearest month we do have rather than the top of the year.
+        const anchor = currentCard
+          || cards.find((card) => getCalendarMonthIndex(card) > currentMonth)
+          || cards[cards.length - 1];
+
+        if (anchor) {
+          anchor.classList.add("is-current");
+          anchor.setAttribute("data-current-month", "");
+        }
+
+        padNextMonthNotices(nextCard, `${year}-${String(currentMonth + 2).padStart(2, "0")}`);
       }
 
       function focusCurrentCalendarMonth() {
@@ -2644,6 +2671,7 @@
       const ticketCatalog = {
         steelworks: {
           title: "Steelworks Festival",
+          poster: "./assets/steelworks-festival.png",
           pricingTitle: "STEELWORKS X FALLØUT OFFLINE PRICES",
           pricingPhase: "PHASE 2",
           coverNote: "₹1,500 cover at gates",
@@ -2663,18 +2691,21 @@
           categories: [["ga", "GA", 1900, "Phase 2"], ["ga-group-3", "GA · Group of 3", 5000, "Phase 2"], ["ga-group-5", "GA · Group of 5", 7700, "Phase 2"], ["backstage", "Backstage", 4800, "Phase 3"]],
         },
         "franky-b": {
+          poster: "./assets/franky-b-poster.webp",
           title: "Franky-B",
           pricingTitle: "FRANKY-B X FALLØUT OFFLINE PRICES",
           pricingPhase: "PHASE 1",
           categories: [["ga", "GA", 1000, "Phase 1", 300]],
         },
         "schranz-showcase-sep": {
+          poster: "./assets/schranz-sep-poster.webp",
           title: "Schranz Showcase",
           pricingTitle: "SCHRANZ SHOWCASE X FALLØUT OFFLINE PRICES",
           pricingPhase: "EARLY BIRD",
           categories: [["ga", "GA", 1499, "Early Bird", 400], ["backstage", "Backstage", 2999, "Early Bird", 800]],
         },
         "fight-night": {
+          poster: "./assets/fight-night-poster.webp",
           title: "Fight Night",
           pricingTitle: "FIGHT NIGHT X FALLØUT OFFLINE PRICES",
           pricingPhase: "PHASE 1",
@@ -2688,16 +2719,33 @@
         },
       };
 
-      const ticketContexts = {
+      /* Only multi-city events need spelling out: several slugs sharing one catalog
+         and one default city. Every other event is a straight one to one mapping,
+         so it is derived below rather than repeated by hand. */
+      const ticketContextOverrides = {
         steelworks: { catalogSlug: "steelworks", defaultCity: "Mumbai" },
         "steelworks-delhi": { catalogSlug: "steelworks", defaultCity: "Delhi" },
         "steelworks-bangalore": { catalogSlug: "steelworks", defaultCity: "Bangalore" },
-        "bcco-mumbai": { catalogSlug: "bcco-mumbai", defaultCity: "" },
-        "schranz-showcase": { catalogSlug: "schranz-showcase", defaultCity: "" },
-        "franky-b": { catalogSlug: "franky-b", defaultCity: "" },
-        "fight-night": { catalogSlug: "fight-night", defaultCity: "" },
-        "schranz-showcase-sep": { catalogSlug: "schranz-showcase-sep", defaultCity: "" },
       };
+
+      const ticketContexts = Object.fromEntries([
+        ...Object.keys(ticketCatalog).map((slug) => [slug, { catalogSlug: slug, defaultCity: "" }]),
+        ...Object.entries(ticketContextOverrides),
+      ]);
+
+      /* Adding an event should mean adding one catalog entry, not remembering to
+         touch a route table and a poster map as well. Both are filled in here. */
+      Object.entries(ticketCatalog).forEach(([slug, catalog]) => {
+        if (catalog.poster && !eventPosterFallbacks[slug]) {
+          eventPosterFallbacks[slug] = catalog.poster;
+        }
+      });
+
+      Object.keys(ticketContexts).forEach((slug) => {
+        if (!goRoutes.has(slug)) {
+          goRoutes.set(slug, { eventPage: true, offer: "catalog" });
+        }
+      });
 
       function getTicketContext(slug) {
         const context = ticketContexts[slug] || { catalogSlug: slug, defaultCity: "" };
@@ -3201,6 +3249,7 @@
       bindTouchActive(".event-feature");
       bindTouchActive(".moment-card");
       prepareCalendarArchive();
+      setupCalendarMonths();
       decorateConversionLinks();
       const isRedirecting = redirectGoRoute() || redirectOutRoute();
 
