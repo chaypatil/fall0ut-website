@@ -57,6 +57,18 @@ const ticketContexts = {
   ...ticketContextOverrides,
 };
 
+/* Calendar text is already HTML, so entities have to come back to plain characters
+   before they are escaped again on the way into the generated head. */
+function decodeEntities(value) {
+  return value
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, " ");
+}
+
 /** Every calendar row is the authoritative list of title / date / venue per slug. */
 function readCalendarEntries(source) {
   const entries = new Map();
@@ -65,7 +77,12 @@ function readCalendarEntries(source) {
   let match;
   while ((match = row.exec(source)) !== null) {
     const [, slug, date, title, venue] = match;
-    entries.set(slug, { slug, date, title: title.trim(), venue: venue.trim() });
+    entries.set(slug, {
+      slug,
+      date,
+      title: decodeEntities(title.trim()),
+      venue: decodeEntities(venue.trim()),
+    });
   }
   return entries;
 }
