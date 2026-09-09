@@ -86,12 +86,16 @@
       "destination": "/index.html"
     },
     {
+      "source": "/event/schranz-showcase-sep",
+      "destination": "/event/schranz-showcase-sep.html"
+    },
+    {
       "source": "/event/vault909",
       "destination": "/event/vault909.html"
     },
     {
-      "source": "/event/schranz-showcase-sep",
-      "destination": "/event/schranz-showcase-sep.html"
+      "source": "/event/santos-nvxrrx",
+      "destination": "/event/santos-nvxrrx.html"
     },
     {
       "source": "/event/:slug",

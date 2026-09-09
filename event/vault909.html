@@ -665,6 +665,45 @@
           <a
             class="event-feature"
             data-carousel-slide
+            data-event-slug="santos-nvxrrx"
+            data-event-start="2026-09-27T21:30:00+05:30"
+            href="/event/santos-nvxrrx"
+          >
+            <div class="event-art">
+              <img
+                src="./assets/events/santos-nvxrrx-poster.webp"
+                alt="Santøs and Nvxrrx poster for Nayra Mumbai on 27 September"
+                width="2000"
+                height="2500"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="event-copy">
+              <p class="event-date">27 Sep 2026</p>
+              <h3>Santøs &amp; Nvxrrx</h3>
+              <p class="event-location">Nayra / Mumbai</p>
+              <p
+                class="event-countdown"
+                data-countdown
+                data-event-start="2026-09-27T21:30:00+05:30"
+                aria-live="polite"
+              >
+                Calculating time left
+              </p>
+              <span class="event-cta">
+                <span>Get tickets</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M7 4h10l1 4-1 4 1 4-1 4H7l-1-4 1-4-1-4 1-4Z" />
+                  <path d="M10 7v10M14 7v10" />
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <a
+            class="event-feature"
+            data-carousel-slide
             data-event-slug="vault909"
             data-event-start="2026-09-13T17:00:00+05:30"
             href="/event/vault909"
@@ -713,7 +752,7 @@
               <span class="discount-bookmark">Get ₹2,300* off</span>
               <img
                 src="./assets/events/schranz-sep-poster.webp"
-                alt="Schranz Showcase poster: Svetec and Golpe at Novaara Mumbai on 12 September"
+                alt="Schranz Showcase poster: Svetec and Golpe at Waves Mumbai on 12 September"
                 width="1080"
                 height="1350"
                 loading="lazy"
@@ -723,7 +762,7 @@
             <div class="event-copy">
               <p class="event-date">12 Sep 2026</p>
               <h3>Schranz Showcase</h3>
-              <p class="event-location">Novaara / Mumbai</p>
+              <p class="event-location">Waves / Mumbai</p>
               <p
                 class="event-countdown"
                 data-countdown
@@ -1255,6 +1294,22 @@
               </header>
               <a
                 class="calendar-event is-upcoming"
+                data-event-slug="schranz-showcase-sep"
+                href="/event/schranz-showcase-sep"
+              >
+                <time datetime="2026-09-12">12 Sep</time>
+                <strong>Schranz Showcase</strong>
+                <span>Waves / Mumbai</span>
+                <span
+                  class="calendar-countdown"
+                  data-countdown
+                  data-event-start="2026-09-12T20:00:00+05:30"
+                >
+                  Calculating time left
+                </span>
+              </a>
+              <a
+                class="calendar-event is-upcoming"
                 data-event-slug="vault909"
                 href="/event/vault909"
               >
@@ -1271,16 +1326,16 @@
               </a>
               <a
                 class="calendar-event is-upcoming"
-                data-event-slug="schranz-showcase-sep"
-                href="/event/schranz-showcase-sep"
+                data-event-slug="santos-nvxrrx"
+                href="/event/santos-nvxrrx"
               >
-                <time datetime="2026-09-12">12 Sep</time>
-                <strong>Schranz Showcase</strong>
-                <span>Novaara / Mumbai</span>
+                <time datetime="2026-09-27">27 Sep</time>
+                <strong>Santøs &amp; Nvxrrx</strong>
+                <span>Nayra / Mumbai</span>
                 <span
                   class="calendar-countdown"
                   data-countdown
-                  data-event-start="2026-09-12T20:00:00+05:30"
+                  data-event-start="2026-09-27T21:30:00+05:30"
                 >
                   Calculating time left
                 </span>
@@ -2825,6 +2880,17 @@
           pricingPhase: "PHASE 1",
           categories: [["ga", "GA", 1000, "Phase 1", 300]],
         },
+        "santos-nvxrrx": {
+          title: "Santøs & Nvxrrx",
+          poster: "./assets/events/santos-nvxrrx-poster.webp",
+          pricingTitle: "SANTØS & NVXRRX OFFLINE TICKETS",
+          pricingPhase: "PHASE 1",
+          categories: [
+            ["ga", "GA", 1300, "Phase 1"],
+            ["ga-group-3", "GA Group of 3", 3200, "Phase 1", 0, "exclusive"],
+            ["backstage", "Backstage", 2000, "Phase 1"],
+          ],
+        },
         vault909: {
           title: "Vault 909",
           poster: "./assets/events/vault909-poster.webp",
@@ -2946,7 +3012,8 @@
         const categories = getCatalogCategories(catalog, selectedCity);
         return categories.map(([id, label, price, phase, discount = 0, availability = ""]) => {
           const isSoldOut = availability === "sold-out";
-          const scarcityLabel = availability === "last-few" ? `<span class="ticket-option-status">Last few left</span>` : "";
+          const statusLabels = { "last-few": "Last few left", exclusive: "FØ exclusive" };
+          const scarcityLabel = statusLabels[availability] ? `<span class="ticket-option-status">${statusLabels[availability]}</span>` : "";
           const priceMarkup = isSoldOut ? `<strong>Sold out</strong>` : `<strong>${formatRupees(price)}</strong>${discount ? `<small>${formatRupees(discount)} off</small>` : ""}`;
           const stepper = isSoldOut
             ? ""

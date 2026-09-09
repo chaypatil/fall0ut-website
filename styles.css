@@ -1248,8 +1248,14 @@ a.calendar-event:focus-visible {
   transition: border-color 160ms ease, background 160ms ease;
 }
 
-.ticket-option--last-few {
+.ticket-option--last-few,
+.ticket-option--exclusive {
   padding-top: 24px;
+}
+
+/* Marks a rate only FallØut sells offline, so it reads as different from scarcity. */
+.ticket-option--exclusive .ticket-option-status {
+  color: #c9b6ff;
 }
 
 .ticket-option-status {
