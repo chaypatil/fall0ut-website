@@ -86,16 +86,12 @@
       "destination": "/index.html"
     },
     {
-      "source": "/event/kaai",
-      "destination": "/event/kaai.html"
-    },
-    {
-      "source": "/event/fight-night-sep",
-      "destination": "/event/fight-night-sep.html"
-    },
-    {
       "source": "/event/santos-nvxrrx",
       "destination": "/event/santos-nvxrrx.html"
+    },
+    {
+      "source": "/event/nikolina-delhi",
+      "destination": "/event/nikolina-delhi.html"
     },
     {
       "source": "/event/:slug",
