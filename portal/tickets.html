@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Sold · FallØut portal</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="/portal/portal.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <strong>FØ Sold</strong>
+      <nav>
+        <a href="/portal/issue.html">Issue</a>
+        <a href="/portal/scan.html">Scan</a>
+        <a href="/portal/tickets.html" class="is-active">Sold</a>
+        <a href="#" data-signout>Sign out</a>
+      </nav>
+    </header>
+
+    <div class="wrap">
+      <div data-auth-gate hidden></div>
+
+      <main data-app hidden>
+        <h1>Sold</h1>
+
+        <div class="card">
+          <label>Event<select data-events></select></label>
+          <div class="stats" data-totals></div>
+          <div class="row">
+            <button class="btn" data-csv>Download CSV</button>
+            <button class="btn btn--ghost" data-share>Copy organiser link</button>
+          </div>
+          <p class="hint">The organiser link shows counts and money only. It carries no names or phone numbers.</p>
+        </div>
+
+        <div class="card scroll-x" data-list></div>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="/portal/config.js"></script>
+    <script src="/portal/portal.js"></script>
+    <script>
+      document.querySelector("[data-signout]").addEventListener("click", (e) => {
+        e.preventDefault();
+        Portal.signOut();
+      });
+
+      Portal.requireStaff(async () => {
+        const select = document.querySelector("[data-events]");
+        const totals = document.querySelector("[data-totals]");
+        const list = document.querySelector("[data-list]");
+        let rows = [];
+        let current = null;
+
+        const { data: events, error } = await Portal.client
+          .from("events")
+          .select("id, name, event_date, city, share_token")
+          .order("event_date", { ascending: false });
+
+        if (error) { Portal.toast(error.message, "bad"); return; }
+        if (!events.length) { Portal.toast("No events yet", "bad"); return; }
+
+        select.innerHTML = events
+          .map((e) => `<option value="${e.id}">${Portal.escapeHtml(e.name)}${e.event_date ? ` — ${e.event_date}` : ""}</option>`)
+          .join("");
+
+        select.addEventListener("change", () => load(select.value));
+        await load(events[0].id);
+
+        async function load(eventId) {
+          current = events.find((e) => e.id === eventId);
+          const { data, error: listError } = await Portal.client
+            .from("tickets")
+            .select("*")
+            .eq("event_id", eventId)
+            .order("issued_at", { ascending: false });
+
+          if (listError) { Portal.toast(listError.message, "bad"); return; }
+          rows = data;
+          render();
+        }
+
+        function render() {
+          const live = rows.filter((r) => !r.cancelled_at);
+          const sum = (pick) => live.reduce((total, row) => total + Number(pick(row) || 0), 0);
+          const admitted = live.filter((r) => r.used_at);
+
+          totals.innerHTML = `
+            <div class="stat"><small>Tickets</small><strong>${live.length}</strong></div>
+            <div class="stat"><small>People</small><strong>${sum((r) => r.admits)}</strong></div>
+            <div class="stat"><small>Collected</small><strong>${Portal.money(sum((r) => r.amount))}</strong></div>
+            <div class="stat"><small>Checked in</small><strong>${admitted.length}</strong></div>`;
+
+          if (!live.length) {
+            list.innerHTML = `<p class="hint">No tickets issued for this event yet.</p>`;
+            return;
+          }
+
+          list.innerHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Buyer</th><th>Ticket</th><th class="num">Admits</th>
+                  <th class="num">Amount</th><th>Taken by</th><th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${live
+                  .map(
+                    (r) => `
+                  <tr>
+                    <td>${Portal.escapeHtml(r.buyer_name)}<br /><span class="hint">${Portal.escapeHtml(r.buyer_phone || "")}</span></td>
+                    <td>${Portal.escapeHtml(r.category)}<br /><span class="hint">${Portal.escapeHtml(r.phase || "")}</span></td>
+                    <td class="num">${r.admits}</td>
+                    <td class="num">${Portal.money(r.amount)}</td>
+                    <td>${Portal.escapeHtml(r.collected_by || "")}</td>
+                    <td>${r.used_at ? `<span style="color:var(--good)">In</span>` : `<span class="hint">Not yet</span>`}</td>
+                  </tr>`,
+                  )
+                  .join("")}
+              </tbody>
+            </table>`;
+        }
+
+        document.querySelector("[data-csv]").addEventListener("click", () => {
+          const header = [
+            "buyer_name","buyer_phone","category","phase","admits","amount",
+            "collected_by","payment_note","issued_at","used_at","token",
+          ];
+          const escape = (value) => `"${String(value ?? "").replace(/"/g, '""')}"`;
+          const csv = [header.join(",")]
+            .concat(rows.filter((r) => !r.cancelled_at).map((r) => header.map((key) => escape(r[key])).join(",")))
+            .join("\n");
+
+          const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `${(current?.name || "tickets").replace(/\W+/g, "-").toLowerCase()}.csv`;
+          link.click();
+          URL.revokeObjectURL(url);
+        });
+
+        document.querySelector("[data-share]").addEventListener("click", async () => {
+          const url = `${window.location.origin}/portal/organiser.html#${current.share_token}`;
+          try {
+            await navigator.clipboard.writeText(url);
+            Portal.toast("Organiser link copied", "good");
+          } catch (error) {
+            window.prompt("Copy this link", url);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

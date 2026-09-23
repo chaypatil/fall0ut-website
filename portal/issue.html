@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Issue ticket · FallØut portal</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="/portal/portal.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <strong>FØ Tickets</strong>
+      <nav>
+        <a href="/portal/issue.html" class="is-active">Issue</a>
+        <a href="/portal/scan.html">Scan</a>
+        <a href="/portal/tickets.html">Sold</a>
+        <a href="#" data-signout>Sign out</a>
+      </nav>
+    </header>
+
+    <div class="wrap">
+      <div data-auth-gate hidden></div>
+
+      <main data-app hidden>
+        <h1>Issue a ticket</h1>
+
+        <form class="card" data-issue-form>
+          <label>
+            Event
+            <select name="event_id" required data-events></select>
+          </label>
+
+          <label>
+            Buyer name
+            <input name="buyer_name" required autocomplete="off" placeholder="As they will say it at the door" />
+          </label>
+
+          <div class="row">
+            <label>
+              Phone
+              <input name="buyer_phone" inputmode="tel" autocomplete="off" placeholder="91XXXXXXXXXX" />
+            </label>
+            <label>
+              Admits
+              <input name="admits" type="number" min="1" max="20" value="1" required />
+            </label>
+          </div>
+
+          <div class="row">
+            <label>
+              Category
+              <input name="category" required list="category-options" placeholder="GA" />
+              <datalist id="category-options">
+                <option value="GA"></option>
+                <option value="GA Duo Pass"></option>
+                <option value="GA Group of 3"></option>
+                <option value="GA Group of 5"></option>
+                <option value="Fan Pit"></option>
+                <option value="VIP"></option>
+                <option value="In The Ring"></option>
+                <option value="Backstage"></option>
+                <option value="Male Stag"></option>
+                <option value="Female Stag"></option>
+                <option value="Couple"></option>
+              </datalist>
+            </label>
+            <label>
+              Phase
+              <input name="phase" list="phase-options" placeholder="Phase 1" />
+              <datalist id="phase-options">
+                <option value="Early Bird"></option>
+                <option value="Phase 1"></option>
+                <option value="Phase 2"></option>
+                <option value="Final Phase"></option>
+              </datalist>
+            </label>
+          </div>
+
+          <div class="row">
+            <label>
+              Amount collected
+              <input name="amount" type="number" min="0" step="1" required inputmode="numeric" placeholder="2499" />
+            </label>
+            <label>
+              Collected by
+              <input name="collected_by" autocomplete="off" placeholder="Chay" />
+            </label>
+          </div>
+
+          <label>
+            Payment note
+            <input name="payment_note" autocomplete="off" placeholder="UPI ref, cash, who handed it over" />
+          </label>
+
+          <button class="btn btn--primary" type="submit">Create ticket &amp; QR</button>
+          <p class="hint">The QR holds a random code only. Name, category and price live in the database, never in the code itself.</p>
+        </form>
+
+        <section class="card" data-result hidden></section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="/portal/config.js"></script>
+    <script src="/portal/portal.js"></script>
+    <script>
+      document.querySelector("[data-signout]").addEventListener("click", (e) => {
+        e.preventDefault();
+        Portal.signOut();
+      });
+
+      Portal.requireStaff(async () => {
+        const form = document.querySelector("[data-issue-form]");
+        const eventSelect = document.querySelector("[data-events]");
+        const result = document.querySelector("[data-result]");
+
+        const { data: events, error } = await Portal.client
+          .from("events")
+          .select("id, name, event_date, city, is_open")
+          .eq("is_open", true)
+          .order("event_date", { ascending: true });
+
+        if (error) {
+          Portal.toast(error.message, "bad");
+          return;
+        }
+
+        if (!events.length) {
+          eventSelect.innerHTML = `<option value="">No open events yet</option>`;
+          Portal.toast("Add an event row in Supabase first", "bad");
+          return;
+        }
+
+        eventSelect.innerHTML = events
+          .map(
+            (event) =>
+              `<option value="${event.id}">${Portal.escapeHtml(event.name)}${
+                event.event_date ? ` — ${event.event_date}` : ""
+              }${event.city ? ` (${Portal.escapeHtml(event.city)})` : ""}</option>`,
+          )
+          .join("");
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const button = form.querySelector("button[type=submit]");
+          button.disabled = true;
+          button.textContent = "Creating…";
+
+          const payload = {
+            event_id: form.event_id.value,
+            buyer_name: form.buyer_name.value.trim(),
+            buyer_phone: form.buyer_phone.value.trim() || null,
+            category: form.category.value.trim(),
+            phase: form.phase.value.trim() || null,
+            admits: Number(form.admits.value) || 1,
+            amount: Number(form.amount.value) || 0,
+            collected_by: form.collected_by.value.trim() || null,
+            payment_note: form.payment_note.value.trim() || null,
+            issued_by: (await Portal.client.auth.getUser()).data.user?.email || null,
+          };
+
+          const { data: ticket, error: insertError } = await Portal.client
+            .from("tickets")
+            .insert(payload)
+            .select()
+            .single();
+
+          button.disabled = false;
+          button.textContent = "Create ticket & QR";
+
+          if (insertError) {
+            Portal.toast(insertError.message, "bad");
+            return;
+          }
+
+          showTicket(ticket, events.find((e) => e.id === ticket.event_id));
+          // Keep the event, category and phase; the next buyer is usually the same kind.
+          form.buyer_name.value = "";
+          form.buyer_phone.value = "";
+          form.payment_note.value = "";
+          form.buyer_name.focus();
+          Portal.toast("Ticket created", "good");
+        });
+
+        function showTicket(ticket, eventRow) {
+          const passUrl = `${window.location.origin}/portal/pass.html#${ticket.token}`;
+          const message =
+            `Your ${Portal.config.brandName || "FallØut"} ticket for ${eventRow ? eventRow.name : "the event"}.\n\n` +
+            `Name: ${ticket.buyer_name}\n` +
+            `Ticket: ${ticket.category}${ticket.phase ? ` (${ticket.phase})` : ""}\n` +
+            `Admits: ${ticket.admits}\n\n` +
+            `Show this at the gate: ${passUrl}\n\n` +
+            `One scan only. Save the link or screenshot the QR.`;
+
+          const wa = ticket.buyer_phone
+            ? `https://wa.me/${ticket.buyer_phone.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`
+            : `https://wa.me/?text=${encodeURIComponent(message)}`;
+
+          result.hidden = false;
+          result.innerHTML = `
+            <h2>Ticket ready</h2>
+            <div class="ticket-out">
+              <div data-qr></div>
+              <div>
+                <strong>${Portal.escapeHtml(ticket.buyer_name)}</strong><br />
+                ${Portal.escapeHtml(ticket.category)}${ticket.phase ? ` · ${Portal.escapeHtml(ticket.phase)}` : ""}
+                · admits ${ticket.admits} · ${Portal.money(ticket.amount)}
+              </div>
+              <code>${Portal.escapeHtml(ticket.token)}</code>
+            </div>
+            <a class="btn btn--primary" href="${wa}" target="_blank" rel="noreferrer">Send on WhatsApp</a>
+            <a class="btn btn--ghost" href="${passUrl}" target="_blank" rel="noreferrer">Open pass</a>`;
+
+          new QRCode(result.querySelector("[data-qr]"), {
+            text: ticket.token,
+            width: 236,
+            height: 236,
+            correctLevel: QRCode.CorrectLevel.M,
+          });
+
+          result.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    </script>
+  </body>
+</html>

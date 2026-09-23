@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Live sales · FallØut India</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="/portal/portal.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <strong>FallØut · Offline sales</strong>
+      <nav><span class="pill" data-updated>live</span></nav>
+    </header>
+
+    <div class="wrap">
+      <h1 data-title>Loading…</h1>
+      <div class="stats" data-totals></div>
+      <div class="card scroll-x" data-breakdown></div>
+      <p class="hint">
+        Offline tickets sold direct by FallØut. Updates on its own every 30 seconds.
+        No buyer names or numbers are shown here.
+      </p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="/portal/config.js"></script>
+    <script src="/portal/portal.js"></script>
+    <script>
+      /* Read-only, no sign-in. The share token in the link is the credential, and
+       * the database function behind it returns totals only. */
+      const shareToken = decodeURIComponent(window.location.hash.replace(/^#/, "")).trim();
+      const title = document.querySelector("[data-title]");
+      const totals = document.querySelector("[data-totals]");
+      const breakdown = document.querySelector("[data-breakdown]");
+      const updated = document.querySelector("[data-updated]");
+
+      async function load() {
+        if (!Portal.configured) {
+          title.textContent = "Portal not connected yet";
+          return;
+        }
+        if (!shareToken) {
+          title.textContent = "Link incomplete";
+          breakdown.innerHTML = `<p class="hint">Ask FallØut to resend the organiser link.</p>`;
+          return;
+        }
+
+        const { data, error } = await Portal.client.rpc("event_summary", { p_share_token: shareToken });
+
+        if (error || !data || data.status !== "ok") {
+          title.textContent = "Link not recognised";
+          breakdown.innerHTML = `<p class="hint">This link may have been revoked. Ask FallØut for a new one.</p>`;
+          return;
+        }
+
+        const { event, totals: t, breakdown: rows } = data;
+        title.textContent = event.name;
+
+        totals.innerHTML = `
+          <div class="stat"><small>Tickets sold</small><strong>${t.tickets}</strong></div>
+          <div class="stat"><small>People</small><strong>${t.admits}</strong></div>
+          <div class="stat"><small>Collected</small><strong>${Portal.money(t.amount)}</strong></div>
+          <div class="stat"><small>Checked in</small><strong>${t.admitted}</strong></div>`;
+
+        breakdown.innerHTML = rows.length
+          ? `<table>
+              <thead><tr><th>Phase</th><th>Category</th><th class="num">Tickets</th><th class="num">People</th><th class="num">Amount</th><th class="num">In</th></tr></thead>
+              <tbody>${rows
+                .map(
+                  (row) => `<tr>
+                    <td>${Portal.escapeHtml(row.phase || "—")}</td>
+                    <td>${Portal.escapeHtml(row.category)}</td>
+                    <td class="num">${row.tickets}</td>
+                    <td class="num">${row.admits}</td>
+                    <td class="num">${Portal.money(row.amount)}</td>
+                    <td class="num">${row.checked_in}</td>
+                  </tr>`,
+                )
+                .join("")}</tbody>
+            </table>`
+          : `<p class="hint">No offline tickets issued yet.</p>`;
+
+        updated.textContent = `updated ${new Date().toLocaleTimeString("en-IN")}`;
+      }
+
+      load();
+      window.setInterval(load, 30000);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Scan · FallØut portal</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="/portal/portal.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <strong>FØ Scan</strong>
+      <nav>
+        <a href="/portal/issue.html">Issue</a>
+        <a href="/portal/scan.html" class="is-active">Scan</a>
+        <a href="/portal/tickets.html">Sold</a>
+        <a href="#" data-signout>Sign out</a>
+      </nav>
+    </header>
+
+    <div class="wrap">
+      <div data-auth-gate hidden></div>
+
+      <main data-app hidden>
+        <div class="card">
+          <label>
+            Event
+            <select data-events></select>
+          </label>
+          <div class="row">
+            <button class="btn" data-load>Load tickets for offline use</button>
+            <button class="btn btn--primary" data-start>Start camera</button>
+          </div>
+          <div class="stats">
+            <div class="stat"><small>Cached</small><strong data-cached>0</strong></div>
+            <div class="stat"><small>Let in</small><strong data-admitted>0</strong></div>
+            <div class="stat"><small>Waiting to sync</small><strong data-queued>0</strong></div>
+          </div>
+          <div><span class="pill" data-net>checking…</span> <span class="pill" data-gate-label>Gate 1</span></div>
+          <p class="hint">Load the tickets before doors. After that the scanner keeps working with no signal and syncs when it finds some.</p>
+        </div>
+
+        <div class="verdict" data-verdict>
+          <h3>Ready</h3>
+          <p>Point the camera at a ticket QR.</p>
+        </div>
+
+        <div class="card">
+          <div id="reader"></div>
+          <button class="btn btn--ghost" data-stop hidden>Stop camera</button>
+          <label>
+            Or type the code by hand
+            <input data-manual placeholder="Paste or type the ticket code" />
+          </label>
+          <button class="btn" data-manual-go>Check code</button>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+    <script src="/portal/config.js"></script>
+    <script src="/portal/portal.js"></script>
+    <script>
+      document.querySelector("[data-signout]").addEventListener("click", (e) => {
+        e.preventDefault();
+        Portal.signOut();
+      });
+
+      /* Everything the door needs lives in localStorage:
+       *   cache  — every valid token for this event, pulled before doors
+       *   spent  — tokens this device has already admitted
+       *   queue  — redemptions still to be pushed to the server
+       * A dead battery or a closed tab loses nothing. */
+      const KEY = {
+        cache: (eventId) => `fo_cache_${eventId}`,
+        spent: (eventId) => `fo_spent_${eventId}`,
+        queue: "fo_queue",
+        gate: "fo_gate",
+      };
+
+      const read = (key, fallback) => {
+        try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+        catch (error) { return fallback; }
+      };
+      const write = (key, value) => {
+        try { localStorage.setItem(key, JSON.stringify(value)); }
+        catch (error) { Portal.toast("Storage full — sync and reload", "bad"); }
+      };
+
+      const el = {
+        events: document.querySelector("[data-events]"),
+        verdict: document.querySelector("[data-verdict]"),
+        cached: document.querySelector("[data-cached]"),
+        admitted: document.querySelector("[data-admitted]"),
+        queued: document.querySelector("[data-queued]"),
+        net: document.querySelector("[data-net]"),
+        gateLabel: document.querySelector("[data-gate-label]"),
+      };
+
+      let eventId = null;
+      let scanner = null;
+      let busyUntil = 0;
+      const gate = read(KEY.gate, null) || `Gate ${Math.floor(Math.random() * 9) + 1}`;
+      write(KEY.gate, gate);
+      el.gateLabel.textContent = gate;
+
+      function setNet() {
+        const online = navigator.onLine;
+        el.net.textContent = online ? "online" : "offline";
+        el.net.className = `pill ${online ? "pill--online" : "pill--offline"}`;
+        if (online) flushQueue();
+      }
+      window.addEventListener("online", setNet);
+      window.addEventListener("offline", setNet);
+
+      function refreshCounts() {
+        if (!eventId) return;
+        el.cached.textContent = Object.keys(read(KEY.cache(eventId), {})).length;
+        el.admitted.textContent = Object.keys(read(KEY.spent(eventId), {})).length;
+        el.queued.textContent = read(KEY.queue, []).length;
+      }
+
+      function verdict(kind, title, lines) {
+        el.verdict.className = `verdict verdict--${kind}`;
+        el.verdict.innerHTML =
+          `<h3>${title}</h3>` + lines.map((line) => `<p class="${line.big ? "who" : ""}">${line.text}</p>`).join("");
+        if (navigator.vibrate) navigator.vibrate(kind === "ok" ? 60 : [50, 60, 50]);
+      }
+
+      /* The decision the door cares about is made here, against the local cache,
+       * so it is instant and works with no signal. The server is told afterwards. */
+      function decide(rawToken) {
+        const token = String(rawToken || "").trim().toLowerCase();
+        if (!token) return;
+        if (Date.now() < busyUntil) return;
+        busyUntil = Date.now() + 1200;
+
+        if (!eventId) {
+          verdict("warn", "Pick an event", [{ text: "Choose the event, then load tickets." }]);
+          return;
+        }
+
+        const cache = read(KEY.cache(eventId), {});
+        const ticket = cache[token];
+
+        if (!ticket) {
+          verdict("bad", "Not valid", [
+            { text: "This code is not on the list for this event." },
+            { text: "Send them to the counter." },
+          ]);
+          return;
+        }
+
+        const spent = read(KEY.spent(eventId), {});
+        if (spent[token]) {
+          verdict("bad", "Already in", [
+            { text: ticket.buyer_name, big: true },
+            { text: `Scanned at ${new Date(spent[token]).toLocaleTimeString("en-IN")}` },
+          ]);
+          return;
+        }
+
+        if (ticket.used_at) {
+          verdict("bad", "Already in", [
+            { text: ticket.buyer_name, big: true },
+            { text: "Used earlier on another scanner." },
+          ]);
+          return;
+        }
+
+        spent[token] = new Date().toISOString();
+        write(KEY.spent(eventId), spent);
+
+        const queue = read(KEY.queue, []);
+        queue.push({ token, gate, at: spent[token] });
+        write(KEY.queue, queue);
+
+        verdict("ok", `Let ${ticket.admits} in`, [
+          { text: ticket.buyer_name, big: true },
+          { text: `${ticket.category}${ticket.phase ? ` · ${ticket.phase}` : ""}` },
+        ]);
+
+        refreshCounts();
+        if (navigator.onLine) flushQueue();
+      }
+
+      let flushing = false;
+      async function flushQueue() {
+        if (flushing || !navigator.onLine) return;
+        const queue = read(KEY.queue, []);
+        if (!queue.length) return;
+
+        flushing = true;
+        const left = [];
+        for (const item of queue) {
+          try {
+            const { error } = await Portal.client.rpc("redeem_ticket", {
+              p_token: item.token,
+              p_gate: item.gate,
+            });
+            if (error) left.push(item);
+          } catch (error) {
+            left.push(item);
+          }
+        }
+        write(KEY.queue, left);
+        flushing = false;
+        refreshCounts();
+      }
+
+      Portal.requireStaff(async () => {
+        setNet();
+
+        const { data: events, error } = await Portal.client
+          .from("events")
+          .select("id, name, event_date, city")
+          .eq("is_open", true)
+          .order("event_date", { ascending: true });
+
+        if (error) { Portal.toast(error.message, "bad"); return; }
+        if (!events.length) { Portal.toast("No open events", "bad"); return; }
+
+        el.events.innerHTML = events
+          .map((e) => `<option value="${e.id}">${Portal.escapeHtml(e.name)}${e.event_date ? ` — ${e.event_date}` : ""}</option>`)
+          .join("");
+
+        eventId = events[0].id;
+        refreshCounts();
+        el.events.addEventListener("change", () => { eventId = el.events.value; refreshCounts(); });
+
+        document.querySelector("[data-load]").addEventListener("click", async (event) => {
+          const button = event.currentTarget;
+          button.disabled = true;
+          button.textContent = "Loading…";
+
+          const cache = {};
+          const pageSize = 1000;
+          for (let from = 0; ; from += pageSize) {
+            const { data, error: pageError } = await Portal.client
+              .from("tickets")
+              .select("token, buyer_name, category, phase, admits, used_at, cancelled_at")
+              .eq("event_id", eventId)
+              .is("cancelled_at", null)
+              .range(from, from + pageSize - 1);
+
+            if (pageError) { Portal.toast(pageError.message, "bad"); break; }
+            data.forEach((row) => { cache[row.token.toLowerCase()] = row; });
+            if (data.length < pageSize) break;
+          }
+
+          write(KEY.cache(eventId), cache);
+          refreshCounts();
+          button.disabled = false;
+          button.textContent = "Load tickets for offline use";
+          Portal.toast(`${Object.keys(cache).length} tickets cached`, "good");
+        });
+
+        document.querySelector("[data-start]").addEventListener("click", async () => {
+          if (scanner) return;
+          scanner = new Html5Qrcode("reader");
+          try {
+            await scanner.start(
+              { facingMode: "environment" },
+              { fps: 10, qrbox: { width: 240, height: 240 } },
+              (text) => decide(text),
+              () => {},
+            );
+            document.querySelector("[data-stop]").hidden = false;
+          } catch (startError) {
+            scanner = null;
+            Portal.toast("Camera blocked. Allow camera access, or type codes by hand.", "bad");
+          }
+        });
+
+        document.querySelector("[data-stop]").addEventListener("click", async () => {
+          if (!scanner) return;
+          await scanner.stop();
+          scanner.clear();
+          scanner = null;
+          document.querySelector("[data-stop]").hidden = true;
+        });
+
+        document.querySelector("[data-manual-go]").addEventListener("click", () => {
+          const input = document.querySelector("[data-manual]");
+          busyUntil = 0;
+          decide(input.value);
+          input.value = "";
+        });
+
+        window.setInterval(flushQueue, 20000);
+      });
+    </script>
+  </body>
+</html>
