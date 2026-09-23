@@ -12,6 +12,7 @@
     <header class="topbar">
       <strong>FØ Tickets</strong>
       <nav>
+        <a href="/portal/events.html">Events</a>
         <a href="/portal/issue.html" class="is-active">Issue</a>
         <a href="/portal/scan.html">Scan</a>
         <a href="/portal/tickets.html">Sold</a>
@@ -101,7 +102,7 @@
       </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="/portal/config.js"></script>
     <script src="/portal/portal.js"></script>
@@ -129,7 +130,7 @@
 
         if (!events.length) {
           eventSelect.innerHTML = `<option value="">No open events yet</option>`;
-          Portal.toast("Add an event row in Supabase first", "bad");
+          Portal.toast("Add an event on the Events page first", "bad");
           return;
         }
 

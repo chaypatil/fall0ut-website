@@ -3,10 +3,11 @@
 Replaces the offline buyer spreadsheet and gets our buyers through the door
 without queueing behind Skillbox and walk-up traffic.
 
-Four pages, all plain HTML on the existing site. No server, no app to install.
+Five pages, all plain HTML on the existing site. No server, no app to install.
 
 | Page | Who uses it | What it does |
 |---|---|---|
+| `/portal/events.html` | FallØut staff | Add an event, grab its organiser link |
 | `/portal/issue.html` | FallØut staff | Record a buyer, mint a QR, send it on WhatsApp |
 | `/portal/scan.html` | Whoever is on the gate | Scan QRs, works with no signal |
 | `/portal/tickets.html` | FallØut staff | Every sale, totals, CSV export, organiser link |
@@ -16,16 +17,15 @@ Four pages, all plain HTML on the existing site. No server, no app to install.
 
 1. Create a free project at supabase.com.
 2. SQL Editor → New query → paste all of `portal/schema.sql` → Run.
-3. Project Settings → Data API → copy the **Project URL** and the **anon public**
-   key into `portal/config.js`. Both are meant to be public. Never paste the
-   `service_role` key anywhere in this folder.
+3. Settings → API Keys → copy the **publishable** key, and Settings → Data API →
+   copy the **Project URL**, into `portal/config.js`. Both are meant to be public.
+   Never paste a secret or `service_role` key anywhere in this folder.
 4. Authentication → Users → Add user, one per person who issues or scans.
    There is no public sign-up, so only people you add can get in.
 
 ## Before each event
 
-1. Add a row to the `events` table: `slug`, `name`, `event_date`, `venue`, `city`.
-   The share token generates itself.
+1. Add the event on the Events page. The share token generates itself.
 2. Sell as usual, recording each buyer on the issue page.
 3. Copy the organiser link from the Sold page and send it to the promoter. It
    updates on its own, which is what replaces the spreadsheet.

@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Events · FallØut portal</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="/portal/portal.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <strong>FØ Events</strong>
+      <nav>
+        <a href="/portal/events.html" class="is-active">Events</a>
+        <a href="/portal/issue.html">Issue</a>
+        <a href="/portal/scan.html">Scan</a>
+        <a href="/portal/tickets.html">Sold</a>
+        <a href="#" data-signout>Sign out</a>
+      </nav>
+    </header>
+
+    <div class="wrap">
+      <div data-auth-gate hidden></div>
+
+      <main data-app hidden>
+        <h1>Events</h1>
+
+        <form class="card" data-event-form>
+          <h2>Add an event</h2>
+          <label>
+            Name
+            <input name="name" required placeholder="VERSVS presents Nikolina" autocomplete="off" />
+          </label>
+          <div class="row">
+            <label>
+              Date
+              <input name="event_date" type="date" required />
+            </label>
+            <label>
+              City
+              <input name="city" placeholder="Delhi NCR" autocomplete="off" />
+            </label>
+          </div>
+          <label>
+            Venue
+            <input name="venue" placeholder="TBA" autocomplete="off" />
+          </label>
+          <button class="btn btn--primary" type="submit">Add event</button>
+          <p class="hint">Once added it appears in Issue and Scan. Close it later to keep old events out of those lists.</p>
+        </form>
+
+        <section class="card" data-list></section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="/portal/config.js"></script>
+    <script src="/portal/portal.js"></script>
+    <script>
+      document.querySelector("[data-signout]").addEventListener("click", (e) => {
+        e.preventDefault();
+        Portal.signOut();
+      });
+
+      Portal.requireStaff(async () => {
+        const form = document.querySelector("[data-event-form]");
+        const list = document.querySelector("[data-list]");
+
+        async function load() {
+          const { data, error } = await Portal.client
+            .from("events")
+            .select("id, name, event_date, venue, city, share_token, is_open")
+            .order("event_date", { ascending: false });
+
+          if (error) { Portal.toast(error.message, "bad"); return; }
+
+          if (!data.length) {
+            list.innerHTML = `<h2>No events yet</h2><p class="hint">Add one above to start issuing tickets.</p>`;
+            return;
+          }
+
+          list.innerHTML = `
+            <h2>All events</h2>
+            <div class="scroll-x">
+              <table>
+                <thead><tr><th>Event</th><th>Date</th><th>Where</th><th>Status</th><th></th></tr></thead>
+                <tbody>
+                  ${data
+                    .map(
+                      (row) => `
+                    <tr>
+                      <td>${Portal.escapeHtml(row.name)}</td>
+                      <td>${row.event_date || "—"}</td>
+                      <td>${Portal.escapeHtml(row.venue || "TBA")}<br /><span class="hint">${Portal.escapeHtml(row.city || "")}</span></td>
+                      <td>${row.is_open ? `<span style="color:var(--good)">Open</span>` : `<span class="hint">Closed</span>`}</td>
+                      <td><button class="btn btn--ghost" data-share="${row.share_token}">Organiser link</button></td>
+                    </tr>`,
+                    )
+                    .join("")}
+                </tbody>
+              </table>
+            </div>`;
+
+          list.querySelectorAll("[data-share]").forEach((button) => {
+            button.addEventListener("click", async () => {
+              const url = `${window.location.origin}/portal/organiser.html#${button.dataset.share}`;
+              try {
+                await navigator.clipboard.writeText(url);
+                Portal.toast("Organiser link copied", "good");
+              } catch (error) {
+                window.prompt("Copy this link", url);
+              }
+            });
+          });
+        }
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const button = form.querySelector("button[type=submit]");
+          button.disabled = true;
+          button.textContent = "Adding…";
+
+          const name = form.name.value.trim();
+          const slug =
+            name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) +
+            "-" +
+            (form.event_date.value || "").replace(/-/g, "").slice(4);
+
+          const { error } = await Portal.client.from("events").insert({
+            slug,
+            name,
+            event_date: form.event_date.value || null,
+            venue: form.venue.value.trim() || null,
+            city: form.city.value.trim() || null,
+          });
+
+          button.disabled = false;
+          button.textContent = "Add event";
+
+          if (error) { Portal.toast(error.message, "bad"); return; }
+
+          form.reset();
+          Portal.toast("Event added", "good");
+          load();
+        });
+
+        load();
+      });
+    </script>
+  </body>
+</html>
