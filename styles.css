@@ -1222,14 +1222,43 @@ a.calendar-event:focus-visible {
   margin-top: 24px;
 }
 
+/* Sits above the prices, because what the ticket is worth at the bar changes how
+   the price reads. Loud enough to be read, not so loud it looks like an advert. */
 .ticket-cover-note {
-  margin: 10px 0 0;
-  color: #bceee3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 13px 15px;
+  border: 1px solid rgba(188, 238, 227, 0.42);
+  border-left: 3px solid #bceee3;
+  border-radius: 4px;
+  background: rgba(188, 238, 227, 0.09);
+  color: #eafff8;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 0.78rem;
+  font-size: 1.02rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
+  line-height: 1.25;
+}
+
+.ticket-cover-note::before {
+  content: "";
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #bceee3;
+  box-shadow: 0 0 0 4px rgba(188, 238, 227, 0.16);
+}
+
+@media (max-width: 520px) {
+  .ticket-cover-note {
+    font-size: 0.94rem;
+    letter-spacing: 0.08em;
+    padding: 12px 13px;
+  }
 }
 
 .ticket-option {
