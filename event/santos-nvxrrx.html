@@ -1753,7 +1753,6 @@
         "continuum-x-aiden": "./assets/events/nexum-aiden-poster.webp",
         "aiden-mumbai": "./assets/events/nexum-aiden-poster.webp",
         "riana-holley-mumbai": "./assets/events/riana-holley-poster.webp",
-        debenjiy: "./assets/events/debenjiy-poster.webp",
       };
       const eventRecords = new Map();
       const defaultDocumentTitle = document.title;
@@ -1763,13 +1762,6 @@
       }
 
       const goRoutes = new Map([
-        [
-          "debenjiy",
-          {
-            target: getWhatsAppTicketUrl("Hey, I wanna buy Debenjiy tickets for 27 September at Waves."),
-            offer: "enquiry",
-          },
-        ],
         [
           "morfame",
           {
@@ -2976,6 +2968,18 @@
             ["ga", "GA", 2499, "Phase 1", 620],
             ["fanpit", "Fan Pit", 2999, "Phase 1", 750],
             ["ring", "In The Ring", 4499, "Phase 1", 1120],
+          ],
+        },
+        debenjiy: {
+          title: "Debenjiy",
+          poster: "./assets/events/debenjiy-poster.webp",
+          pricingTitle: "DEBENJIY X FALL\u00d8UT OFFLINE TICKETS",
+          pricingPhase: "PHASE 1",
+          coverNote: "Full cover on every ticket",
+          categories: [
+            ["male-stag", "Male Stag", 1499, "Phase 1"],
+            ["female-stag", "Female Stag", 999, "Phase 1"],
+            ["couple", "Couple", 1999, "Phase 1"],
           ],
         },
         "santos-nvxrrx": {

@@ -86,6 +86,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/event/debenjiy",
+      "destination": "/event/debenjiy.html"
+    },
+    {
       "source": "/event/santos-nvxrrx",
       "destination": "/event/santos-nvxrrx.html"
     },
