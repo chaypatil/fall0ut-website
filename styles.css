@@ -1287,6 +1287,25 @@ a.calendar-event:focus-visible {
   color: #c9b6ff;
 }
 
+/* The rate we want people to land on first. Carries no badge text, so it pushes
+   the eye without making a claim the row cannot back up. */
+.ticket-option--featured {
+  border-color: rgba(153, 131, 255, 0.85);
+  background:
+    linear-gradient(135deg, rgba(118, 87, 223, 0.18), rgba(66, 104, 201, 0.13));
+  box-shadow:
+    inset 0 0 0 1px rgba(153, 131, 255, 0.3),
+    0 10px 30px rgba(118, 87, 223, 0.17);
+}
+
+.ticket-option--featured .ticket-option-copy strong {
+  font-size: 1.28rem;
+}
+
+.ticket-option--featured .ticket-option-price strong {
+  font-size: 1.42rem;
+}
+
 .ticket-option-status {
   position: absolute;
   top: 6px;
