@@ -164,7 +164,7 @@ function buildShareImage(slug, posterFile) {
   }
 
   execFileSync("magick", [
-    "-size", "1200x630", "xc:#01040a",
+    "-size", "1200x630", "xc:#09090b",
     "(", path.join(ROOT, posterFile), "-resize", "1200x630", ")",
     "-gravity", "center", "-composite",
     "-quality", "86", "-strip",

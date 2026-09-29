@@ -119,14 +119,15 @@ Treat these as locked defaults unless Chay explicitly changes them.
 
 ### Brand and visual language
 
-- Near-black base with a restrained dark ambient blue/periwinkle tint.
-- Avoid beige, flashy gradients, decorative blobs, excessive shine, and generic AI-looking styling.
-- DM Sans is the body font.
-- Barlow Condensed is used for uppercase headings, navigation, dates, labels, and compact CTAs.
+- The palette comes from the liquid-chrome wordmark: carbon base (`--bg` #09090b), one cool steel grey family for text and surfaces, and chrome as the only accent. No hue accents (the old blue/periwinkle, purple and mint are retired). Event posters are the only colour on the page.
+- Chrome (`--chrome`, which `--action-gradient` points to) is reserved for conversion actions and the discount tag: dark ink (`--on-chrome`) on polished metal. Selected ticket rows are a state, not an action, so they stay dark with a chrome edge.
+- A fixed film grain sits behind content; it replaces the old grid texture.
+- Avoid beige, flashy gradients, decorative blobs, glow effects, and generic AI-looking styling.
+- Type is Archivo (variable width) plus Geist Mono, used in three roles: display (Archivo condensed 68%, weight 800, uppercase) for names and headlines; labels (Archivo expanded 115%, weight 600-700, uppercase) for navigation, actions and eyebrows; data (Geist Mono, tabular figures) for dates, venues, counts, countdowns and price details. Both fonts carry `Ø` and `₹`; check glyph coverage before swapping either.
 - Text spacing must remain readable; body letter spacing is zero.
 - Sections should not be divided by visible border lines.
 - The header-to-body division uses only a very short gradient transition.
-- Corners remain restrained, generally 5-6px when framing is needed.
+- Corners are hard: `--radius` (2px) everywhere, including steppers and the mobile ticket bar.
 - Do not add nested cards or marketing-style explanatory copy.
 - Maintain a professional, restrained, club/editorial feel inspired by BCCO and Feral without copying them directly.
 
@@ -143,7 +144,7 @@ Treat these as locked defaults unless Chay explicitly changes them.
 - This is the one priority campaign slot for the event Fallout most needs to market.
 - Heading is `Hot Right Now🔥` unless Chay changes it.
 - Do not add mechanical subtitles such as “priority drop” or “in focus.”
-- Keep the subtle uneven purple-blue shadow behind the feature.
+- Keep the subtle uneven shadow behind the feature, now a cold steel light rather than purple-blue.
 - The current priority campaign is Steelworks Festival until Chay replaces it.
 
 ### Featured Events

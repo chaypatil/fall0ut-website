@@ -111,10 +111,10 @@ export function renderGuide(guide) {
     <meta name="twitter:title" content="${escapeHtml(guide.title)}" />
     <meta name="twitter:description" content="${escapeHtml(guide.description)}" />
     <meta name="twitter:image" content="https://www.fall0ut.in/assets/fall0ut-logo.png" />
-    <meta name="theme-color" content="#01040a" />
+    <meta name="theme-color" content="#09090b" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet" />
     <link rel="preload" as="image" href="./assets/hero/f0-hero-desktop-poster.jpg" />
     <link rel="icon" href="./assets/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" href="./assets/favicon.png" />
