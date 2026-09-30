@@ -123,7 +123,7 @@ Treat these as locked defaults unless Chay explicitly changes them.
 - Chrome (`--chrome`, which `--action-gradient` points to) is reserved for conversion actions and the discount tag: dark ink (`--on-chrome`) on polished metal. Selected ticket rows are a state, not an action, so they stay dark with a chrome edge.
 - A fixed film grain sits behind content; it replaces the old grid texture.
 - Avoid beige, flashy gradients, decorative blobs, glow effects, and generic AI-looking styling.
-- Type is Archivo (variable width) plus Geist Mono, used in three roles: display (Archivo condensed 68%, weight 800, uppercase) for names and headlines; labels (Archivo expanded 115%, weight 600-700, uppercase) for navigation, actions and eyebrows; data (Geist Mono, tabular figures) for dates, venues, counts, countdowns and price details. Both fonts carry `Ø` and `₹`; check glyph coverage before swapping either.
+- Type is Archivo (variable width) plus Geist Mono, used in three roles: display (Archivo condensed 68%, weight 500 for headings and 600 for small names and prices, uppercase) for names and headlines; labels (Archivo expanded 115%, weight 600-700, uppercase) for navigation, actions and eyebrows; data (Geist Mono, tabular figures) for dates, venues, counts, countdowns and price details. Both fonts carry `Ø` and `₹`; check glyph coverage before swapping either.
 - Text spacing must remain readable; body letter spacing is zero.
 - Sections should not be divided by visible border lines.
 - The header-to-body division uses only a very short gradient transition.

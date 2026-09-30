@@ -67,7 +67,7 @@ Four roles, one metal:
 
 | Role | Spec | Used for |
 |---|---|---|
-| **Display** | Archivo, `font-stretch: 68%`, weight 800, uppercase, tracking 0 to 0.02em, line-height 0.88–0.9, `text-wrap: balance` | Page and section headings, event names, month names, ticket category names, prices |
+| **Display** | Archivo, `font-stretch: 68%`, weight 500 (`--display-weight`), uppercase, tracking 0 to 0.02em, line-height 0.88–0.9, `text-wrap: balance`. Small UI names and prices use weight 600 (`--display-weight-ui`) so they stay crisp | Page and section headings, event names, month names, ticket category names, prices |
 | **Label** | Archivo, `font-stretch: 115%`, weight 600 (700 on chrome), uppercase, tracking 0.1em | Navigation, buttons, eyebrows, footer, quickbar. The `INDIA` under the wordmark uses 0.6em tracking |
 | **Data** | Geist Mono, weight 500, uppercase, tracking 0.06em, `tabular-nums` | Dates, venue lines, countdowns, pricing phases, quantities, discount amounts, ticket counts |
 | **Body** | Archivo, normal width, weight 400, tracking 0, line-height 1.5–1.7, max ~70ch | Descriptions and paragraphs |
@@ -187,10 +187,10 @@ Brand spelling: write the brand with `Ø` (FallØut, FALLØUT, FØ Glimpses, FØ
 
 Reusable prompts for building on this system:
 
-- **New page or section**: "Build [section] for FallØut India using DESIGN.md. Carbon background, steel greys only, chrome only on the primary action. Names in Archivo condensed 800 uppercase, labels in Archivo expanded 600 uppercase, dates, venues and prices in Geist Mono. 2px corners. Posters and photos are the only colour."
+- **New page or section**: "Build [section] for FallØut India using DESIGN.md. Carbon background, steel greys only, chrome only on the primary action. Names in Archivo condensed 500 uppercase, labels in Archivo expanded 600 uppercase, dates, venues and prices in Geist Mono. 2px corners. Posters and photos are the only colour."
 - **New event card**: "Add an event card: grayscale poster that turns colour on hover, Data date line `DD MMM YYYY / City`, Display event name, Data venue line `Venue / City`, and a `Get tickets` action. Discount tag in chrome, top right of the poster."
 - **Ticket UI**: "Follow the Ticket selector states in DESIGN.md exactly. Selected rows stay dark with a chrome left edge; only `Buy now` is chrome."
-- **Social or print adaptation** (1080×1350): "Carbon background with grain, chrome wordmark centred high, event name in Archivo condensed 800 uppercase, date and venue in Geist Mono, poster art as the only colour. No gradients or glows."
+- **Social or print adaptation** (1080×1350): "Carbon background with grain, chrome wordmark centred high, event name in Archivo condensed 500 uppercase, date and venue in Geist Mono, poster art as the only colour. No gradients or glows."
 
 Before shipping any change, check:
 
