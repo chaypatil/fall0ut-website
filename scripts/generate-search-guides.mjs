@@ -120,6 +120,8 @@ export function renderGuide(guide) {
     <link rel="icon" type="image/png" href="./assets/favicon.png" />
     <link rel="apple-touch-icon" href="./assets/favicon.png" />
     <link rel="stylesheet" href="./styles.css" />
+    <!-- Design preview: only active on fall0ut.xyz (see look/README.md). -->
+    <script src="/look/look.js"></script>
     <script>
       window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
