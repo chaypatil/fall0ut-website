@@ -17,6 +17,9 @@
   --hero-scale: 1;
   --hero-y: 0vh;
   --action-gradient: linear-gradient(135deg, rgba(118, 87, 223, 0.96), rgba(66, 104, 201, 0.96));
+  /* One motion curve for the whole site: quick to respond, slow to settle. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  color-scheme: dark;
 }
 
 * {
@@ -25,6 +28,13 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+::selection {
+  background: rgba(111, 141, 255, 0.38);
+  color: #ffffff;
 }
 
 body {
@@ -37,6 +47,29 @@ body {
     var(--bg);
   font-family: "DM Sans", sans-serif;
   letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Barlow Condensed draws Ø a tenth of an em wider than O, which reads as a stray
+   space in FALLØUT and SANTØS. The page wraps the glyph so it sits like an O. */
+f0-o {
+  margin-right: -0.1em;
+}
+
+/* Images settle in instead of popping as they arrive (see revealImages()). */
+img.is-pending {
+  opacity: 0;
+}
+
+img.is-revealed {
+  animation: image-reveal 640ms var(--ease-out) backwards;
+}
+
+@keyframes image-reveal {
+  from {
+    opacity: 0;
+  }
 }
 
 body::before {
@@ -104,8 +137,8 @@ svg {
   box-shadow: 0 16px 46px rgba(0, 0, 0, var(--header-shadow));
   backdrop-filter: blur(18px);
   transition:
-    background 180ms ease,
-    box-shadow 180ms ease;
+    background 180ms var(--ease-out),
+    box-shadow 180ms var(--ease-out);
 }
 
 .site-header::after {
@@ -187,8 +220,8 @@ svg {
   text-decoration: none;
   transform: translateY(var(--header-brand-y)) scale(var(--header-brand-scale));
   transition:
-    opacity 140ms ease,
-    transform 180ms ease;
+    opacity 140ms var(--ease-out),
+    transform 180ms var(--ease-out);
 }
 
 .has-scrolled .header-brand {
@@ -371,9 +404,22 @@ svg {
   font-size: 0.78rem;
   text-decoration: none;
   transition:
-    background 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease;
+    background 160ms var(--ease-out),
+    border-color 160ms var(--ease-out),
+    color 160ms var(--ease-out),
+    filter 160ms var(--ease-out),
+    transform 220ms var(--ease-out);
+}
+
+/* A tap should feel like it lands. */
+.section-action:active,
+.primary-button:active:not(:disabled),
+.event-ticket-bar-action:active,
+.mobile-quickbar-link:active,
+.carousel-button:active,
+.contact-row:active {
+  transform: scale(0.97);
+  transition-duration: 80ms;
 }
 
 .section-action:hover,
@@ -390,15 +436,16 @@ h2,
 h3 {
   margin: 0;
   font-family: "Barlow Condensed", sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 0.9;
   text-transform: uppercase;
+  text-wrap: balance;
 }
 
 h2 {
   color: #e2ece9;
   font-size: clamp(2rem, 3.6vw, 4rem);
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
 }
 
 .focus-event {
@@ -577,7 +624,7 @@ h2 {
   color: #e2ece9;
   font-family: "Barlow Condensed", sans-serif;
   font-size: clamp(3.6rem, 8vw, 7rem);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.02em;
   line-height: 0.9;
   text-transform: uppercase;
@@ -622,7 +669,7 @@ h2 {
   background: rgba(1, 4, 10, 0.64);
   text-decoration: none;
   transition:
-    background 180ms ease;
+    background 180ms var(--ease-out);
 }
 
 .event-feature:hover,
@@ -658,8 +705,8 @@ h2 {
   filter: grayscale(1) contrast(1.08) brightness(0.82);
   transform: scale(1.01);
   transition:
-    filter 220ms ease,
-    transform 260ms ease;
+    filter 420ms var(--ease-out),
+    transform 900ms var(--ease-out);
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
@@ -701,6 +748,7 @@ h2 {
 
 .event-countdown {
   justify-self: start;
+  font-variant-numeric: tabular-nums;
   margin: 16px 0 0;
   padding: 7px 10px;
   border: 1px solid rgba(111, 141, 255, 0.34);
@@ -724,9 +772,9 @@ h2 {
   color: #e7f1ee;
   font-size: 0.72rem;
   transition:
-    background 180ms ease,
-    border-color 180ms ease,
-    color 180ms ease;
+    background 180ms var(--ease-out),
+    border-color 180ms var(--ease-out),
+    color 180ms var(--ease-out);
 }
 
 .event-feature:hover .event-cta,
@@ -788,8 +836,30 @@ h2 {
   grid-auto-flow: column;
   gap: 10px;
   overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  scrollbar-color: rgba(111, 141, 255, 0.72) rgba(255, 255, 255, 0.08);
+  scrollbar-color: rgba(111, 141, 255, 0.6) transparent;
+  scrollbar-width: thin;
+}
+
+/* Follows the months in view (see fitCalendarHeight()), so a short month never
+   leaves the tallest month's height of empty space under it. */
+.calendar-rail.is-fitted {
+  transition: height 420ms var(--ease-out);
+}
+
+/* Four whole months on wide screens, three on laptops: no half-cut column. */
+@media (min-width: 1280px) {
+  .calendar-rail {
+    grid-auto-columns: calc((100% - 30px) / 4);
+  }
+}
+
+@media (min-width: 921px) and (max-width: 1279px) {
+  .calendar-rail {
+    grid-auto-columns: calc((100% - 20px) / 3);
+  }
 }
 
 .month-card {
@@ -874,6 +944,7 @@ a.calendar-event:focus-visible {
 
 .calendar-event .calendar-countdown {
   color: #dff7f2;
+  font-variant-numeric: tabular-nums;
   font-family: "Barlow Condensed", sans-serif;
   font-size: 0.74rem;
   font-weight: 600;
@@ -959,7 +1030,8 @@ a.calendar-event:focus-visible {
   color: #ffffff;
   font-family: "Barlow Condensed", sans-serif;
   font-size: clamp(2.4rem, 5vw, 4.4rem);
-  letter-spacing: 0.16em;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   line-height: 0.9;
   text-transform: uppercase;
 }
@@ -971,8 +1043,10 @@ a.calendar-event:focus-visible {
   gap: 10px;
   overflow-x: auto;
   padding: 0 clamp(10px, 1.5vw, 22px) 24px;
+  overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  scrollbar-color: rgba(111, 141, 255, 0.85) rgba(255, 255, 255, 0.08);
+  scrollbar-color: rgba(111, 141, 255, 0.6) transparent;
+  scrollbar-width: thin;
 }
 
 .moments-tagline {
@@ -1008,6 +1082,14 @@ a.calendar-event:focus-visible {
 
 .event-detail {
   padding-bottom: clamp(72px, 10vw, 140px);
+  animation: page-enter 520ms var(--ease-out) backwards;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 }
 
 .event-back {
@@ -1025,7 +1107,7 @@ a.calendar-event:focus-visible {
   width: 1.3rem;
   height: 1.3rem;
   color: #aab8c8;
-  transition: color 160ms ease, transform 180ms ease;
+  transition: color 160ms var(--ease-out), transform 180ms var(--ease-out);
 }
 
 .moments-heading-link:hover svg,
@@ -1051,6 +1133,20 @@ a.calendar-event:focus-visible {
   max-height: 560px;
   object-fit: cover;
   border-radius: 6px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+}
+
+/* On wide screens the tickets sit beside the poster, so buying never needs a scroll
+   past an empty half of the page, and the poster stays in view while choosing. */
+.event-detail-grid .ticket-selector {
+  margin-top: clamp(24px, 3vw, 40px);
+}
+
+@media (min-width: 921px) {
+  .event-detail-poster {
+    position: sticky;
+    top: 104px;
+  }
 }
 
 .event-detail h1,
@@ -1058,11 +1154,12 @@ a.calendar-event:focus-visible {
   margin: 8px 0 18px;
   color: #f6fbff;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: clamp(3.5rem, 9vw, 8.5rem);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  line-height: 0.88;
+  font-size: clamp(3.5rem, 6.4vw, 6.4rem);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 0.9;
   text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .event-detail-date,
@@ -1124,7 +1221,7 @@ a.calendar-event:focus-visible {
   color: #ffffff;
   font-family: "Barlow Condensed", sans-serif;
   font-size: clamp(1.35rem, 3vw, 2.1rem);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.08em;
   line-height: 1.05;
   text-transform: uppercase;
@@ -1179,7 +1276,15 @@ a.calendar-event:focus-visible {
   font-weight: 600;
   line-height: 1;
   cursor: pointer;
-  transition: background 140ms ease, color 140ms ease;
+  transition:
+    background 140ms var(--ease-out),
+    color 140ms var(--ease-out),
+    transform 200ms var(--ease-out);
+}
+
+.ticket-qty button:active:not(:disabled) {
+  transform: scale(0.86);
+  transition-duration: 70ms;
 }
 
 /* Invisible hit area so a near miss still counts, without changing how the control looks.
@@ -1274,7 +1379,28 @@ a.calendar-event:focus-visible {
   background: rgba(5, 16, 25, 0.6);
   color: #ffffff;
   text-align: left;
-  transition: border-color 160ms ease, background 160ms ease;
+  transition: border-color 200ms var(--ease-out), background 200ms var(--ease-out);
+}
+
+.ticket-option::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--action-gradient);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 260ms var(--ease-out);
+}
+
+.ticket-option.is-selected::before {
+  opacity: 1;
+}
+
+.ticket-option > .ticket-qty,
+.ticket-option > .ticket-option-copy,
+.ticket-option > .ticket-option-price {
+  position: relative;
 }
 
 .ticket-option--last-few,
@@ -1336,7 +1462,10 @@ a.calendar-event:focus-visible {
 
 .ticket-option.is-selected {
   border-color: rgba(153, 131, 255, 0.88);
-  background: var(--action-gradient);
+}
+
+.ticket-option.is-selected .ticket-option-copy small {
+  color: rgba(255, 255, 255, 0.74);
 }
 
 .ticket-option.is-selected .ticket-qty {
@@ -1371,6 +1500,7 @@ a.calendar-event:focus-visible {
   justify-items: end;
   color: #bceee3;
   font-family: "Barlow Condensed", sans-serif;
+  font-variant-numeric: tabular-nums;
   letter-spacing: 0.06em;
   white-space: nowrap;
 }
@@ -1416,6 +1546,7 @@ a.calendar-event:focus-visible {
 .ticket-booking-bar strong {
   color: #ffffff;
   font-family: "Barlow Condensed", sans-serif;
+  font-variant-numeric: tabular-nums;
   font-size: 1.08rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1437,6 +1568,17 @@ a.calendar-event:focus-visible {
   background: var(--action-gradient);
   color: #ffffff;
   filter: brightness(1.12);
+}
+
+.ticket-booking-bar .primary-button:not(:disabled) {
+  animation: checkout-ready 520ms var(--ease-out);
+}
+
+@keyframes checkout-ready {
+  from {
+    filter: brightness(1.4);
+    transform: scale(0.96);
+  }
 }
 
 .ticket-booking-bar .primary-button:disabled {
@@ -1497,7 +1639,7 @@ a.calendar-event:focus-visible {
   filter: none;
   transform: scale(1.01);
   transition:
-    transform 220ms ease;
+    transform 800ms var(--ease-out);
 }
 
 .moment-card:hover img,
@@ -1552,7 +1694,7 @@ a.calendar-event:focus-visible {
   stroke-width: 1.8;
   stroke-linecap: square;
   stroke-linejoin: miter;
-  transition: transform 180ms ease;
+  transition: transform 180ms var(--ease-out);
 }
 
 .moment-more:hover svg,
@@ -1635,7 +1777,7 @@ a.calendar-event:focus-visible {
 .moments-ig-link svg {
   width: 18px;
   height: 18px;
-  transition: transform 180ms ease;
+  transition: transform 180ms var(--ease-out);
 }
 
 .moments-ig-link:hover,
@@ -1671,7 +1813,7 @@ a.calendar-event:focus-visible {
   color: #f6fbff;
   font-family: "Barlow Condensed", sans-serif;
   font-size: clamp(2.4rem, 7vw, 6.4rem);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.08em;
   line-height: 0.92;
   text-transform: uppercase;
@@ -1725,7 +1867,7 @@ a.calendar-event:focus-visible {
   filter: none;
   transform: scale(1.01);
   transition:
-    transform 220ms ease;
+    transform 800ms var(--ease-out);
 }
 
 .gallery-card:hover img,
@@ -1791,8 +1933,9 @@ a.calendar-event:focus-visible {
   color: #dce6e3;
   text-decoration: none;
   transition:
-    background 160ms ease,
-    color 160ms ease;
+    background 160ms var(--ease-out),
+    color 160ms var(--ease-out),
+    transform 220ms var(--ease-out);
 }
 
 .contact-row span {
@@ -1872,8 +2015,9 @@ a.calendar-event:focus-visible {
   color: var(--muted);
   cursor: pointer;
   transition:
-    background 160ms ease,
-    color 160ms ease;
+    background 160ms var(--ease-out),
+    color 160ms var(--ease-out),
+    transform 220ms var(--ease-out);
 }
 
 .carousel-button:hover,
@@ -1925,8 +2069,8 @@ a.calendar-event:focus-visible {
   pointer-events: none;
   transform: translateY(16px);
   transition:
-    opacity 200ms ease,
-    transform 200ms ease;
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
   backdrop-filter: blur(18px);
 }
 
@@ -2047,7 +2191,7 @@ a.calendar-event:focus-visible {
   margin: 18px 0 0;
   font-family: "Barlow Condensed", sans-serif;
   font-size: clamp(4rem, 9.5vw, 10rem);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.035em;
   line-height: 0.79;
   text-transform: uppercase;
@@ -2125,7 +2269,7 @@ a.calendar-event:focus-visible {
   border: 1px solid rgba(205, 226, 255, 0.11);
   background: rgba(3, 8, 18, 0.72);
   text-decoration: none;
-  transition: border-color 160ms ease, transform 180ms ease;
+  transition: border-color 200ms var(--ease-out), transform 360ms var(--ease-out);
 }
 
 .discovery-event-card:hover,
@@ -2141,7 +2285,7 @@ a.calendar-event:focus-visible {
   aspect-ratio: 4 / 5;
   object-fit: cover;
   filter: saturate(0.84) contrast(1.06);
-  transition: filter 180ms ease, transform 220ms ease;
+  transition: filter 360ms var(--ease-out), transform 800ms var(--ease-out);
 }
 
 .discovery-event-card:hover img,
@@ -2240,7 +2384,7 @@ a.calendar-event:focus-visible {
   color: #e8f0f7;
   font-family: "Barlow Condensed", sans-serif;
   font-size: clamp(1.8rem, 3vw, 3rem);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.09em;
   line-height: 0.9;
   text-transform: uppercase;
@@ -2351,7 +2495,7 @@ a.calendar-event:focus-visible {
   margin: 18px 0 0;
   font-family: "Barlow Condensed", sans-serif;
   font-size: clamp(4rem, 8.5vw, 9rem);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.035em;
   line-height: 0.82;
   text-transform: uppercase;
@@ -2447,7 +2591,7 @@ a.calendar-event:focus-visible {
 
 .editorial-related a span:last-child {
   color: #69778b;
-  transition: color 160ms ease, transform 180ms ease;
+  transition: color 160ms var(--ease-out), transform 180ms var(--ease-out);
 }
 
 .editorial-related a:hover span:last-child,
@@ -3070,6 +3214,30 @@ a.calendar-event:focus-visible {
     display: none;
   }
 
+  /* Each mode change restarts its own animation, so swapping between the standard
+     bar and the price bar reads as one bar changing, not two flickering. */
+  .event-ticket-bar {
+    animation: bar-rise 320ms var(--ease-out) backwards;
+  }
+
+  .mobile-quickbar:not(.has-event-ticket-bar) {
+    animation: quickbar-rise 320ms var(--ease-out) backwards;
+  }
+
+  @keyframes bar-rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+
+  @keyframes quickbar-rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+
   .event-ticket-bar span {
     display: grid;
     min-width: 0;
@@ -3106,6 +3274,7 @@ a.calendar-event:focus-visible {
     font: 700 0.84rem/1 "Barlow Condensed", sans-serif;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    transition: transform 220ms var(--ease-out);
   }
 
   .mobile-quickbar-link {
@@ -3123,6 +3292,10 @@ a.calendar-event:focus-visible {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
+    transition:
+      background-color 160ms var(--ease-out),
+      color 160ms var(--ease-out),
+      transform 220ms var(--ease-out);
   }
 
   .mobile-quickbar-link[hidden] {

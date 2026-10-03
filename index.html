@@ -1728,6 +1728,7 @@
       const root = document.documentElement;
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       let refreshHeroVideos = () => {};
+      let refitCalendar = () => {};
       const sectionRoutes = new Map([
         ["/", "top"],
         ["/events", "events"],
@@ -1972,6 +1973,7 @@
         setMobileTicketEvent("");
         setMobileMomentsEvent(true);
         refreshHeroVideos();
+        refitCalendar();
       }
 
       function handlePathRoute(behavior = "smooth") {
@@ -2821,11 +2823,17 @@
           if (!frame) frame = window.requestAnimationFrame(update);
         };
 
+        // The first check runs before the poster has loaded and pushed the list down,
+        // so re-check whenever the page's layout settles, not only on scroll.
+        const layoutObserver = "ResizeObserver" in window ? new ResizeObserver(requestUpdate) : null;
+        layoutObserver?.observe(options.closest("[data-event-page]") || document.body);
+
         window.addEventListener("scroll", requestUpdate, { passive: true });
         window.addEventListener("resize", requestUpdate);
         teardownEventTicketVisibility = () => {
           window.removeEventListener("scroll", requestUpdate);
           window.removeEventListener("resize", requestUpdate);
+          layoutObserver?.disconnect();
           if (frame) window.cancelAnimationFrame(frame);
           frame = 0;
         };
@@ -3240,8 +3248,9 @@
         const ticketSelector = isLive ? renderTicketSelector(slug) : "";
         const fallbackTicket = isLive && !ticketSelector ? `<a class="primary-button" href="/go/${slug}?placement=${ticketPlacement}"><span>Get tickets</span></a>` : "";
         const eventDescription = getTicketContext(slug).catalog?.description?.map((paragraph) => `<p>${paragraph}</p>`).join("") || "";
-        page.innerHTML = `<section class="section event-detail"><a class="event-back" href="/calendar">← Rave Calendar</a><div class="event-detail-grid">${event.poster ? `<img class="event-detail-poster" src="${event.poster}" alt="${event.title} poster">` : ""}<div><p class="eyebrow">${isLive ? "Live event" : "Archive entry"}</p><h1>${event.title}</h1><p class="event-detail-date">${formatEventDate(event.start)}</p><p class="event-detail-venue">${event.venue}</p>${fallbackTicket}</div></div>${ticketSelector}${eventDescription ? `<div class="event-detail-description">${eventDescription}</div>` : ""}${gallery}<nav class="event-discovery" aria-label="Continue exploring"><a class="section-action" href="/calendar" data-analytics-event="navigation_click" data-analytics-target="calendar" data-analytics-placement="event_footer"><span>Rave Calendar</span></a>${event.moments ? `<a class="section-action" href="/f0moments" data-analytics-event="gallery_open" data-analytics-target="f0_moments" data-analytics-placement="event_footer"><span>FØ Glimpses</span></a>` : ""}</nav></section>`;
+        page.innerHTML = `<section class="section event-detail"><a class="event-back" href="/calendar">← Rave Calendar</a><div class="event-detail-grid">${event.poster ? `<img class="event-detail-poster" src="${event.poster}" alt="${event.title} poster">` : ""}<div><p class="eyebrow">${isLive ? "Live event" : "Archive entry"}</p><h1>${event.title}</h1><p class="event-detail-date">${formatEventDate(event.start)}</p><p class="event-detail-venue">${event.venue}</p>${fallbackTicket}${ticketSelector}</div></div>${eventDescription ? `<div class="event-detail-description">${eventDescription}</div>` : ""}${gallery}<nav class="event-discovery" aria-label="Continue exploring"><a class="section-action" href="/calendar" data-analytics-event="navigation_click" data-analytics-target="calendar" data-analytics-placement="event_footer"><span>Rave Calendar</span></a>${event.moments ? `<a class="section-action" href="/f0moments" data-analytics-event="gallery_open" data-analytics-target="f0_moments" data-analytics-placement="event_footer"><span>FØ Glimpses</span></a>` : ""}</nav></section>`;
         bindTicketSelector(page, slug);
+        revealImages(page);
         document.querySelector("main#top").hidden = true;
         page.hidden = false;
         document.body.classList.add("event-page-active");
@@ -3547,6 +3556,104 @@
         scrollToSection(sectionId);
       });
 
+      // Keeps the rail as tall as the months in view, so a short month never sits
+      // above the tallest month's worth of empty space. Only animates once someone
+      // is actually swiping the calendar, so the page never moves on its own.
+      function fitCalendarHeight() {
+        const rail = document.querySelector(".calendar-rail");
+        if (!rail) return;
+        let frame = 0;
+
+        const fit = () => {
+          frame = 0;
+          const view = rail.getBoundingClientRect();
+          if (!view.width) return;
+          let tallest = 0;
+          rail.querySelectorAll(".month-card").forEach((card) => {
+            const box = card.getBoundingClientRect();
+            const shown = Math.min(box.right, view.right) - Math.max(box.left, view.left);
+            if (shown < box.width * 0.5) return;
+            const last = card.lastElementChild;
+            const contentHeight = last ? last.getBoundingClientRect().bottom - box.top : 0;
+            const minHeight = parseFloat(getComputedStyle(card).minHeight) || 0;
+            tallest = Math.max(tallest, contentHeight, minHeight);
+          });
+          if (!tallest) return;
+          const scrollbar = rail.offsetHeight - rail.clientHeight;
+          rail.style.height = `${Math.ceil(tallest + scrollbar)}px`;
+        };
+        const request = () => {
+          if (!frame) frame = window.requestAnimationFrame(fit);
+        };
+        const animateFromNowOn = () => rail.classList.add("is-fitted");
+
+        refitCalendar = request;
+        rail.addEventListener("scroll", request, { passive: true });
+        ["pointerdown", "touchstart", "wheel"].forEach((type) => {
+          rail.addEventListener(type, animateFromNowOn, { passive: true, once: true });
+        });
+        window.addEventListener("resize", request);
+        window.addEventListener("load", request);
+        if (document.fonts) document.fonts.ready.then(request);
+        request();
+      }
+
+      // Content images fade in once they have arrived instead of painting in strips.
+      function revealImages(scope = document) {
+        scope
+          .querySelectorAll(".focus-art img, .event-art img, .moment-card img, .event-detail-poster, .event-moments-grid img")
+          .forEach((image) => {
+            if (image.complete || "reveal" in image.dataset) return;
+            image.dataset.reveal = "";
+            image.classList.add("is-pending");
+            const settle = (event) => {
+              image.classList.remove("is-pending");
+              if (event.type === "load") image.classList.add("is-revealed");
+            };
+            image.addEventListener("load", settle, { once: true });
+            image.addEventListener("error", settle, { once: true });
+          });
+      }
+
+      // Barlow Condensed's Ø carries extra room on its right. Tuck it in wherever that
+      // face is used, so FALLØUT and SANTØS read as single words (see f0-o in styles.css).
+      // A tag of its own, because the site styles plain spans inside many components.
+      function tightenSlashedO(node) {
+        const texts = [];
+        if (node.nodeType === Node.TEXT_NODE) {
+          texts.push(node);
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+          while (walker.nextNode()) texts.push(walker.currentNode);
+        }
+        texts.forEach((text) => {
+          const parent = text.parentElement;
+          if (!parent || !/[Øø]/.test(text.data) || parent.localName === "f0-o") return;
+          if (parent.closest("script, style, option, select, textarea")) return;
+          if (!getComputedStyle(parent).fontFamily.includes("Barlow")) return;
+          const fragment = document.createDocumentFragment();
+          text.data.split(/([Øø])/).forEach((part) => {
+            if (!part) return;
+            if (part === "Ø" || part === "ø") {
+              const glyph = document.createElement("f0-o");
+              glyph.textContent = part;
+              fragment.append(glyph);
+            } else {
+              fragment.append(part);
+            }
+          });
+          text.replaceWith(fragment);
+        });
+      }
+
+      function setupSlashedO() {
+        tightenSlashedO(document.body);
+        if (!("MutationObserver" in window)) return;
+        new MutationObserver((records) => {
+          records.forEach((record) => record.addedNodes.forEach(tightenSlashedO));
+        }).observe(document.body, { childList: true, subtree: true });
+      }
+
       function bindTouchActive(selector) {
         document.querySelectorAll(selector).forEach((card) => {
           const activate = () => card.classList.add("is-touch-active");
@@ -3580,6 +3687,9 @@
       setupHeroVideos();
       setupPosterFlip();
       setupCommunityPopup();
+      fitCalendarHeight();
+      revealImages();
+      setupSlashedO();
       setupSectionViewTracking();
       setupEngagementTracking();
 
